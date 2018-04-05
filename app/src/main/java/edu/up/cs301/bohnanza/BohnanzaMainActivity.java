@@ -1,5 +1,7 @@
 package edu.up.cs301.bohnanza;
 
+import android.content.pm.ActivityInfo;
+
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameMainActivity;
@@ -20,6 +22,10 @@ public class BohnanzaMainActivity extends GameMainActivity {
     public GameConfig createDefaultConfig() {
         // Define the allowed player types
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
+
+        //lock display to landscape orientation
+        super.setRequestedOrientation
+                (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         playerTypes.add(new GamePlayerType("human player (green)") {
             public GamePlayer createPlayer(String name) {

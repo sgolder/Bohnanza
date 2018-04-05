@@ -10,12 +10,16 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
+
+import java.util.ArrayList;
 
 import edu.up.cs301.animation.AnimationSurface;
 import edu.up.cs301.animation.Animator;
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.infoMsg.GameInfo;
+
 
 /**
  * Created by Toshiba on 4/2/2018.
@@ -26,6 +30,13 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     protected BohnanzaState state;
     private Activity myActivity;
     private AnimationSurface surface;
+    private PlayerView player1View;
+    private PlayerView player2View;
+    private PlayerView player3View;
+    private PlayerView player4View;
+    private HandView handView;
+    private TradeView tradeView;
+    private LinearLayout bottomLayout;
 
     /**
      * constructor
@@ -41,10 +52,21 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
 
         activity.setContentView(R.layout.bohnanza_human_player);
 
-        surface = (AnimationSurface) myActivity.findViewById(R.id.animation_surface);
-        surface.setAnimator(this);
+        //surface = (AnimationSurface) myActivity.findViewById(R.id.surfaceViewPlayer1);
+        //surface.setAnimator(this);
+
+        player1View = (PlayerView) myActivity.findViewById(R.id.surfaceViewPlayer1);
+        player2View = (PlayerView)myActivity.findViewById(R.id.surfaceViewPlayer2);
+        player3View = (PlayerView)myActivity.findViewById(R.id.surfaceViewPlayer3);
+        player4View = (PlayerView)myActivity.findViewById(R.id.surfaceViewPlayer4);
+        handView = (HandView)myActivity.findViewById(R.id.surfaceViewHand);
+        tradeView = (TradeView)myActivity.findViewById(R.id.surfaceViewTrade);
+
+        bottomLayout = (LinearLayout)myActivity.findViewById(R.id.BottomLinearLayout);
 
         Card.initImages(activity);
+
+        drawGUI();
     }
 
     public int interval() {
@@ -81,69 +103,87 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
 
     }
 
-    public void baseLayout(Canvas g) {
-        Paint playerOne = new Paint();
-        playerOne.setColor(Color.rgb(37, 127, 37));
-        playerOne.setStyle(Paint.Style.STROKE);
-        playerOne.setStrokeWidth(8.0f);
+    public void baseLayout(Canvas canvas) {
 
-        Paint playerTwo = new Paint();
-        playerTwo.setColor(Color.rgb(7, 169, 207));
-        playerTwo.setStyle(Paint.Style.STROKE);
-        playerTwo.setStrokeWidth(8.0f);
+    }
 
-        Paint playerThree = new Paint();
-        playerThree.setColor(Color.rgb(220, 102, 30));
-        playerThree.setStyle(Paint.Style.STROKE);
-        playerThree.setStrokeWidth(8.0f);
+    public void drawGUI() {
+        int player1Color = Color.rgb(37, 127, 37);
+        int player2Color = Color.rgb(220, 102, 30);
+        int player3Color = Color.rgb(7, 169, 207);
+        int player4Color = Color.rgb(248, 93, 89);
 
-        Paint playerFour = new Paint();
-        playerFour.setColor(Color.rgb(248, 93, 89));
-        playerFour.setStyle(Paint.Style.STROKE);
-        playerFour.setStrokeWidth(8.0f);
+        Card getCards = new Card("");
+        Bitmap[] cardImages = getCards.getCardImages();
 
-        //Player one
-        g.drawRect(35, 100, 515, 900, playerOne);
-        g.drawLine(50, 200, 500, 200, playerOne); // Name
-        g.drawLine(50, 375, 500, 375, playerOne); // Field 1
-        g.drawLine(50, 550, 500, 550, playerOne); // Field 2
-        g.drawLine(50, 725, 500, 725, playerOne); // Field 3
+        player1View.setBackGroundColor(player1Color);
+        player1View.setPlayerName("Player 1");
+        player1View.setField1Bean(cardImages[4], 6);
+        player1View.setField2Bean(cardImages[0], 1);
+        player1View.setCoins(13);
+        ArrayList<Bitmap> hand1 = new ArrayList<>();
+        for(int i = 0; i<4; i++) {
+            hand1.add(cardImages[2]);
+        }
+        hand1.add(cardImages[6]);
+        hand1.add(cardImages[5]);
+        player1View.setHandCards(hand1);
 
-        g.drawRect(535, 100, 1015, 900, playerTwo);
-        g.drawLine(550, 200, 1000, 200, playerTwo); // Name
-        g.drawLine(550, 375, 1000, 375, playerTwo); // Field 1
-        g.drawLine(550, 550, 1000, 550, playerTwo); // Field 2
-        g.drawLine(550, 725, 1000, 725, playerTwo); // Field 3
+        player2View.setBackGroundColor(player2Color);
+        player2View.setPlayerName("Player 1");
+        player2View.setField1Bean(cardImages[2], 6);
+        player2View.setField2Bean(cardImages[5], 1);
+        player2View.setField3Bean(cardImages[7], 9);
+        player2View.setCoins(5);
+        ArrayList<Bitmap> hand2 = new ArrayList<>();
+        for(int i = 0; i<7; i++) {
+            hand2.add(cardImages[2]);
+        }
+        player2View.setHandCards(hand2);
 
-        g.drawRect(1035, 100, 1515, 900, playerThree);
-        g.drawLine(1050, 200, 1500, 200, playerThree); // Name
-        g.drawLine(1050, 375, 1500, 375, playerThree); // Field 1
-        g.drawLine(1050, 550, 1500, 550, playerThree); // Field 2
-        g.drawLine(1050, 725, 1500, 725, playerThree); // Field 3
+        player3View.setBackGroundColor(player3Color);
+        player3View.setPlayerName("Player 3");
+        player3View.setField1Bean(cardImages[10], 5);
+        player3View.setField2Bean(cardImages[9], 11);
+        player3View.setCoins(10);
+        ArrayList<Bitmap> hand3 = new ArrayList<>();
+        for(int i = 0; i<3; i++) {
+            hand3.add(cardImages[2]);
+        }
+        hand3.add(cardImages[8]);
+        player3View.setHandCards(hand3);
 
-        g.drawRect(1535, 100, 2015, 900, playerFour);
-        g.drawLine(1550, 200, 2000, 200, playerFour); // Name
-        g.drawLine(1550, 375, 2000, 375, playerFour); // Field 1
-        g.drawLine(1550, 550, 2000, 550, playerFour); // Field 2
-        g.drawLine(1550, 725, 2000, 725, playerFour); // Field 3
+        player4View.setBackGroundColor(player4Color);
+        player4View.setPlayerName("Player 4");
+        player4View.setField1Bean(cardImages[1], 2);
+        player4View.setField2Bean(cardImages[3], 4);
+        player4View.setCoins(7);
+        ArrayList<Bitmap> hand4 = new ArrayList<>();
+        for(int i = 0; i<8; i++) {
+            hand4.add(cardImages[2]);
+        }
+        player4View.setHandCards(hand4);
 
-        int cardIdx = R.drawable.card4_cocoa;
-        Bitmap card = BitmapFactory.decodeResource(
-                myActivity.getResources(), cardIdx);
+        ArrayList<Bitmap> hand = new ArrayList<>();
+        hand.add(cardImages[0]);
+        hand.add(cardImages[1]);
+        hand.add(cardImages[2]);
+        hand.add(cardImages[3]);
+        hand.add(cardImages[4]);
+        hand.add(cardImages[5]);
+        hand.add(cardImages[6]);
+        hand.add(cardImages[7]);
+        hand.add(cardImages[8]);
+        hand.add(cardImages[9]);
+        hand.add(cardImages[10]);
+        handView.setHand(hand);
 
-        // create the source rectangle
-        Rect r = new Rect(0,0,card.getWidth(),card.getHeight());
+        tradeView.setCard1Bean(cardImages[10]);
+        tradeView.setCard2Bean(cardImages[0]);
+        tradeView.setActiveCard(1);
 
-        // draw the bitmap into the target rectangle
-        RectF rectF = new RectF(55, 220, 150, 355);
-        g.drawBitmap(card, r, rectF, null);
-
-        playerOne.setTextSize(50.0f);
-        playerOne.setStrokeWidth(2.0f);
-        playerOne.setStyle(Paint.Style.FILL);
-        g.drawText("Cocoa Bean", 180, 280, playerOne);
-        g.drawText("x7", 180, 340, playerOne);
-
+        bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
+        //use to get coins: state.getPlayerList()[0].getCoins();
 
     }
 }
