@@ -25,6 +25,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
+
+import edu.up.cs301.bohnanza.R;
 import edu.up.cs301.game.config.GameConfig;
 import edu.up.cs301.game.config.GamePlayerType;
 import edu.up.cs301.game.util.IPCoder;

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import edu.up.cs301.game.R;
 
 /**
  * Creates a new card which is identified by a string

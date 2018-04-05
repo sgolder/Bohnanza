@@ -15,7 +15,6 @@ import edu.up.cs301.animation.AnimationSurface;
 import edu.up.cs301.animation.Animator;
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
-import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameInfo;
 
 /**
