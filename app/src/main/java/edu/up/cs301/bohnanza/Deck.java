@@ -42,6 +42,8 @@ public class Deck implements Serializable {
         }
     }
 
+    //TODO: add method that accesses cards at specific index based on name
+
     /**
      * add a card to the top of a deck
      *
@@ -103,6 +105,7 @@ public class Deck implements Serializable {
         return cards.size();
     }
 
+    //TODO: Make the new Card initialization include
     /**
      *  add all bohnanza cards to a the deck that method was called from
      *

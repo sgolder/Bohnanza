@@ -12,21 +12,28 @@ import android.graphics.BitmapFactory;
  */
 
 public class Card {
+    private int beanIdx;
     private String beanName;
     private int[] coinCount;
     private int numBean;
 
-    public Card(String name){
+    public Card(int index, String name, int[] coin, int num){
+        beanIdx = index;
         beanName = name;
+        for(int i = 0; i<coin.length; i++) {
+            coinCount[i] = coin[i];
+        }
+        numBean = num;
     }
 
     public Card(Card orig){
-
+        beanIdx = orig.beanIdx;
         beanName = orig.beanName;
         for(int i = 0; i<orig.coinCount.length; i++) {
             coinCount[i] = orig.coinCount[i];
         }
         numBean = orig.numBean;
+
     }
 
     public boolean equals(Object other) {
