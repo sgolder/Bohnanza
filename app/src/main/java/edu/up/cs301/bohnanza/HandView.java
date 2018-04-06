@@ -5,9 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 
 public class HandView extends SurfaceView {
     private ArrayList<Bitmap> hand = new ArrayList<>();
+    private ArrayList<RectF> cards = new ArrayList<>();
 
     public HandView(Context context) {
         super(context);
@@ -37,6 +40,7 @@ public class HandView extends SurfaceView {
     public void setHand(ArrayList<Bitmap> initHand) {
         hand = initHand;
     }
+    public ArrayList<RectF> getCardPositions() {return cards;}
 
     @Override
     public void onDraw(Canvas canvas) {
@@ -44,10 +48,11 @@ public class HandView extends SurfaceView {
         int height = canvas.getHeight();
 
         canvas.drawColor(Color.rgb(45, 45, 45));
-
+        cards.clear();
         if(hand.size() != 0) {
-            for(int i = 0; i<hand.size(); i++){
-                canvas.drawBitmap(hand.get(i), null, new Rect(20+i*width/12, height/7, (i+2)*width/12, height), null);
+            for(int i = hand.size()-1; i>0; i--){
+                canvas.drawBitmap(hand.get(i), null, new Rect((11-i)*width/12+20, height/7, (11-i+2)*width/12, height), null);
+                cards.add(0, new RectF((11-i)*width/12+20, height/7, (11-i+2)*width/12, height));
             }
         }
     }

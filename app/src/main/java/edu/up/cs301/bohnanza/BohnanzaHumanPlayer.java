@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -63,6 +64,26 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         tradeView = (TradeView)myActivity.findViewById(R.id.surfaceViewTrade);
 
         bottomLayout = (LinearLayout)myActivity.findViewById(R.id.BottomLinearLayout);
+
+        BohnanzaListener myListener = new BohnanzaListener(player1View, player2View,
+                player3View, player4View, handView, tradeView);
+
+        Button harvest = (Button)myActivity.findViewById(R.id.buttonHarvest);
+        Button makeOffer = (Button)myActivity.findViewById(R.id.buttonMakeOffer);
+        Button endTurn = (Button)myActivity.findViewById(R.id.buttonEndTurn);
+        Button startTrading = (Button)myActivity.findViewById(R.id.buttonStartTrading);
+
+
+        harvest.setOnClickListener(myListener);
+        makeOffer.setOnClickListener(myListener);
+        endTurn.setOnClickListener(myListener);
+        startTrading.setOnClickListener(myListener);
+        player1View.setOnTouchListener(myListener);
+        player2View.setOnTouchListener(myListener);
+        player3View.setOnTouchListener(myListener);
+        player4View.setOnTouchListener(myListener);
+        handView.setOnTouchListener(myListener);
+        tradeView.setOnTouchListener(myListener);
 
         Card.initImages(activity);
 
@@ -176,6 +197,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         hand.add(cardImages[8]);
         hand.add(cardImages[9]);
         hand.add(cardImages[10]);
+
         handView.setHand(hand);
 
         tradeView.setCard1Bean(cardImages[10]);
