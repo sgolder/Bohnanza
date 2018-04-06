@@ -45,6 +45,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         surface.setAnimator(this);
 
         Card.initImages(activity);
+
     }
 
     public int interval() {
