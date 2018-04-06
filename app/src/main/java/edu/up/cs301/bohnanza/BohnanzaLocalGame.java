@@ -43,4 +43,9 @@ public class BohnanzaLocalGame extends LocalGame {
     protected boolean makeMove(GameAction action) {
         return false;
     }
+    /**
+     * missing method:
+     * public void sendAllUpdatedState()
+     *
+     */
 }

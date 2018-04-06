@@ -13,6 +13,15 @@ import android.graphics.BitmapFactory;
 
 public class Card {
     private String beanName;
+    ////////////////////missing variables
+    private int[] coinCount;
+    private int numBean;
+    /////////////////////
+
+    /**
+     * missing method
+     * public Card( String initBeanName, int[] coinConv, int numBean)
+     */
 
     public Card(String name){
         beanName = name;

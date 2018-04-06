@@ -43,6 +43,13 @@ public class Deck implements Serializable {
     }
 
     /**
+     * missing methods from UML:
+     * public Deck shuffle()
+     * public int size()
+     * public void turnHandOver()
+     *
+     */
+    /**
      * add a card to the top of a deck
      *
      * @param c
