@@ -46,12 +46,10 @@ public class Card {
     // images
     private static int[] resIdx =
             {
-                    R.drawable.card4_cocoa, R.drawable.card6_garden,
-                    R.drawable.card8_red, R.drawable.card10_blackeyed,
-                    R.drawable.card12_soy, R.drawable.card14_green,
-                    R.drawable.card16_stink, R.drawable.card18_chili,
-                    R.drawable.card20_blue, R.drawable.card22_wax,
-                    R.drawable.card24_coffee,
+                    R.drawable.card6_garden,R.drawable.card8_red,
+                    R.drawable.card10_blackeyed, R.drawable.card12_soy,
+                    R.drawable.card14_green, R.drawable.card16_stink,
+                    R.drawable.card18_chili, R.drawable.card20_blue,
             };
 
     // the array of card images
@@ -83,4 +81,5 @@ public class Card {
     public String getBeanName() { return beanName; }
 
     public Bitmap[] getCardImages() { return cardImages; }
+
 }
