@@ -32,12 +32,26 @@ public class BohnanzaMainActivity extends GameMainActivity {
                 return new BohnanzaHumanPlayer(name);
             }
         });
+        playerTypes.add(new GamePlayerType("computer player (dumb)") {
+            public GamePlayer createPlayer(String name) {
+                return new BohnanzaComputerPlayer(name);
+            }
+        });
+        playerTypes.add(new GamePlayerType("computer player (smart)") {
+            public GamePlayer createPlayer(String name) {
+                return new BohnanzaComputerPlayer(name, true);
+            }
+        });
 
+        // Create a game configuration class for Bohnanza
         GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4,
                         "Bohnanza", PORT_NUMBER);
 
+        // Add the default players
         defaultConfig.addPlayer("Human", 0);
+        //TODO: add computer player
 
+        // Set the initial information for the remote player
         defaultConfig.setRemoteData("Guest", "", 1);
 
         return defaultConfig;
