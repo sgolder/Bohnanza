@@ -43,14 +43,17 @@ public class TradeView extends SurfaceView {
 
     public void setCard1Bean(Bitmap initBean) {
         card1Bean = initBean;
+        invalidate();
     }
 
     public void setCard2Bean(Bitmap initBean) {
         card2Bean = initBean;
+        invalidate();
     }
 
     public void setActiveCard(int initActiveCard) {
         activeCard = initActiveCard;
+        invalidate();
     }
 
     public void setupCards() {

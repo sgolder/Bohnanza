@@ -82,14 +82,17 @@ public class PlayerView extends SurfaceView {
     }
     public void setHandCards(ArrayList<Bitmap> initHand) {
         handCards = initHand;
+        invalidate();
     }
 
     public void setBackGroundColor(int initBackGround) {
         backGroundColor = initBackGround;
+        invalidate();
     }
 
     public void setPlayerName (String initName) {
         playerName = initName;
+        invalidate();
     }
 
     @Override
@@ -106,16 +109,11 @@ public class PlayerView extends SurfaceView {
         playerPaint.setStrokeWidth(8.0f);
         canvas.drawRect(0, 0, width, height, playerPaint);
 
-        //Paint grayPaint = new Paint();
-        //grayPaint.setColor(Color.LTGRAY);
         playerPaint.setStrokeWidth(5.0f);
         canvas.drawLine(0, height/20+20, width, height/20+20, playerPaint);
         canvas.drawLine(0, 11*height/40+25, width, 11*height/40+25, playerPaint);
         canvas.drawLine(0, 21*height/40+15, width, 21*height/40+15, playerPaint);
         canvas.drawLine(0, 3*height/4+25, width, 3*height/4+25, playerPaint);
-        //canvas.drawRect(0, height/20+20, width, height/4+49, playerPaint);
-        //canvas.drawRect(0, 3*height/10, width, height/2+40, playerPaint);
-        //canvas.drawRect(0, 11*height/20-9, width, 3*height/4+20, playerPaint);
 
         Paint yellowPaint = new Paint();
         yellowPaint.setColor(Color.YELLOW);

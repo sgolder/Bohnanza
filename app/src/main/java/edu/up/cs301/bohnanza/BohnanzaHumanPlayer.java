@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -86,8 +87,6 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         tradeView.setOnTouchListener(myListener);
 
         Card.initImages(activity);
-
-        drawGUI();
     }
 
     public int interval() {
@@ -107,7 +106,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     }
 
     public void tick(Canvas g) {
-        baseLayout(g);
+
     }
 
     public void onTouch(MotionEvent event) {
@@ -126,6 +125,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         }
 
         state = (BohnanzaState)info;
+        drawGUI();
     }
 
     public void baseLayout(Canvas canvas) {
@@ -133,21 +133,52 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     }
 
     public void drawGUI() {
+        if(state == null) return;
+
         int player1Color = Color.rgb(37, 127, 37);
         int player2Color = Color.rgb(220, 102, 30);
         int player3Color = Color.rgb(7, 169, 207);
         int player4Color = Color.rgb(248, 93, 89);
+        int[] playerColors = {player1Color, player2Color, player3Color, player4Color};
 
         int[] delete = {0};
         Card getCards = new Card(0, "", delete, 0);
         Bitmap[] cardImages = getCards.getCardImages();
 
+        /*
+        int[][] beanIdx = new int[4][3];
+        int[][] numBeans = new int[4][3];
+        for(int i = 0; i<4; i++) {
+            for(int j = 0; j<3; j++) {
+                numBeans[i][j] = state.getPlayerList()[i].getField(j).getCards().size();
+                if(numBeans[i][j] > 0) {
+                    beanIdx[i][j] = state.getPlayerList()[i].getField(j).peekAtTopCard().getBeanIdx();
+                }
+                else{
+                    beanIdx[i][j] = 0;
+                }
+            }
+        }
+
+        PlayerView[] playerViews = {player1View, player2View, player3View, player4View};
+
+        for(int i = 0; i<4; i++) {
+            playerViews[i].setBackGroundColor(playerColors[i]);
+            playerViews[i].setPlayerName("Player " +i);
+            playerViews[i].setField1Bean(cardImages[beanIdx[i][0]], numBeans[i][0]);
+            playerViews[i].setField2Bean(cardImages[beanIdx[i][1]], numBeans[i][1]);
+            playerViews[i].setField3Bean(cardImages[beanIdx[i][2]], numBeans[i][2]);
+        }
+        */
+
+        int coin = state.getPlayerList()[0].getCoins();
         player1View.setBackGroundColor(player1Color);
         player1View.setPlayerName("Player 1");
+
         player1View.setField1Bean(cardImages[4], 6);
         //player1View.setField1Bean(cardImages[state.getPlayerList()[0].getField(0).peekAtTopCard().getIndex], state.getPlayerList()[0].getField(0).getCards().size());
         player1View.setField2Bean(cardImages[0], 1);
-        player1View.setCoins(13);
+        player1View.setCoins(coin);
         ArrayList<Bitmap> hand1 = new ArrayList<>();
         for(int i = 0; i<4; i++) {
             hand1.add(cardImages[2]);
@@ -157,7 +188,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         player1View.setHandCards(hand1);
 
         player2View.setBackGroundColor(player2Color);
-        player2View.setPlayerName("Player 1");
+        player2View.setPlayerName("Player 2");
         player2View.setField1Bean(cardImages[2], 6);
         player2View.setField2Bean(cardImages[5], 1);
         player2View.setField3Bean(cardImages[7], 9);
@@ -197,9 +228,9 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         hand.add(cardImages[2]);
         hand.add(cardImages[3]);
         hand.add(cardImages[4]);
+        hand.add(cardImages[3]);
         hand.add(cardImages[5]);
-        hand.add(cardImages[6]);
-        hand.add(cardImages[7]);
+        hand.add(cardImages[2]);
 
         handView.setHand(hand);
 

@@ -39,6 +39,7 @@ public class HandView extends SurfaceView {
 
     public void setHand(ArrayList<Bitmap> initHand) {
         hand = initHand;
+        invalidate();
     }
     public ArrayList<RectF> getCardPositions() {return cards;}
 
