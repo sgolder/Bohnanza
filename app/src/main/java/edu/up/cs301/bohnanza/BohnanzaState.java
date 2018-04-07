@@ -74,14 +74,16 @@ public class BohnanzaState extends GameState {
     /**
      * Replaces all cards with null, except for the top card of deck 2
      */
-   /* public void hideDecks() {
+    public void hideDecks() {
         //hide main deck from user
         mainDeck.turnHandOver();
 
         //hide other players cards from user
         for(int i = 0; i<4; i++) {
-            if(i != playerId) {
-                playerList[i].getHand().turnHandOver();
+            for(int j=0; j< 4; j++){
+                if(i != j){
+                    playerList[i].getHand().turnHandOver();
+                }
             }
         }
     }
