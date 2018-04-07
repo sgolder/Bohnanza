@@ -48,7 +48,7 @@ public class BohnanzaState extends GameState {
      * Deep copy constructor of BohnanzaState
      *
      */
-    public BohnanzaState(BohnanzaState orig, int playerId) {
+    public BohnanzaState(BohnanzaState orig) {
         turn = orig.turn;
         phase = orig.phase;
 
@@ -90,9 +90,6 @@ public class BohnanzaState extends GameState {
 
     //getter
     public BohnanzaPlayerState[] getPlayerList() { return playerList; }
-    public int getTurn(){return turn;}
-    public int getPhase(){return phase;}
-    public Deck getTradeDeck(){return tradeDeck;}
     public int getTurn(){return turn;}
     public Deck getMainDeck(){return mainDeck;}
     public Deck getTradeDeck(){return tradeDeck;}
@@ -201,7 +198,7 @@ public class BohnanzaState extends GameState {
         return true;
     }
 
-    
+
     /**
      * Allow player to state that they will choose to not participate in trading
      *
