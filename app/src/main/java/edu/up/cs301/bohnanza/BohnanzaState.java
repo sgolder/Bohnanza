@@ -1,5 +1,7 @@
 package edu.up.cs301.bohnanza;
 
+import android.util.Log;
+
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.infoMsg.GameState;
 
@@ -26,6 +28,7 @@ public class BohnanzaState extends GameState {
     public BohnanzaState() {
         mainDeck = new Deck();
         mainDeck.addAllCards();
+        mainDeck.shuffle();
         discardDeck = new Deck();
         tradeDeck = new Deck();
 

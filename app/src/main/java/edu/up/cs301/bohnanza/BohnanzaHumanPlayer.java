@@ -139,6 +139,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     }
     ///////Gui!!!
     public void drawGUI() {
+        Log.i("Player ID", ""+playerIndex);
         if(state == null) return;
 
         int player1Color = Color.rgb(37, 127, 37);
@@ -151,7 +152,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         Card getCards = new Card(0, "", delete, 0);
         Bitmap[] cardImages = getCards.getCardImages();
 
-        /*
+
         int[][] beanIdx = new int[4][3];
         int[][] numBeans = new int[4][3];
         for(int i = 0; i<4; i++) {
@@ -161,7 +162,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
                     beanIdx[i][j] = state.getPlayerList()[i].getField(j).peekAtTopCard().getBeanIdx();
                 }
                 else{
-                    beanIdx[i][j] = 0;
+                    beanIdx[i][j] = 8;
                 }
             }
         }
@@ -169,14 +170,21 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         PlayerView[] playerViews = {player1View, player2View, player3View, player4View};
 
         for(int i = 0; i<4; i++) {
-            playerViews[i].setBackGroundColor(playerColors[i]);
-            playerViews[i].setPlayerName("Player " +i);
+            playerViews[i].setPlayerColor(playerColors[i]);
+            playerViews[i].setPlayerName("Player " +(i+1));
             playerViews[i].setField1Bean(cardImages[beanIdx[i][0]], numBeans[i][0]);
             playerViews[i].setField2Bean(cardImages[beanIdx[i][1]], numBeans[i][1]);
             playerViews[i].setField3Bean(cardImages[beanIdx[i][2]], numBeans[i][2]);
+            int[] handIdx = new int[state.getPlayerList()[i].getHand().size()];
+            ArrayList<Bitmap> hand = new ArrayList<>();
+            for(int j = 0; j<state.getPlayerList()[i].getHand().size(); j++) {
+                handIdx[j] = state.getPlayerList()[i].getHand().getCards().get(j).getBeanIdx();
+                hand.add(cardImages[handIdx[j]]);
+            }
+            playerViews[i].setHandCards(hand);
         }
-        */
 
+        /*
         int coin = state.getPlayerList()[0].getCoins();
         player1View.setBackGroundColor(player1Color);
         player1View.setPlayerName("Player 1");
@@ -227,17 +235,13 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             hand4.add(cardImages[2]);
         }
         player4View.setHandCards(hand4);
+        */
+
 
         ArrayList<Bitmap> hand = new ArrayList<>();
-        hand.add(cardImages[0]);
-        hand.add(cardImages[1]);
-        hand.add(cardImages[2]);
-        hand.add(cardImages[3]);
-        hand.add(cardImages[4]);
-        hand.add(cardImages[3]);
-        hand.add(cardImages[5]);
-        hand.add(cardImages[2]);
-
+        for(int i = 0; i<state.getPlayerList()[playerNum].getHand().size(); i++) {
+            hand.add(cardImages[state.getPlayerList()[playerNum].getHand().getCards().get(i).getBeanIdx()]);
+        }
         handView.setHand(hand);
 
         tradeView.setCard1Bean(cardImages[7]);

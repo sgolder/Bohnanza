@@ -50,6 +50,7 @@ public class Card {
                     R.drawable.card10_blackeyed, R.drawable.card12_soy,
                     R.drawable.card14_green, R.drawable.card16_stink,
                     R.drawable.card18_chili, R.drawable.card20_blue,
+                    R.drawable.cardback
             };
 
     // the array of card images

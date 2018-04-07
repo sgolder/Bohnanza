@@ -85,7 +85,7 @@ public class PlayerView extends SurfaceView {
         invalidate();
     }
 
-    public void setBackGroundColor(int initBackGround) {
+    public void setPlayerColor(int initBackGround) {
         backGroundColor = initBackGround;
         invalidate();
     }
@@ -116,17 +116,22 @@ public class PlayerView extends SurfaceView {
         canvas.drawLine(0, 3*height/4+25, width, 3*height/4+25, playerPaint);
 
         Paint yellowPaint = new Paint();
-        yellowPaint.setColor(Color.YELLOW);
-        canvas.drawCircle(375, 30, 25, yellowPaint);
+        yellowPaint.setColor(Color.rgb(252, 255, 102));
+        canvas.drawCircle(375, 32, 25, yellowPaint);
 
         Paint textPaint = new Paint();
         textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(40);
-        canvas.drawText(""+coins, 352, 45, textPaint);
+        if(coins < 10) {
+            canvas.drawText(""+coins, 364, 47, textPaint);
+        }
+        else if(coins >= 10) {
+            canvas.drawText("" + coins, 352, 47, textPaint);
+        }
 
-        textPaint.setColor(Color.WHITE);
+        textPaint.setColor(backGroundColor);
         textPaint.setTextSize(50);
-        canvas.drawText(playerName, 145, 50, textPaint);
+        canvas.drawText(playerName, 145, 47, textPaint);
         textPaint.setTextSize(75);
 
         if(numField1Bean != 0) {

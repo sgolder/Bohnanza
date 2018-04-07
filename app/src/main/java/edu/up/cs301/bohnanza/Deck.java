@@ -46,9 +46,7 @@ public class Deck implements Serializable {
 
     /**
      * missing methods from UML:
-     * public Deck shuffle()
      * public int size()
-     * public void turnHandOver()
      *
      */
     /**
@@ -63,6 +61,24 @@ public class Deck implements Serializable {
         synchronized(this.cards) {
             cards.add(c);
         }
+    }
+
+    /**
+     * shuffles all the cards in a given deck
+     *
+     * @return Deck
+     *      the deck that was shuffled
+     */
+    public Deck shuffle() {
+        // go through a loop that randomly rearranges the cards
+        for (int i = cards.size(); i > 1; i--) {
+            int spot = (int)(i*Math.random());
+            Card temp = cards.get(spot);
+            cards.set(spot, cards.get(i-1));
+            cards.set(i-1, temp);
+        }
+        // return the deck
+        return this;
     }
 
     /**

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceView;
 
 import java.lang.reflect.Array;
@@ -51,9 +52,9 @@ public class HandView extends SurfaceView {
         canvas.drawColor(Color.rgb(45, 45, 45));
         cards.clear();
         if(hand.size() != 0) {
-            for(int i = hand.size()-1; i>0; i--){
-                canvas.drawBitmap(hand.get(i), null, new Rect((11-i)*width/12+20, height/7, (11-i+2)*width/12, height), null);
-                cards.add(0, new RectF((11-i)*width/12+20, height/7, (11-i+2)*width/12, height));
+            for(int i = hand.size()-1; i>=0; i--){
+                canvas.drawBitmap(hand.get(i), null, new Rect((10-i)*width/12+20, height/7, (10-i+2)*width/12, height), null);
+                cards.add(0, new RectF((10-i)*width/12+20, height/7, (10-i+2)*width/12, height));
             }
         }
     }
