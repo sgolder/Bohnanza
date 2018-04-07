@@ -121,7 +121,11 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
 
     @Override
     public void receiveInfo(GameInfo info) {
+        if(!(info instanceof BohnanzaState)) {
+            return;
+        }
 
+        state = (BohnanzaState)info;
     }
 
     public void baseLayout(Canvas canvas) {
@@ -134,12 +138,14 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         int player3Color = Color.rgb(7, 169, 207);
         int player4Color = Color.rgb(248, 93, 89);
 
-        Card getCards = new Card("");
+        int[] delete = {0};
+        Card getCards = new Card(0, "", delete, 0);
         Bitmap[] cardImages = getCards.getCardImages();
 
         player1View.setBackGroundColor(player1Color);
         player1View.setPlayerName("Player 1");
         player1View.setField1Bean(cardImages[4], 6);
+        //player1View.setField1Bean(cardImages[state.getPlayerList()[0].getField(0).peekAtTopCard().getIndex], state.getPlayerList()[0].getField(0).getCards().size());
         player1View.setField2Bean(cardImages[0], 1);
         player1View.setCoins(13);
         ArrayList<Bitmap> hand1 = new ArrayList<>();
@@ -164,14 +170,14 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
 
         player3View.setBackGroundColor(player3Color);
         player3View.setPlayerName("Player 3");
-        player3View.setField1Bean(cardImages[10], 5);
-        player3View.setField2Bean(cardImages[9], 11);
+        player3View.setField1Bean(cardImages[3], 5);
+        player3View.setField2Bean(cardImages[4], 11);
         player3View.setCoins(10);
         ArrayList<Bitmap> hand3 = new ArrayList<>();
         for(int i = 0; i<3; i++) {
             hand3.add(cardImages[2]);
         }
-        hand3.add(cardImages[8]);
+        hand3.add(cardImages[7]);
         player3View.setHandCards(hand3);
 
         player4View.setBackGroundColor(player4Color);
@@ -194,13 +200,10 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         hand.add(cardImages[5]);
         hand.add(cardImages[6]);
         hand.add(cardImages[7]);
-        hand.add(cardImages[8]);
-        hand.add(cardImages[9]);
-        hand.add(cardImages[10]);
 
         handView.setHand(hand);
 
-        tradeView.setCard1Bean(cardImages[10]);
+        tradeView.setCard1Bean(cardImages[7]);
         tradeView.setCard2Bean(cardImages[0]);
         tradeView.setActiveCard(1);
 

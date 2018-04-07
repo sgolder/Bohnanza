@@ -104,7 +104,7 @@ public class BohnanzaState extends GameState {
         if( turn != playerId ){
             return false;
         }
-        if(origin == null) {
+        if(origin.size() == 0) {
             return false;
         }
         if (playerList[playerId].getField(fieldId).size() == 0) {

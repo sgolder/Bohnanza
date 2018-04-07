@@ -64,7 +64,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         int yPos = (int)motionEvent.getY();
         int xPos = (int)motionEvent.getX();
         int height = view.getHeight();
-        int width = view.getWidth();
         cardPositions = handView.getCardPositions();
 
         //user touches in player1
