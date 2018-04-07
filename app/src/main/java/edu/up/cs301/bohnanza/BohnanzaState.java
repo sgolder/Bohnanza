@@ -1,5 +1,6 @@
 package edu.up.cs301.bohnanza;
 
+import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -60,6 +61,20 @@ public class BohnanzaState extends GameState {
         discardDeck = new Deck(orig.discardDeck);
         tradeDeck = new Deck(orig.tradeDeck);
 
+        /*//hide main deck from user
+        mainDeck.turnHandOver();
+
+        //hide other players cards from user
+        for(int i = 0; i<4; i++) {
+            if(i != playerId) {
+                playerList[i].getHand().turnHandOver();
+            }
+        }*/
+    }
+    /**
+     * Replaces all cards with null, except for the top card of deck 2
+     */
+   /* public void hideDecks() {
         //hide main deck from user
         mainDeck.turnHandOver();
 
@@ -69,154 +84,22 @@ public class BohnanzaState extends GameState {
                 playerList[i].getHand().turnHandOver();
             }
         }
-    }
+        }
+    }*/
 
     //getter
     public BohnanzaPlayerState[] getPlayerList() { return playerList; }
+    public int getTurn(){return turn;}
+    public Deck getMainDeck(){return mainDeck;}
+    public Deck getTradeDeck(){return tradeDeck;}
+    public int getPhase(){return phase;}
+    public void setTurn(int newTurn){this.turn = newTurn; }
+    public void setPhase(int newPhase){this.phase = newPhase;}
 
     /**
      * Buy new Bean field action
      *
      */
-    public boolean buyThirdField(int playerId){
-        if( playerList[playerId].getHasThirdField() ){
-            return false;
-        }
-        else {
-            if( playerList[playerId].getCoins() >= 3 ) {
-                playerList[playerId].setHasThirdField(true);
-                playerList[playerId].setCoins(playerList[playerId].getCoins() - 3 );
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-    }
-
-    /**
-     * plant a bean in a bean field
-     *
-     */
-    public boolean plantBean(int playerId, int fieldId,
-                             Deck origin) {
-        //Check if player's turn
-        if( turn != playerId ){
-            return false;
-        }
-        if(origin == null) {
-            return false;
-        }
-        if (playerList[playerId].getField(fieldId).size() == 0) {
-            origin.moveTopCardTo(playerList[playerId].getField(fieldId));
-            return true;
-        }
-        //check if card to be planted is the same as current bean in the field
-        else if (playerList[playerId].getField(fieldId).peekAtTopCard().equals
-                (origin.peekAtTopCard())) {
-            origin.moveTopCardTo(playerList[playerId].getField(fieldId));
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Harvest beans in a bean field
-     *
-     */
-    public boolean harvestField(int playerId, Deck field){
-        if( field.size() == 0 ) {
-            return false;
-        }
-        field.getCards().clear();
-        return true;
-    }
-
-    /**
-     * turn over two cards that are up for trading
-     *
-     */
-    public boolean turn2Cards(int playerId){
-        if( turn != playerId ){
-            return false;
-        }
-        if(mainDeck.size() < 2) {
-            return false;
-        }
-        //move top two cards to trade deck
-        mainDeck.moveTopCardTo(tradeDeck);
-        mainDeck.moveTopCardTo(tradeDeck);
-        phase = 1; //phase 1 starts now
-        return true;
-    }
-
-    /**
-     * start trading phase
-     *
-     */
-    public boolean startTrading(int playerId) {
-        if( turn != playerId || phase != 1 ){
-            return false;
-        }
-        phase = 2;
-        return true;
-    }
-
-    /**
-     * Allow player to make an offer
-     *
-     */
-    public boolean makeOffer(int traderId, Card[] offer) {
-        if(phase != 2) {
-            return false;
-        }
-        playerList[traderId].setMakeOffer(2); //user will trade
-        playerList[traderId].setOffer(offer); //make traders offer cards visible
-        return true;
-    }
-
-    /**
-     * Allow player to state that they will choose to not participate in trading
-     *
-     */
-    public boolean abstainFromTrading(int playerId) {
-        if(phase != 2) {
-            return false;
-        }
-        playerList[playerId].setMakeOffer(1);
-        return true;
-    }
-
-    /**
-     * End turn by drawing 3 cards from main deck.
-     *
-     */
-    public boolean draw3Cards (int playerId) {
-        if(turn != playerId) {
-            return false;
-        }
-        //trade deck empty, then change turn to +1 unless 3 then turn to 0
-        if(tradeDeck.size() == 0)
-        {
-            mainDeck.moveTopCardTo(playerList[playerId].getHand());
-            mainDeck.moveTopCardTo(playerList[playerId].getHand());
-            mainDeck.moveTopCardTo(playerList[playerId].getHand());
-            if(turn == 3)
-            {
-                turn = 0;
-            }
-            else
-            {
-                turn++;
-            }
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
 
     @Override
     public String toString() {
