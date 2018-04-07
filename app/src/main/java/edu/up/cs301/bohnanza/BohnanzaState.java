@@ -73,6 +73,9 @@ public class BohnanzaState extends GameState {
 
     //getter
     public BohnanzaPlayerState[] getPlayerList() { return playerList; }
+    public int getTurn(){return turn;}
+    public int getPhase(){return phase;}
+    public Deck getTradeDeck(){return tradeDeck;}
 
     /**
      * Buy new Bean field action
