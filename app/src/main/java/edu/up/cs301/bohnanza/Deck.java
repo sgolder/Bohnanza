@@ -45,6 +45,13 @@ public class Deck implements Serializable {
     //TODO: add method that accesses cards at specific index based on name
 
     /**
+     * missing methods from UML:
+     * public Deck shuffle()
+     * public int size()
+     * public void turnHandOver()
+     *
+     */
+    /**
      * add a card to the top of a deck
      *
      * @param c
@@ -153,6 +160,42 @@ public class Deck implements Serializable {
         for(int i = 0; i<oldSize; i++ ){
             int[] cardBackCoins = {-1, -1, -1, -1};
             cards.add(new Card(8, "CardBack", cardBackCoins, 0));
+        }
+    }
+
+    /**
+     *
+     * @param initDeck
+     * @return number of coins a field is worth
+     *
+     * index 0: 1 coin
+     * index 1: 2 coins
+     * index 2: 3 coins
+     * index 3: 4 coins
+     *
+     */
+    public int getFieldValue(Deck initDeck) {
+        Card cardType = initDeck.peekAtTopCard();
+        int[] coinCount = cardType.getCoinCount();
+
+        if (coinCount[0] == -1) {
+            //special case: garden bean
+            if (initDeck.size() >= coinCount[2]) {
+                return 3;
+            } else if (initDeck.size() >= 2) {
+                return 2;
+            } else {
+                return 0;
+            }
+        }
+        else {
+            for (int i = 4; i < 0; i++) {
+                if (initDeck.size() >= coinCount[i]) {
+                    return i + 1;
+
+                }
+            }
+            return 0;
         }
     }
 

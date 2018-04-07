@@ -82,6 +82,8 @@ public class Card {
 
     public Bitmap[] getCardImages() { return cardImages; }
 
+    public int[] getCoinCount(){return coinCount;}
+
     public int getBeanIdx() {return beanIdx;}
 
 }

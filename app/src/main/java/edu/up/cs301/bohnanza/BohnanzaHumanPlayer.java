@@ -40,6 +40,10 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     private TradeView tradeView;
     private LinearLayout bottomLayout;
 
+    //////missing variables
+    private int playerIndex;
+    private String playerName;
+
     /**
      * constructor
      *
@@ -109,6 +113,8 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
 
     }
 
+    /////////////////(Buttons, SurfaceView) -> (x,y)
+    ///////////////// connect the clicks to the locations
     public void onTouch(MotionEvent event) {
 
     }
@@ -131,7 +137,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     public void baseLayout(Canvas canvas) {
 
     }
-
+    ///////Gui!!!
     public void drawGUI() {
         if(state == null) return;
 

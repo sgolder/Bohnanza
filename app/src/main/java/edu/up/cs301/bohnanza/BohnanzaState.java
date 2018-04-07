@@ -1,5 +1,6 @@
 package edu.up.cs301.bohnanza;
 
+import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -47,7 +48,7 @@ public class BohnanzaState extends GameState {
      * Deep copy constructor of BohnanzaState
      *
      */
-    public BohnanzaState(BohnanzaState orig, int playerId) {
+    public BohnanzaState(BohnanzaState orig) {
         turn = orig.turn;
         phase = orig.phase;
 
@@ -60,7 +61,7 @@ public class BohnanzaState extends GameState {
         discardDeck = new Deck(orig.discardDeck);
         tradeDeck = new Deck(orig.tradeDeck);
 
-        //hide main deck from user
+        /*//hide main deck from user
         mainDeck.turnHandOver();
 
         //hide other players cards from user
@@ -68,14 +69,33 @@ public class BohnanzaState extends GameState {
             if(i != playerId) {
                 playerList[i].getHand().turnHandOver();
             }
+        }*/
+    }
+    /**
+     * Replaces all cards with null, except for the top card of deck 2
+     */
+    public void hideDecks() {
+        //hide main deck from user
+        mainDeck.turnHandOver();
+
+        //hide other players cards from user
+        for(int i = 0; i<4; i++) {
+            for(int j=0; j< 4; j++){
+                if(i != j){
+                    playerList[i].getHand().turnHandOver();
+                }
+            }
         }
     }
 
     //getter
     public BohnanzaPlayerState[] getPlayerList() { return playerList; }
     public int getTurn(){return turn;}
-    public int getPhase(){return phase;}
+    public Deck getMainDeck(){return mainDeck;}
     public Deck getTradeDeck(){return tradeDeck;}
+    public int getPhase(){return phase;}
+    public void setTurn(int newTurn){this.turn = newTurn; }
+    public void setPhase(int newPhase){this.phase = newPhase;}
 
     /**
      * Buy new Bean field action
@@ -177,6 +197,7 @@ public class BohnanzaState extends GameState {
         playerList[traderId].setOffer(offer); //make traders offer cards visible
         return true;
     }
+
 
     /**
      * Allow player to state that they will choose to not participate in trading
