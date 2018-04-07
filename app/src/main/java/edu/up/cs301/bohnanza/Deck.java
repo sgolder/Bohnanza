@@ -167,31 +167,28 @@ public class Deck implements Serializable {
      * index 3: 4 coins
      *
      */
-    public int getFieldValue(Deck initDeck){
+    public int getFieldValue(Deck initDeck) {
         Card cardType = initDeck.peekAtTopCard();
         int[] coinCount = cardType.getCoinCount();
 
-        if(coinCount[0] == -1){
+        if (coinCount[0] == -1) {
             //special case: garden bean
-            if(initDeck.size()>= coinCount[2]){
+            if (initDeck.size() >= coinCount[2]) {
                 return 3;
-            }
-            else if(initDeck.size()>=2){
+            } else if (initDeck.size() >= 2) {
                 return 2;
-            }
-            else{
+            } else {
                 return 0;
             }
         }
-        else{
-            for(int i=4; i<0; i++){
-                if(initDeck.size()>= coinCount[i]){
-                    return i+1;
-                }
-                else{
-                    return 0;
+        else {
+            for (int i = 4; i < 0; i++) {
+                if (initDeck.size() >= coinCount[i]) {
+                    return i + 1;
+
                 }
             }
+            return 0;
         }
     }
 
