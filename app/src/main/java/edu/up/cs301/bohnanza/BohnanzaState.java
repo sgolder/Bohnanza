@@ -199,6 +199,7 @@ public class BohnanzaState extends GameState {
         return true;
     }
 
+    
     /**
      * Allow player to state that they will choose to not participate in trading
      *
