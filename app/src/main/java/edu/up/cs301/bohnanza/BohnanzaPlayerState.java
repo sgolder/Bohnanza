@@ -42,6 +42,7 @@ public class BohnanzaPlayerState {
 
     //Getter methods
     public Deck getField(int field) { return fields[field]; }
+    public Deck[] getAllFields() {return fields; }
     public int getCoins() {return coins;}
     public Deck getHand() {return hand;}
     public boolean getHasThirdField() {return hasThirdField;}
