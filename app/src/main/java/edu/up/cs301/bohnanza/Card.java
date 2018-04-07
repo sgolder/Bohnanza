@@ -14,7 +14,7 @@ import android.graphics.BitmapFactory;
 public class Card {
     private int beanIdx;
     private String beanName;
-    private int[] coinCount;
+    private int[] coinCount = new int[4];
     private int numBean;
 
     public Card(int index, String name, int[] coin, int num){
