@@ -58,6 +58,9 @@ public class TradeView extends SurfaceView {
         card2 = new Rect(6*width/10, height/10, 9*width/10, 9*height/10);
     }
 
+    public Rect getCard1Rect() {return card1;}
+    public Rect getCard2Rect() {return card2;}
+
     @Override
     public void onDraw(Canvas canvas) {
         width = canvas.getWidth();
@@ -77,7 +80,6 @@ public class TradeView extends SurfaceView {
         selectPaint.setColor(Color.rgb(252, 255, 102));
         selectPaint.setStyle(Paint.Style.STROKE);
         selectPaint.setStrokeWidth(5.0f);
-
 
         if(activeCard == 1) {
             canvas.drawRect(2*width/10-10, height/10-10, 5*width/10+10, 9*height/10+10, selectPaint);

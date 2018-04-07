@@ -12,23 +12,28 @@ import android.graphics.BitmapFactory;
  */
 
 public class Card {
+    private int beanIdx;
     private String beanName;
-    ////////////////////missing variables
-    private int[] coinCount;
+    private int[] coinCount = new int[4];
     private int numBean;
-    /////////////////////
 
-    /**
-     * missing method
-     * public Card( String initBeanName, int[] coinConv, int numBean)
-     */
-
-    public Card(String name){
+    public Card(int index, String name, int[] coin, int num){
+        beanIdx = index;
         beanName = name;
+        for(int i = 0; i<coin.length; i++) {
+            coinCount[i] = coin[i];
+        }
+        numBean = num;
     }
 
     public Card(Card orig){
+        beanIdx = orig.beanIdx;
         beanName = orig.beanName;
+        for(int i = 0; i<orig.coinCount.length; i++) {
+            coinCount[i] = orig.coinCount[i];
+        }
+        numBean = orig.numBean;
+
     }
 
     public boolean equals(Object other) {
@@ -41,12 +46,10 @@ public class Card {
     // images
     private static int[] resIdx =
             {
-                    R.drawable.card4_cocoa, R.drawable.card6_garden,
-                    R.drawable.card8_red, R.drawable.card10_blackeyed,
-                    R.drawable.card12_soy, R.drawable.card14_green,
-                    R.drawable.card16_stink, R.drawable.card18_chili,
-                    R.drawable.card20_blue, R.drawable.card22_wax,
-                    R.drawable.card24_coffee,
+                    R.drawable.card6_garden,R.drawable.card8_red,
+                    R.drawable.card10_blackeyed, R.drawable.card12_soy,
+                    R.drawable.card14_green, R.drawable.card16_stink,
+                    R.drawable.card18_chili, R.drawable.card20_blue,
             };
 
     // the array of card images
@@ -78,4 +81,7 @@ public class Card {
     public String getBeanName() { return beanName; }
 
     public Bitmap[] getCardImages() { return cardImages; }
+
+    public int[] getCoinCount(){return coinCount;}
+
 }

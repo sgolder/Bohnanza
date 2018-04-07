@@ -42,6 +42,8 @@ public class Deck implements Serializable {
         }
     }
 
+    //TODO: add method that accesses cards at specific index based on name
+
     /**
      * missing methods from UML:
      * public Deck shuffle()
@@ -110,34 +112,43 @@ public class Deck implements Serializable {
         return cards.size();
     }
 
+    //TODO: Make the new Card initialization include
     /**
      *  add all bohnanza cards to a the deck that method was called from
      *
      */
     public void addAllCards() {
         for(int i = 0; i < 20; i++) {
-            add(new Card("Blue Bean"));
+            int[] blueCoins = {4, 6, 8, 10};
+            add(new Card(7, "Blue Bean", blueCoins, 20));
         }
         for(int i = 0; i < 18; i++) {
-            add(new Card("Chili Bean"));
+            int[] chiliCoins = {3, 6, 8, 9};
+            add(new Card(6, "Chili Bean", chiliCoins, 18));
         }
         for(int i = 0; i < 16; i++) {
-            add(new Card("Stink Bean"));
+            int[] stinkCoins = {3, 5, 7, 8};
+            add(new Card(5, "Stink Bean", stinkCoins, 16));
         }
         for(int i = 0; i < 14; i++) {
-            add(new Card("Green Bean"));
+            int[] greenCoins = {3, 5, 6, 7};
+            add(new Card(4, "Green Bean", greenCoins, 14));
         }
         for(int i = 0; i < 12; i++) {
-            add(new Card("Soy Bean"));
+            int[] soyCoins = {2, 4, 6, 7};
+            add(new Card(3, "Soy Bean", soyCoins, 12));
         }
         for(int i = 0; i < 10; i++) {
-            add(new Card("Black-Eyed Bean"));
+            int[] blackEyedCoins = {2, 4, 5, 6};
+            add(new Card(2, "Black-Eyed Bean", blackEyedCoins, 10));
         }
         for(int i = 0; i < 8; i++) {
-            add(new Card("Red Bean"));
+            int[] redCoins = {2, 3, 4, 5};
+            add(new Card(1, "Red Bean", redCoins, 8));
         }
         for(int i = 0; i <6; i++) {
-            add(new Card("Garden Bean"));
+            int[] gardenCoins = {-1, 2, 3, -1};
+            add(new Card(0, "Garden Bean", gardenCoins, 6));
         }
     }
 
@@ -147,7 +158,44 @@ public class Deck implements Serializable {
         int oldSize = size();
         cards.clear();
         for(int i = 0; i<oldSize; i++ ){
-            cards.add(new Card("CardBack"));
+            int[] cardBackCoins = {-1, -1, -1, -1};
+            cards.add(new Card(8, "CardBack", cardBackCoins, 0));
+        }
+    }
+
+    /**
+     *
+     * @param initDeck
+     * @return number of coins a field is worth
+     *
+     * index 0: 1 coin
+     * index 1: 2 coins
+     * index 2: 3 coins
+     * index 3: 4 coins
+     *
+     */
+    public int getFieldValue(Deck initDeck) {
+        Card cardType = initDeck.peekAtTopCard();
+        int[] coinCount = cardType.getCoinCount();
+
+        if (coinCount[0] == -1) {
+            //special case: garden bean
+            if (initDeck.size() >= coinCount[2]) {
+                return 3;
+            } else if (initDeck.size() >= 2) {
+                return 2;
+            } else {
+                return 0;
+            }
+        }
+        else {
+            for (int i = 4; i < 0; i++) {
+                if (initDeck.size() >= coinCount[i]) {
+                    return i + 1;
+
+                }
+            }
+            return 0;
         }
     }
 

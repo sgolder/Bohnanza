@@ -146,7 +146,7 @@ public class PlayerView extends SurfaceView {
 
         if(handCards.size() != 0) {
             for(int i = 0; i<handCards.size(); i++){
-                canvas.drawBitmap(handCards.get(i), null, new Rect(10+i*width/10, 16*height/20, (i+2)*width/10, height-10), null);
+                canvas.drawBitmap(handCards.get(i), null, new Rect(10+i*width/10, 16*height/20-5, (i+2)*width/10, height-5), null);
             }
         }
     }
