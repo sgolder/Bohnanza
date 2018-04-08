@@ -78,6 +78,8 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+        if(state == null) return false;
+
         if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) return false;
 
         int yPos = (int)motionEvent.getY();
@@ -203,7 +205,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             //How am I going to access the game and humanPlayer?
             PlantBean plantBean = new PlantBean(humanPlayer, fieldNum);
             game.sendAction(plantBean);
-
         }
         return true;
     }
