@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.actions.PlantBean;
 import edu.up.cs301.animation.AnimationSurface;
 import edu.up.cs301.animation.Animator;
 import edu.up.cs301.game.GameHumanPlayer;
@@ -51,6 +52,8 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
      */
     public BohnanzaHumanPlayer(String name) {
         super(name);
+        //TODO: sync up the playerId
+        playerIndex = 0;
     }
 
     public void setAsGui(GameMainActivity activity) {
@@ -70,7 +73,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
 
         bottomLayout = (LinearLayout)myActivity.findViewById(R.id.BottomLinearLayout);
 
-        BohnanzaListener myListener = new BohnanzaListener(player1View, player2View,
+        BohnanzaListener myListener = new BohnanzaListener(state, playerNum, player1View, player2View,
                 player3View, player4View, handView, tradeView);
 
         Button harvest = (Button)myActivity.findViewById(R.id.buttonHarvest);
@@ -116,7 +119,26 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     /////////////////(Buttons, SurfaceView) -> (x,y)
     ///////////////// connect the clicks to the locations
     public void onTouch(MotionEvent event) {
+        /*
+        Log.i("HumanP, onTouch", "");
+        // If it's not their turn, they can only offer or harvest
+        if( state.getTurn() != playerNum ) {
+            // Trading section
+            if( state.getPhase() == 2 ) {
 
+            }
+            // Harvesting
+        }
+        // Planting during turn
+        // Should I check for other situations of planting too?
+        else if( state.getPhase() == 0 ) {
+            Log.i("HumanP, onTouch", "Phase == 0");
+            //TODO: get field index from touch
+            int fieldNum = 0; // get field index from touch
+            PlantBean plantBean = new PlantBean(this, fieldNum);
+            game.sendAction(plantBean);
+        }
+        */
     }
 
     @Override
@@ -212,4 +234,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         //use to get coins: state.getPlayerList()[0].getCoins();
 
     }
+
+    //Getters
+    public int getPlayerIndex() { return playerIndex; }
 }

@@ -9,6 +9,8 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.actions.PlantBean;
+
 /**
  * Created by AdamMercer on 4/6/18.
  */
@@ -23,8 +25,19 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private ArrayList<RectF> cardPositions = new ArrayList<>();
 
 
-    public BohnanzaListener (PlayerView initPlayer1, PlayerView initPlayer2, PlayerView initPlayer3,
+    // 0-3: correspond to players index, 4:
+    private int area;
+    private int section;
+
+    private BohnanzaState state;
+    private int playerId;
+
+
+    public BohnanzaListener (BohnanzaState bohnanzaState, int player, PlayerView initPlayer1,
+                             PlayerView initPlayer2, PlayerView initPlayer3,
                              PlayerView initPlayer4, HandView initHand, TradeView initTrade) {
+        state = bohnanzaState;
+        playerId = player;
         player1View = initPlayer1;
         player2View = initPlayer2;
         player3View = initPlayer3;
@@ -71,16 +84,24 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             Log.i("View Pressed", "Player 1 View");
             //user touches field 1
             if(yPos > height/20+20 && yPos < 11*height/40+25) {
+                area = 0;
+                section = 0;
                 Log.i("Field Pressed", "Field 1");
             }
             //user touches field 2
             else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
+                area = 0;
+                section = 1;
                 Log.i("Field Pressed", "Field 2");
             }
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
+                area = 0;
+                section = 2;
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
+                area = 0;
+                section = 3;
                 Log.i("Field Pressed", "Player Hand");
             }
         }
@@ -156,6 +177,27 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             else if(tradeView.getCard2Rect().contains(xPos,yPos)) {
                 Log.i("Trade Pressed", "Card 2");
             }
+        }
+
+        // If it's not their turn, they can only offer or harvest
+        if( state.getTurn() != playerId ) {
+            // Trading section
+            if( state.getPhase() == 2 ) {
+
+            }
+            // Harvesting
+        }
+        // Planting during turn
+        // Should I check for other situations of planting too?
+        else if( state.getPhase() == 0 ) {
+            Log.i("HumanP, onTouch", "Phase == 0");
+            //TODO: get field index from touch
+            int fieldNum = 0; // get field index from touch
+
+            //How am I going to access the game and humanPlayer?
+            PlantBean plantBean = new PlantBean(this, fieldNum);
+            game.sendAction(plantBean);
+
         }
         return true;
     }

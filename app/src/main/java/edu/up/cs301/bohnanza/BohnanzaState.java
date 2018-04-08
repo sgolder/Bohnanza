@@ -47,10 +47,6 @@ public class BohnanzaState extends GameState {
         }
     }
 
-    /**
-     * Deep copy constructor of BohnanzaState
-     *
-     */
     public BohnanzaState(BohnanzaState orig) {
         turn = orig.turn;
         phase = orig.phase;
@@ -64,7 +60,28 @@ public class BohnanzaState extends GameState {
         discardDeck = new Deck(orig.discardDeck);
         tradeDeck = new Deck(orig.tradeDeck);
 
-        /*//hide main deck from user
+        //hide main deck from user
+        mainDeck.turnHandOver();
+    }
+
+    /**
+     * Deep copy constructor of BohnanzaState
+     *
+     */
+    public BohnanzaState(BohnanzaState orig, int playerId) {
+        turn = orig.turn;
+        phase = orig.phase;
+
+        for(int i = 0; i<4; i++) {
+            playerList[i] = new BohnanzaPlayerState(orig.playerList[i]);
+        }
+
+        //main, trade, and discard decks
+        mainDeck = new Deck(orig.mainDeck);
+        discardDeck = new Deck(orig.discardDeck);
+        tradeDeck = new Deck(orig.tradeDeck);
+
+        //hide main deck from user
         mainDeck.turnHandOver();
 
         //hide other players cards from user
@@ -72,7 +89,7 @@ public class BohnanzaState extends GameState {
             if(i != playerId) {
                 playerList[i].getHand().turnHandOver();
             }
-        }*/
+        }
     }
     /**
      * Replaces all cards with null, except for the top card of deck 2

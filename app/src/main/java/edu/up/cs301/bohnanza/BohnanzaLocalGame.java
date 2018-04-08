@@ -26,6 +26,9 @@ public class BohnanzaLocalGame extends LocalGame {
 
         // create the state for the beginning of the game
         state = new BohnanzaState();
+
+        //state.getPlayerList()[0].getHand().moveTopCardTo(
+        //        state.getPlayerList()[0].getField(0));
     }
 
     protected void sendUpdatedStateTo(GamePlayer p) {
@@ -55,10 +58,18 @@ public class BohnanzaLocalGame extends LocalGame {
     }
 
     protected boolean makeMove(GameAction action) {
+        Log.i("LocalGame, makeMove", "");
         int thisPlayerIdx = getPlayerIdx(action.getPlayer());
 
         if(action instanceof BuyThirdField){}
-        if(action instanceof PlantBean){}
+        if(action instanceof PlantBean) {
+            // Initial planting in phase 0
+            if( state.getPhase() == 0 ) {
+                PlantBean plantBean = (PlantBean) action;
+                plantBean(thisPlayerIdx, plantBean.getField(),
+                        state.getPlayerList()[thisPlayerIdx].getHand());
+            }
+        }
         if(action instanceof HarvestField){}
         if(action instanceof TurnTwoCards){}
         if(action instanceof StartTrading){}
@@ -94,6 +105,7 @@ public class BohnanzaLocalGame extends LocalGame {
      */
     public boolean plantBean(int playerId, int fieldId,
                              Deck origin) {
+        Log.i("LocalGame, plantBean", "PlayerId == "+playerId);
         //Check if player's turn
         if (state.getTurn() != playerId) {
             return false;
@@ -200,6 +212,7 @@ public class BohnanzaLocalGame extends LocalGame {
         }
 
     }
+
 }
 
 

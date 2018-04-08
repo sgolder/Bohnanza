@@ -54,6 +54,8 @@ public class BohnanzaMainActivity extends GameMainActivity {
         // Set the initial information for the remote player
         defaultConfig.setRemoteData("Guest", "", 1);
 
+
+
         return defaultConfig;
     }
 

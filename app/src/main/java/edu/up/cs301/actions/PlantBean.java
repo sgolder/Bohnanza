@@ -9,8 +9,12 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class PlantBean extends GameAction{
 
-    public PlantBean(GamePlayer initPlayer){
+    private int field;
 
+    public PlantBean(GamePlayer initPlayer, int targetField){
         super(initPlayer);
+        field = targetField;
     }
+
+    public int getField() { return field; }
 }
