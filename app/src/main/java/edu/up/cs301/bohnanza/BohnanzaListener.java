@@ -78,7 +78,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if(state == null) return false;
+
 
         if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) return false;
 
@@ -187,6 +187,16 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
         }
 
+        if(state == null ) {
+            Log.i("BohnanzaListener", "state null");
+            return false;
+        }
+        if(game == null ) {
+            Log.i("BohnanzaListener", "game null");
+            return false;
+        }
+
+
         // If it's not their turn, they can only offer or harvest
         if( state.getTurn() != playerId ) {
             // Trading section
@@ -203,11 +213,11 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             int fieldNum = 0; // get field index from touch
 
             //How am I going to access the game and humanPlayer?
-            PlantBean plantBean = new PlantBean(humanPlayer, fieldNum);
-            game.sendAction(plantBean);
+            game.sendAction(new PlantBean(humanPlayer, fieldNum));
         }
         return true;
     }
 
     public void setState( BohnanzaState initstate ) { state = initstate; }
+    public void setGame( Game initgame ) { game = initgame; }
 }
