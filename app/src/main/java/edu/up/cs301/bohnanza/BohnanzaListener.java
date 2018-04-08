@@ -207,4 +207,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         }
         return true;
     }
+
+    public void setState( BohnanzaState initstate ) { state = initstate; }
 }

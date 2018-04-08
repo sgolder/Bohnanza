@@ -40,6 +40,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     private HandView handView;
     private TradeView tradeView;
     private LinearLayout bottomLayout;
+    private BohnanzaListener myListener;
 
     //////missing variables
     private int playerIndex;
@@ -73,7 +74,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
 
         bottomLayout = (LinearLayout)myActivity.findViewById(R.id.BottomLinearLayout);
 
-        BohnanzaListener myListener = new BohnanzaListener(state, playerNum, player1View, player2View,
+        myListener = new BohnanzaListener(state, playerNum, player1View, player2View,
                 player3View, player4View, handView, tradeView, this, game);
 
         Button harvest = (Button)myActivity.findViewById(R.id.buttonHarvest);
@@ -154,6 +155,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
 
         state = (BohnanzaState)info;
         drawGUI();
+        myListener.setState( state );
     }
 
     public void baseLayout(Canvas canvas) {
