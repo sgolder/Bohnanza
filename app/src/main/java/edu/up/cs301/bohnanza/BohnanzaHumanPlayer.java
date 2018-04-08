@@ -74,7 +74,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         bottomLayout = (LinearLayout)myActivity.findViewById(R.id.BottomLinearLayout);
 
         BohnanzaListener myListener = new BohnanzaListener(state, playerNum, player1View, player2View,
-                player3View, player4View, handView, tradeView);
+                player3View, player4View, handView, tradeView, this, game);
 
         Button harvest = (Button)myActivity.findViewById(R.id.buttonHarvest);
         Button makeOffer = (Button)myActivity.findViewById(R.id.buttonMakeOffer);

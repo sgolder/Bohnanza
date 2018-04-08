@@ -10,6 +10,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 
 import edu.up.cs301.actions.PlantBean;
+import edu.up.cs301.game.Game;
 
 /**
  * Created by AdamMercer on 4/6/18.
@@ -23,6 +24,8 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private HandView handView;
     private TradeView tradeView;
     private ArrayList<RectF> cardPositions = new ArrayList<>();
+    private BohnanzaHumanPlayer humanPlayer;
+    private Game game;
 
 
     // 0-3: correspond to players index, 4:
@@ -34,8 +37,9 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
 
     public BohnanzaListener (BohnanzaState bohnanzaState, int player, PlayerView initPlayer1,
-                             PlayerView initPlayer2, PlayerView initPlayer3,
-                             PlayerView initPlayer4, HandView initHand, TradeView initTrade) {
+                             PlayerView initPlayer2, PlayerView initPlayer3, PlayerView initPlayer4,
+                             HandView initHand, TradeView initTrade, BohnanzaHumanPlayer initHumanPlayer,
+                             Game initGame) {
         state = bohnanzaState;
         playerId = player;
         player1View = initPlayer1;
@@ -44,6 +48,8 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         player4View = initPlayer4;
         handView = initHand;
         tradeView = initTrade;
+        humanPlayer = initHumanPlayer;
+        game = initGame;
     }
 
     @Override
@@ -195,7 +201,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             int fieldNum = 0; // get field index from touch
 
             //How am I going to access the game and humanPlayer?
-            PlantBean plantBean = new PlantBean(this, fieldNum);
+            PlantBean plantBean = new PlantBean(humanPlayer, fieldNum);
             game.sendAction(plantBean);
 
         }
