@@ -38,7 +38,7 @@ public class BohnanzaLocalGame extends LocalGame {
         // top card in the middle deck
 
         BohnanzaState stateForPlayer = new BohnanzaState(state); // copy of state
-        //stateForPlayer.hideDecks(); // put nulls except for visible card
+        stateForPlayer.hideDecks(); // put nulls except for visible card
 
         // send the modified copy of the state to the player
         p.sendInfo(stateForPlayer);

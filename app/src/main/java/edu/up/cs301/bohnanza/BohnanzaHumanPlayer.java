@@ -169,6 +169,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
 
         PlayerView[] playerViews = {player1View, player2View, player3View, player4View};
 
+        //set player fields and player hands
         for(int i = 0; i<4; i++) {
             playerViews[i].setPlayerColor(playerColors[i]);
             playerViews[i].setPlayerName("Player " +(i+1));
@@ -184,69 +185,28 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             playerViews[i].setHandCards(hand);
         }
 
-        /*
-        int coin = state.getPlayerList()[0].getCoins();
-        player1View.setBackGroundColor(player1Color);
-        player1View.setPlayerName("Player 1");
-
-        player1View.setField1Bean(cardImages[4], 6);
-        //player1View.setField1Bean(cardImages[state.getPlayerList()[0].getField(0).peekAtTopCard().getIndex], state.getPlayerList()[0].getField(0).getCards().size());
-        player1View.setField2Bean(cardImages[0], 1);
-        player1View.setCoins(coin);
-        ArrayList<Bitmap> hand1 = new ArrayList<>();
-        for(int i = 0; i<4; i++) {
-            hand1.add(cardImages[2]);
-        }
-        hand1.add(cardImages[6]);
-        hand1.add(cardImages[5]);
-        player1View.setHandCards(hand1);
-
-        player2View.setBackGroundColor(player2Color);
-        player2View.setPlayerName("Player 2");
-        player2View.setField1Bean(cardImages[2], 6);
-        player2View.setField2Bean(cardImages[5], 1);
-        player2View.setField3Bean(cardImages[7], 9);
-        player2View.setCoins(5);
-        ArrayList<Bitmap> hand2 = new ArrayList<>();
-        for(int i = 0; i<7; i++) {
-            hand2.add(cardImages[2]);
-        }
-        player2View.setHandCards(hand2);
-
-        player3View.setBackGroundColor(player3Color);
-        player3View.setPlayerName("Player 3");
-        player3View.setField1Bean(cardImages[3], 5);
-        player3View.setField2Bean(cardImages[4], 11);
-        player3View.setCoins(10);
-        ArrayList<Bitmap> hand3 = new ArrayList<>();
-        for(int i = 0; i<3; i++) {
-            hand3.add(cardImages[2]);
-        }
-        hand3.add(cardImages[7]);
-        player3View.setHandCards(hand3);
-
-        player4View.setBackGroundColor(player4Color);
-        player4View.setPlayerName("Player 4");
-        player4View.setField1Bean(cardImages[1], 2);
-        player4View.setField2Bean(cardImages[3], 4);
-        player4View.setCoins(7);
-        ArrayList<Bitmap> hand4 = new ArrayList<>();
-        for(int i = 0; i<8; i++) {
-            hand4.add(cardImages[2]);
-        }
-        player4View.setHandCards(hand4);
-        */
-
-
         ArrayList<Bitmap> hand = new ArrayList<>();
         for(int i = 0; i<state.getPlayerList()[playerNum].getHand().size(); i++) {
             hand.add(cardImages[state.getPlayerList()[playerNum].getHand().getCards().get(i).getBeanIdx()]);
         }
         handView.setHand(hand);
 
-        tradeView.setCard1Bean(cardImages[7]);
-        tradeView.setCard2Bean(cardImages[0]);
-        tradeView.setActiveCard(1);
+        //tradeView.setCard1Bean(cardImages[7]);
+        //tradeView.setCard2Bean(cardImages[0]);
+        //tradeView.setActiveCard(1);
+        if(state.getTradeDeck().getCards().size() == 0) {
+            tradeView.setCard1Bean(null);
+            tradeView.setCard2Bean(null);
+        }
+        else if(state.getTradeDeck().getCards().size() == 1) {
+            tradeView.setCard1Bean(cardImages[state.getTradeDeck().getCards().get(0).getBeanIdx()]);
+            tradeView.setCard2Bean(null);
+        }
+        else if(state.getTradeDeck().getCards().size() == 1) {
+            tradeView.setCard1Bean(cardImages[state.getTradeDeck().getCards().get(0).getBeanIdx()]);
+            tradeView.setCard2Bean(cardImages[state.getTradeDeck().getCards().get(1).getBeanIdx()]);
+        }
+
 
         bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
         //use to get coins: state.getPlayerList()[0].getCoins();
