@@ -255,7 +255,7 @@ public class Deck implements Serializable {
             }
         }
         else {
-            for (int i = 4; i < 0; i++) {
+            for (int i = 3; i > 0; i--) {
                 if (initDeck.size() >= coinCount[i]) {
                     return i + 1;
 

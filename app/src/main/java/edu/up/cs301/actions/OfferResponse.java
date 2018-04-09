@@ -9,8 +9,21 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class OfferResponse extends GameAction {
 
-    public OfferResponse(GamePlayer initPlayer){
+    private int traderId;
+    private boolean accept;
 
+    public OfferResponse(GamePlayer initPlayer, int inittraderId,
+                         boolean initaccept){
         super(initPlayer);
+        traderId = inittraderId;
+        accept = initaccept;
+    }
+
+    public int getTraderId() {
+        return traderId;
+    }
+
+    public boolean isAccept() {
+        return accept;
     }
 }

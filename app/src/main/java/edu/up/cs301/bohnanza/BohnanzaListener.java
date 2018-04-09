@@ -13,6 +13,8 @@ import edu.up.cs301.actions.AbstainFromTrading;
 import edu.up.cs301.actions.DrawThreeCards;
 import edu.up.cs301.actions.BuyThirdField;
 import edu.up.cs301.actions.HarvestField;
+import edu.up.cs301.actions.MakeOffer;
+import edu.up.cs301.actions.OfferResponse;
 import edu.up.cs301.actions.PlantBean;
 import edu.up.cs301.actions.StartTrading;
 import edu.up.cs301.actions.TurnTwoCards;
@@ -37,6 +39,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private int origin = 0;
 
     private boolean harvesting = false; // the player intends to harvest
+    private boolean makeOffer = false; // the player is making an offer
 
     private BohnanzaState state;
     private int playerId;
@@ -70,6 +73,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
             //user presses Make Offer button
             else if(buttonLabel.equalsIgnoreCase("Make Offer")) {
+                makeOffer = true;
                 Log.i("Button Pressed", buttonLabel);
             }
             //user presses Start Trading button
@@ -146,7 +150,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 }
             }
             else if(yPos > 3*height/4+25) {
-
+                game.sendAction(new OfferResponse(humanPlayer, 0, true));
                 Log.i("Field Pressed", "Player Hand");
             }
             origin = 0;
@@ -192,6 +196,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 }
             }
             else if(yPos > 3*height/4+25) {
+                game.sendAction(new OfferResponse(humanPlayer, 1, true));
                 Log.i("Field Pressed", "Player Hand");
             }
             origin = 0;
@@ -282,6 +287,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
+                game.sendAction(new OfferResponse(humanPlayer, 1, true));
                 Log.i("Field Pressed", "Player Hand");
             }
             origin = 0;
@@ -294,6 +300,11 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             for(int i=0; i<cardPositions.size(); i++) {
                 if(cardPositions.get(i).contains(xPos, yPos)) {
                     Log.i("Card Pressed", "Card "+i);
+                    if(makeOffer) {
+                        Card offer = state.getPlayerList()[playerId].getHand().
+                                getCards().get(i);
+                        game.sendAction(new MakeOffer(humanPlayer, offer));
+                    }
                     return true;
                 }
             }

@@ -7,6 +7,7 @@ import edu.up.cs301.actions.BuyThirdField;
 import edu.up.cs301.actions.DrawThreeCards;
 import edu.up.cs301.actions.HarvestField;
 import edu.up.cs301.actions.MakeOffer;
+import edu.up.cs301.actions.OfferResponse;
 import edu.up.cs301.actions.PlantBean;
 import edu.up.cs301.actions.StartTrading;
 import edu.up.cs301.actions.TurnTwoCards;
@@ -75,6 +76,7 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         if(action instanceof PlantBean) {
             PlantBean plantBean = (PlantBean) action;
+            Log.i("BLocal, makeMove", "Origin = "+plantBean.getOrigin());
             if(plantBean.getOrigin() == 0){
                 plantBean(thisPlayerIdx, plantBean.getField(),
                         state.getPlayerList()[thisPlayerIdx].getHand());
@@ -89,13 +91,12 @@ public class BohnanzaLocalGame extends LocalGame {
             }
             else{
                 Deck cardToTrade = new Deck();
-                state.getTradeDeck().moveBottomCardTo(cardToTrade);
+                state.getTradeDeck().moveTopCardTo(cardToTrade);
                 if(! (plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade)) ) {
                     cardToTrade.moveBottomCardTo(state.getTradeDeck());
                     return false;
                 }
             }
-
             sendAllUpdatedState();
             return true;
         }
@@ -114,7 +115,10 @@ public class BohnanzaLocalGame extends LocalGame {
             startTrading(thisPlayerIdx);
             sendAllUpdatedState();
         }
-        if(action instanceof MakeOffer){}
+        if(action instanceof MakeOffer){
+            MakeOffer makeOffer = (MakeOffer) action;
+            makeOffer(thisPlayerIdx, makeOffer.getOffer());
+        }
         if(action instanceof AbstainFromTrading){
             abstainFromTrading(thisPlayerIdx);
             sendAllUpdatedState();
@@ -125,7 +129,13 @@ public class BohnanzaLocalGame extends LocalGame {
             sendAllUpdatedState();
             return true;
         }
-
+        if(action instanceof OfferResponse){
+            OfferResponse offerResponse = (OfferResponse) action;
+            offerResponse(thisPlayerIdx, offerResponse.getTraderId(),
+                    offerResponse.isAccept());
+            sendAllUpdatedState();
+            return true;
+        }
 
         return false;
     }
@@ -164,6 +174,10 @@ public class BohnanzaLocalGame extends LocalGame {
         //Check if the origin deck has something to plant
         if (origin == null || origin.size() == 0) {
             return false;
+        }
+        //If the player has cards that were just traded, reset origin to toPlant
+        if( !(state.getPlayerList()[playerId].getToPlant().getCards().isEmpty()) ) {
+            origin = state.getPlayerList()[playerId].getToPlant();
         }
         //Plant if field is empty and/or purchased
         if (state.getPlayerList()[playerId].getField(fieldId).size() == 0) {
@@ -240,10 +254,11 @@ public class BohnanzaLocalGame extends LocalGame {
     /**
      * Allow player to make an offer
      */
-    public boolean makeOffer(int traderId, Card[] offer) {
+    public boolean makeOffer(int traderId, Card offer) {
         if (state.getPhase() != 2) {
             return false;
         }
+        //TODO: decide how to display offer
         state.getPlayerList()[traderId].setMakeOffer(2); //user will trade
         state.getPlayerList()[traderId].setOffer(offer); //make traders offer cards visible
         return true;
@@ -290,6 +305,28 @@ public class BohnanzaLocalGame extends LocalGame {
             return false;
         }
 
+    }
+
+    /**
+     * If a trade is accepted, move the traded cards into player's toPlant Decks
+     */
+    public boolean offerResponse(int playerId, int traderId, boolean accept) {
+        /////Should we have a way to indicate a rejection???
+        if( state.getPhase() != 2 || !accept ||
+                state.getPlayerList()[traderId].getMakeOffer() != 2) {
+            return false;
+        }
+        BohnanzaPlayerState trader = state.getPlayerList()[traderId];
+        for(int i = 0; i<trader.getHand().getCards().size(); i++) {
+            if(trader.getHand().getCards().get(i) == trader.getOffer()) {
+                // Give current player offered card
+                Card offeredCard = trader.getHand().getCards().remove(i);
+                state.getPlayerList()[playerId].getToPlant().add(offeredCard);
+                // Give trader player card from trade deck
+                state.getTradeDeck().moveBottomCardTo(trader.getToPlant());
+            }
+        }
+        return false;
     }
 }
 
