@@ -41,6 +41,11 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     private TradeView tradeView;
     private LinearLayout bottomLayout;
     private BohnanzaListener myListener;
+    Button harvest;
+    Button button2;
+    Button button3;
+    Button button4;
+
 
     //////missing variables
     private int playerIndex;
@@ -77,16 +82,15 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         myListener = new BohnanzaListener(state, playerNum, player1View, player2View,
                 player3View, player4View, handView, tradeView, this, game);
 
-        Button harvest = (Button)myActivity.findViewById(R.id.buttonHarvest);
-        Button makeOffer = (Button)myActivity.findViewById(R.id.buttonMakeOffer);
-        Button endTurn = (Button)myActivity.findViewById(R.id.buttonEndTurn);
-        Button startTrading = (Button)myActivity.findViewById(R.id.buttonStartTrading);
-
+        harvest = (Button)myActivity.findViewById(R.id.buttonHarvest);
+        button2 = (Button)myActivity.findViewById(R.id.button2);
+        button3 = (Button)myActivity.findViewById(R.id.button3);
+        button4 = (Button)myActivity.findViewById(R.id.button4);
 
         harvest.setOnClickListener(myListener);
-        makeOffer.setOnClickListener(myListener);
-        endTurn.setOnClickListener(myListener);
-        startTrading.setOnClickListener(myListener);
+        button2.setOnClickListener(myListener);
+        button3.setOnClickListener(myListener);
+        button4.setOnClickListener(myListener);
         player1View.setOnTouchListener(myListener);
         player2View.setOnTouchListener(myListener);
         player3View.setOnTouchListener(myListener);
@@ -152,7 +156,6 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         if(!(info instanceof BohnanzaState)) {
             return;
         }
-
         state = (BohnanzaState)info;
         drawGUI();
         myListener.setState( state );
@@ -232,6 +235,23 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             tradeView.setCard2Bean(cardImages[state.getTradeDeck().getCards().get(1).getBeanIdx()]);
         }
 
+        if(state.getPhase() == 0) {
+            button2.setText("Turn 2 Cards");
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+        }
+        else if(state.getPhase() == 1) {
+            button2.setText("Start Trading");
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+        }
+        else if(state.getPhase() == 2) {
+            button2.setText("Make Offer");
+            button3.setText("Pass");
+            button4.setText("Draw 3 Cards");
+            button3.setVisibility(View.VISIBLE);
+            button4.setVisibility(View.VISIBLE);
+        }
 
         bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
         //use to get coins: state.getPlayerList()[0].getCoins();
