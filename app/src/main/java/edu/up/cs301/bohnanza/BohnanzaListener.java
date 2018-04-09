@@ -32,7 +32,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private boolean harvest = false;
     private Deck origin; // for planting
 
-    private boolean harvesting; // the player intends to harvest
+    private boolean harvesting = false; // the player intends to harvest
 
     private BohnanzaState state;
     private int playerId;
@@ -52,7 +52,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         tradeView = initTrade;
         humanPlayer = initHumanPlayer;
         game = initGame;
-        origin = state.getPlayerList()[playerId].getHand();
     }
 
     @Override
@@ -82,13 +81,17 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-
+        if( origin == null ) {
+            Log.i("Bohnanza Listener", "Origin is null");
+            origin = state.getPlayerList()[playerId].getHand();
+        }
         if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) return false;
 
         int yPos = (int)motionEvent.getY();
         int xPos = (int)motionEvent.getX();
         int height = view.getHeight();
         cardPositions = handView.getCardPositions();
+
 
         //user touches in player1
         if(view.equals(player1View)) {
@@ -305,4 +308,12 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
     public void setState( BohnanzaState initstate ) { state = initstate; }
     public void setGame( Game initgame ) { game = initgame; }
+    public void initOrigin( ) {
+        Log.i("BListener", "initOrigin");
+        if( origin == null ) {
+            Log.i("BListener", "origin is no longer null");
+            origin = state.getPlayerList()[playerId].getHand();
+            Log.i("BListener", "Hand[0]" + origin.peekAtTopCard().getBeanName());
+        }
+    }
 }

@@ -137,7 +137,7 @@ public class BohnanzaLocalGame extends LocalGame {
             return false;
         }
         //Check if the origin deck has something to plant
-        if (origin.size() == 0) {
+        if (origin == null || origin.size() == 0) {
             return false;
         }
         //Plant if field is empty and/or purchased
@@ -146,13 +146,13 @@ public class BohnanzaLocalGame extends LocalGame {
                     !(state.getPlayerList()[playerId].getHasThirdField())) {
                 return false; // cannot plant if third field isn't purchased
             }
-            origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
+            origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
             return true;
         }
         //check if card to be planted is the same as current bean in the field
         else if (state.getPlayerList()[playerId].getField(fieldId).peekAtTopCard().equals
                 (origin.peekAtTopCard())) {
-            origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
+            origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
             return true;
         }
         return false;

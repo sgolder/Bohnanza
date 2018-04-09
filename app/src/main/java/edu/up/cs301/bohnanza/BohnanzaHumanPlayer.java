@@ -124,26 +124,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     /////////////////(Buttons, SurfaceView) -> (x,y)
     ///////////////// connect the clicks to the locations
     public void onTouch(MotionEvent event) {
-        /*
-        Log.i("HumanP, onTouch", "");
-        // If it's not their turn, they can only offer or harvest
-        if( state.getTurn() != playerNum ) {
-            // Trading section
-            if( state.getPhase() == 2 ) {
-
-            }
-            // Harvesting
-        }
-        // Planting during turn
-        // Should I check for other situations of planting too?
-        else if( state.getPhase() == 0 ) {
-            Log.i("HumanP, onTouch", "Phase == 0");
-            //TODO: get field index from touch
-            int fieldNum = 0; // get field index from touch
-            PlantBean plantBean = new PlantBean(this, fieldNum);
-            game.sendAction(plantBean);
-        }
-        */
+        // we use the BohnanzaListener instead
     }
 
     @Override
@@ -160,6 +141,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         drawGUI();
         myListener.setState( state );
         myListener.setGame( game );
+        myListener.initOrigin();
     }
 
     public void baseLayout(Canvas canvas) {

@@ -19,9 +19,10 @@ public class PlantBean extends GameAction{
     }
 
     public PlantBean(GamePlayer initPlayer, int targetField,
-                     Deck origin){
+                     Deck initorigin){
         super(initPlayer);
         field = targetField;
+        origin = initorigin;
     }
 
     public int getField() { return field; }
