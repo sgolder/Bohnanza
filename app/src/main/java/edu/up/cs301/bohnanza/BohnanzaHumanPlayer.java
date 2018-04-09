@@ -249,6 +249,8 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             button2.setText("Make Offer");
             button3.setText("Pass");
             button4.setText("Draw 3 Cards");
+            button3.setVisibility(View.VISIBLE);
+            button4.setVisibility(View.VISIBLE);
         }
 
         bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
