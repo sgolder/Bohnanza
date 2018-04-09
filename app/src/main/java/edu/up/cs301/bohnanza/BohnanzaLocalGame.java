@@ -203,6 +203,13 @@ public class BohnanzaLocalGame extends LocalGame {
             return false;
         }
         //move top two cards to trade deck
+        if(state.getMainDeck().getCards().size() < 2 ){
+            if(!(state.getTimesThroughDeck() < 3)){
+                return false;
+            }
+            state.getDiscardDeck().moveAllCardsTo(state.getMainDeck());
+            state.setTimesThroughDeck();
+        }
         state.getMainDeck().moveTopCardTo(state.getTradeDeck());
         state.getMainDeck().moveTopCardTo(state.getTradeDeck());
         state.setPhase(1); //phase 1 starts now
@@ -252,6 +259,13 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         //trade deck empty, then change turn to +1 unless 3 then turn to 0
         if (state.getTradeDeck().size() == 0) {
+            if(state.getMainDeck().getCards().size() < 3){
+                if(!(state.getTimesThroughDeck() < 3)){
+                    return false;
+                }
+                state.getDiscardDeck().moveAllCardsTo(state.getMainDeck());
+                state.setTimesThroughDeck();
+            }
             state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
             state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
             state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
@@ -267,7 +281,6 @@ public class BohnanzaLocalGame extends LocalGame {
         }
 
     }
-
 }
 
 

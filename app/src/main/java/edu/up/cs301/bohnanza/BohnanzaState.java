@@ -13,6 +13,7 @@ import edu.up.cs301.game.infoMsg.GameState;
 
 public class BohnanzaState extends GameState {
     private int turn; //0 = player 1, 1 = player 2, etc.
+    private int timesThroughDeck = 0;
 
     private BohnanzaPlayerState[] playerList = new BohnanzaPlayerState[4];
 
@@ -99,6 +100,8 @@ public class BohnanzaState extends GameState {
     public Deck getTradeDeck(){return tradeDeck;}
     public Deck getDiscardDeck(){return discardDeck;}
     public int getPhase(){return phase;}
+    public int getTimesThroughDeck(){return timesThroughDeck;}
+    public void setTimesThroughDeck(){timesThroughDeck++;}
     public void setTurn(int newTurn){this.turn = newTurn; }
     public void setPhase(int newPhase){this.phase = newPhase;}
 
