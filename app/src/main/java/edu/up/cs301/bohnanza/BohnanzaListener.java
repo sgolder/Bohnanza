@@ -133,6 +133,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
                 Log.i("Field Pressed", "Player Hand");
             }
+            origin = state.getPlayerList()[playerId].getHand();
         }
         //user touches in player2
         else if(view.equals(player2View)) {
@@ -176,6 +177,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             else if(yPos > 3*height/4+25) {
                 Log.i("Field Pressed", "Player Hand");
             }
+            origin = state.getPlayerList()[playerId].getHand();
         }
         //user touches in player3
         else if(view.equals(player3View)) {
@@ -219,6 +221,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             else if(yPos > 3*height/4+25) {
                 Log.i("Field Pressed", "Player Hand");
             }
+            origin = state.getPlayerList()[playerId].getHand();
         }
         //user touches player4
         else if(view.equals(player4View)) {
@@ -262,6 +265,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             else if(yPos > 3*height/4+25) {
                 Log.i("Field Pressed", "Player Hand");
             }
+            origin = state.getPlayerList()[playerId].getHand();
         }
         else if(view.equals(handView)) {
             if(yPos < height/7) {
