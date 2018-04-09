@@ -76,8 +76,19 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         if(action instanceof PlantBean) {
             PlantBean plantBean = (PlantBean) action;
-            plantBean(thisPlayerIdx, plantBean.getField(),
-                   plantBean.getOrigin());
+            if(plantBean.getOrigin() == 0){
+                plantBean(thisPlayerIdx, plantBean.getField(),
+                        state.getPlayerList()[thisPlayerIdx].getHand());
+            }
+            else if (plantBean.getOrigin() == 1){
+                Deck cardToTrade = new Deck();
+                state.getTradeDeck().moveBottomCardTo(cardToTrade);
+                plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade);
+            }
+            else{
+                plantBean(thisPlayerIdx, plantBean.getField(), state.getTradeDeck());
+            }
+
             sendAllUpdatedState();
             return true;
         }
@@ -167,6 +178,7 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         else{
             state.getPlayerList()[playerId].setCoins(field.getFieldValue(field));
+
             field.getCards().clear();
             return true;
         }
