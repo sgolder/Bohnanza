@@ -113,6 +113,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 }
                 Log.i("Field Pressed", "Field 2");
             }
+            //user touches field 3
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
                 if(harvesting) {
                     game.sendAction(new HarvestField(humanPlayer, 2));
@@ -122,6 +123,9 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     game.sendAction(new PlantBean(humanPlayer, 2));
                 }
                 Log.i("Field Pressed", "Field 3");
+                if(!state.getPlayerList()[playerId].getHasThirdField()){
+                    game.sendAction(new BuyThirdField(humanPlayer));
+                }
             }
             else if(yPos > 3*height/4+25) {
 
@@ -153,6 +157,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 }
                 Log.i("Field Pressed", "Field 2");
             }
+            //user touches field 3
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
                 if(harvesting) {
                     game.sendAction(new HarvestField(humanPlayer, 2));
@@ -162,6 +167,9 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     game.sendAction(new PlantBean(humanPlayer, 2));
                 }
                 Log.i("Field Pressed", "Field 3");
+                if(!state.getPlayerList()[playerId].getHasThirdField()){
+                    game.sendAction(new BuyThirdField(humanPlayer));
+                }
             }
             else if(yPos > 3*height/4+25) {
                 Log.i("Field Pressed", "Player Hand");
@@ -192,6 +200,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 }
                 Log.i("Field Pressed", "Field 2");
             }
+            //user touches field 3
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
                 if(harvesting) {
                     game.sendAction(new HarvestField(humanPlayer, 2));
@@ -199,6 +208,9 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 }
                 else {
                     game.sendAction(new PlantBean(humanPlayer, 2));
+                }
+                if(!state.getPlayerList()[playerId].getHasThirdField()){
+                    game.sendAction(new BuyThirdField(humanPlayer));
                 }
                 Log.i("Field Pressed", "Field 3");
             }
@@ -231,6 +243,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 }
                 Log.i("Field Pressed", "Field 2");
             }
+            //user touches field 3
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
                 if(harvesting) {
                     game.sendAction(new HarvestField(humanPlayer, 2));
@@ -238,6 +251,9 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 }
                 else {
                     game.sendAction(new PlantBean(humanPlayer, 2));
+                }
+                if(!state.getPlayerList()[playerId].getHasThirdField()){
+                    game.sendAction(new BuyThirdField(humanPlayer));
                 }
                 Log.i("Field Pressed", "Field 3");
             }
