@@ -13,8 +13,10 @@ public class BohnanzaPlayerState {
     private int coins;
     private Deck[] fields = new Deck[3];
     private Deck hand;
+    private Deck toPlant;
     private boolean hasThirdField;
     private int makeOffer;
+    private Card offer = null;
 
     public BohnanzaPlayerState(String playerName) {
         name = playerName;
@@ -25,6 +27,7 @@ public class BohnanzaPlayerState {
         for( int i = 0; i<3; i++ ){
             fields[i] = new Deck();
         }
+        toPlant = new Deck();
     }
 
     /**
@@ -49,6 +52,8 @@ public class BohnanzaPlayerState {
     public Deck getHand() {return hand;}
     public boolean getHasThirdField() {return hasThirdField;}
     public int getMakeOffer() {return makeOffer;}
+    public Card getOffer() {return offer;}
+    public Deck getToPlant() {return toPlant;}
 
     //setter methods
     public void setCoins (int newCoins) {
@@ -65,11 +70,14 @@ public class BohnanzaPlayerState {
     public void setMakeOffer(int newMakeOffer) {
         makeOffer = newMakeOffer;
     }
-    public void setOffer(Card[] offer){
+    public void setOffer(Card initoffer){
+        offer = initoffer;
+        /* Useful for if we make offer a Card[]
         for(int i = 0; i<offer.length; i++){
             hand.getCards().remove(i);
             hand.add(offer[i]);
         }
+        */
     }
 
 }
