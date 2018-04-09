@@ -273,6 +273,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         }
 
         bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
+
     }
 
     //Getters

@@ -41,6 +41,10 @@ public class BohnanzaState extends GameState {
         playerList[2] = new BohnanzaPlayerState("Player 3");
         playerList[3] = new BohnanzaPlayerState("Player 4");
 
+        /*for(int i = 0; i<12; i++) {
+            int[] blackEyedCoins = {2, 4, 5, 6};
+            playerList[0].getHand().getCards().add(new Card(2, "Black-Eyed Bean", blackEyedCoins, 10));
+        }*/
         for(int i = 0; i<4; i++) {
             for(int j = 0; j<5; j++) {
                 mainDeck.moveTopCardTo(playerList[i].getHand());
