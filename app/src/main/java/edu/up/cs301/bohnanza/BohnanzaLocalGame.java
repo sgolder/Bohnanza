@@ -47,7 +47,6 @@ public class BohnanzaLocalGame extends LocalGame {
         }
 
         BohnanzaState stateForPlayer = new BohnanzaState(state, playerID); // copy of state
-        //stateForPlayer.hideDecks(); // put nulls except for visible card
 
         // send the modified copy of the state to the player
         p.sendInfo(stateForPlayer);
@@ -88,10 +87,16 @@ public class BohnanzaLocalGame extends LocalGame {
             sendAllUpdatedState();
             return true;
         }
-        if(action instanceof TurnTwoCards){}
+        if(action instanceof TurnTwoCards){
+            turn2Cards(thisPlayerIdx);
+            sendAllUpdatedState();
+        }
         if(action instanceof StartTrading){}
         if(action instanceof MakeOffer){}
-        if(action instanceof AbstainFromTrading){}
+        if(action instanceof AbstainFromTrading){
+            abstainFromTrading(thisPlayerIdx);
+            sendAllUpdatedState();
+        }
         if(action instanceof DrawThreeCards){
             //ending turn during phase 3, changes phase to 3
             DrawThreeCards drawThreeCards = (DrawThreeCards)action;
