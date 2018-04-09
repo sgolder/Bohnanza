@@ -89,7 +89,13 @@ public class BohnanzaLocalGame extends LocalGame {
         if(action instanceof StartTrading){}
         if(action instanceof MakeOffer){}
         if(action instanceof AbstainFromTrading){}
-        if(action instanceof DrawThreeCards){}
+        if(action instanceof DrawThreeCards){
+            //ending turn during phase 3, changes phase to 3
+            DrawThreeCards drawThreeCards = (DrawThreeCards)action;
+            draw3Cards(thisPlayerIdx);
+            sendAllUpdatedState();
+            return true;
+        }
 
 
         return false;
@@ -149,8 +155,12 @@ public class BohnanzaLocalGame extends LocalGame {
         if (field.size() == 0) {
             return false;
         }
-        field.getCards().clear();
-        return true;
+        else{
+            state.getPlayerList()[playerId].setCoins(field.getFieldValue(field));
+            field.getCards().clear();
+            return true;
+        }
+
     }
 
     /**
