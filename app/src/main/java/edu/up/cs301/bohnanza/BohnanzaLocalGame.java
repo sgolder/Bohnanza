@@ -77,7 +77,7 @@ public class BohnanzaLocalGame extends LocalGame {
         if(action instanceof PlantBean) {
             PlantBean plantBean = (PlantBean) action;
             plantBean(thisPlayerIdx, plantBean.getField(),
-                   state.getPlayerList()[thisPlayerIdx].getHand());
+                   plantBean.getOrigin());
             sendAllUpdatedState();
             return true;
         }
