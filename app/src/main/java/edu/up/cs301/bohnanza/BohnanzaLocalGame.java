@@ -54,8 +54,9 @@ public class BohnanzaLocalGame extends LocalGame {
     }
 
     protected boolean canMove(int playerIdx) {
-        //need to figure out this stuff
-        return false;
+        // Always true because players can harvest or trade
+        // when it's not their turn
+        return true;
     }
 
     protected String checkIfGameOver() {
@@ -74,6 +75,8 @@ public class BohnanzaLocalGame extends LocalGame {
                 PlantBean plantBean = (PlantBean) action;
                 plantBean(thisPlayerIdx, plantBean.getField(),
                         state.getPlayerList()[thisPlayerIdx].getHand());
+                sendAllUpdatedState();
+                return true;
             }
         }
         if(action instanceof HarvestField){}
@@ -112,6 +115,8 @@ public class BohnanzaLocalGame extends LocalGame {
     public boolean plantBean(int playerId, int fieldId,
                              Deck origin) {
         Log.i("LocalGame, plantBean", "PlayerId == "+playerId);
+        //origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
+
         //Check if player's turn
         if (state.getTurn() != playerId) {
             return false;
