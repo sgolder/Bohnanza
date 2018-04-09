@@ -85,6 +85,8 @@ public class BohnanzaLocalGame extends LocalGame {
             HarvestField harvestField = (HarvestField) action;
             harvestField(thisPlayerIdx, state.getPlayerList()[thisPlayerIdx].
                     getField(harvestField.getField()));
+            sendAllUpdatedState();
+            return true;
         }
         if(action instanceof TurnTwoCards){}
         if(action instanceof StartTrading){}
