@@ -30,6 +30,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private BohnanzaHumanPlayer humanPlayer;
     private Game game;
     private boolean harvest = false;
+    private Deck origin; // for planting
 
     private boolean harvesting; // the player intends to harvest
 
@@ -51,6 +52,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         tradeView = initTrade;
         humanPlayer = initHumanPlayer;
         game = initGame;
+        origin = state.getPlayerList()[playerId].getHand();
     }
 
     @Override
@@ -81,7 +83,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
-
         if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) return false;
 
         int yPos = (int)motionEvent.getY();
@@ -99,7 +100,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 0));
+                    game.sendAction(new PlantBean(humanPlayer, 0, origin));
                 }
                 Log.i("Field Pressed", "Field 1");
             }
@@ -110,7 +111,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 1));
+                    game.sendAction(new PlantBean(humanPlayer, 1, origin));
                 }
                 Log.i("Field Pressed", "Field 2");
             }
@@ -121,7 +122,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 2));
+                    game.sendAction(new PlantBean(humanPlayer, 2, origin));
                 }
                 Log.i("Field Pressed", "Field 3");
                 if(!state.getPlayerList()[playerId].getHasThirdField()){
@@ -143,7 +144,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 0));
+                    game.sendAction(new PlantBean(humanPlayer, 0, origin));
                 }
                 Log.i("Field Pressed", "Field 1");
             }
@@ -154,7 +155,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 1));
+                    game.sendAction(new PlantBean(humanPlayer, 1, origin));
                 }
                 Log.i("Field Pressed", "Field 2");
             }
@@ -165,7 +166,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 2));
+                    game.sendAction(new PlantBean(humanPlayer, 2, origin));
                 }
                 Log.i("Field Pressed", "Field 3");
                 if(!state.getPlayerList()[playerId].getHasThirdField()){
@@ -186,7 +187,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 0));
+                    game.sendAction(new PlantBean(humanPlayer, 0, origin));
                 }
                 Log.i("Field Pressed", "Field 1");
             }
@@ -197,7 +198,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 1));
+                    game.sendAction(new PlantBean(humanPlayer, 1, origin));
                 }
                 Log.i("Field Pressed", "Field 2");
             }
@@ -208,7 +209,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 2));
+                    game.sendAction(new PlantBean(humanPlayer, 2, origin));
                 }
                 if(!state.getPlayerList()[playerId].getHasThirdField()){
                     game.sendAction(new BuyThirdField(humanPlayer));
@@ -229,7 +230,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 0));
+                    game.sendAction(new PlantBean(humanPlayer, 0, origin));
                 }
                 Log.i("Field Pressed", "Field 1");
             }
@@ -240,7 +241,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 1));
+                    game.sendAction(new PlantBean(humanPlayer, 1, origin));
                 }
                 Log.i("Field Pressed", "Field 2");
             }
@@ -251,7 +252,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     harvesting = false;
                 }
                 else {
-                    game.sendAction(new PlantBean(humanPlayer, 2));
+                    game.sendAction(new PlantBean(humanPlayer, 2, origin));
                 }
                 if(!state.getPlayerList()[playerId].getHasThirdField()){
                     game.sendAction(new BuyThirdField(humanPlayer));
@@ -275,9 +276,13 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         }
         else if(view.equals(tradeView)) {
             if(tradeView.getCard1Rect().contains(xPos, yPos)) {
+                origin = new Deck();
+                state.getTradeDeck().moveBottomCardTo(origin);
                 Log.i("Trade Pressed", "Card 1");
             }
             else if(tradeView.getCard2Rect().contains(xPos,yPos)) {
+                origin = new Deck();
+                state.getTradeDeck().moveTopCardTo(origin);
                 Log.i("Trade Pressed", "Card 2");
             }
         }

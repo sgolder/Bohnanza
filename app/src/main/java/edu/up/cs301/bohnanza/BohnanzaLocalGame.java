@@ -133,19 +133,26 @@ public class BohnanzaLocalGame extends LocalGame {
 
         //Check if player's turn
         if (state.getTurn() != playerId) {
+            //TODO: figure out to to check for a trade
             return false;
         }
+        //Check if the origin deck has something to plant
         if (origin.size() == 0) {
             return false;
         }
+        //Plant if field is empty and/or purchased
         if (state.getPlayerList()[playerId].getField(fieldId).size() == 0) {
-            origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
+            if( fieldId == 2 &&
+                    !(state.getPlayerList()[playerId].getHasThirdField())) {
+                return false; // cannot plant if third field isn't purchased
+            }
+            origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
             return true;
         }
         //check if card to be planted is the same as current bean in the field
         else if (state.getPlayerList()[playerId].getField(fieldId).peekAtTopCard().equals
                 (origin.peekAtTopCard())) {
-            origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
+            origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
             return true;
         }
         return false;
