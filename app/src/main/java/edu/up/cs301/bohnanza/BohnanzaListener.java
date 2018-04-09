@@ -105,7 +105,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         int height = view.getHeight();
         cardPositions = handView.getCardPositions();
 
-        //user touches in player1
+        //user touches on player1
         if(view.equals(player1View)) {
             tradeView.setActiveCard(0);
             Log.i("View Pressed", "Player 1 View");
