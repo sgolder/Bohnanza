@@ -219,29 +219,57 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
-        if(state.getPhase() == 0) {
+        else if(state.getPhase() == 0 && state.getTurn() == playerNum) {
             button2.setText("Turn 2 Cards");
             button2.setVisibility(View.VISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
-        else if(state.getPhase() == 1 && state.getTradeDeck().getCards().size() == 0) {
+        else if(state.getPhase() == 0 && state.getTurn() != playerNum) {
+            button2.setVisibility(View.INVISIBLE);
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+        }
+        else if(state.getPhase() == 1 && state.getTradeDeck().getCards().size() == 0 &&
+                state.getTurn() == playerNum) {
             button2.setText("Draw 3 Cards");
+            button2.setVisibility(View.VISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
             state.setPhase(2);
         }
-        else if(state.getPhase() == 1) {
+        else if(state.getPhase() == 1 && state.getTradeDeck().getCards().size() == 0 &&
+                state.getTurn() != playerNum) {
+            button2.setVisibility(View.INVISIBLE);
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+            state.setPhase(2);
+        }
+        else if(state.getPhase() == 1 && state.getTurn() == playerNum) {
             button2.setText("Start Trading");
+            button2.setVisibility(View.VISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
-        else if(state.getPhase() == 2) {
+        else if(state.getPhase() == 1 && state.getTurn() != playerNum) {
+            button2.setVisibility(View.INVISIBLE);
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+        }
+        else if(state.getPhase() == 2 && state.getTurn() == playerNum) {
             button2.setText("Make Offer");
             button3.setText("Pass");
             button4.setText("Draw 3 Cards");
+            button2.setVisibility(View.VISIBLE);
             button3.setVisibility(View.VISIBLE);
             button4.setVisibility(View.VISIBLE);
+        }
+        else if(state.getPhase() == 2 && state.getTurn() != playerNum) {
+            button2.setText("Make Offer");
+            button3.setText("Pass");
+            button2.setVisibility(View.VISIBLE);
+            button3.setVisibility(View.VISIBLE);
+            button4.setVisibility(View.INVISIBLE);
         }
 
         bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
