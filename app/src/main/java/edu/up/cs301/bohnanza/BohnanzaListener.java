@@ -77,6 +77,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
             //user presses Draw 3 Cards button
             else if(buttonLabel.equalsIgnoreCase("Draw 3 Cards")) {
+                game.sendAction(new DrawThreeCards(humanPlayer));
                 Log.i("Button Pressed", buttonLabel);
             }
             //user presses Pass button

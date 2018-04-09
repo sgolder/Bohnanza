@@ -214,10 +214,22 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             tradeView.setCard2Bean(cardImages[state.getTradeDeck().getCards().get(1).getBeanIdx()]);
         }
 
-        if(state.getPhase() == 0) {
-            button2.setText("Turn 2 Cards");
+        if(state.getPhase() == -1) {
+            button2.setVisibility(View.INVISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
+        }
+        if(state.getPhase() == 0) {
+            button2.setText("Turn 2 Cards");
+            button2.setVisibility(View.VISIBLE);
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+        }
+        else if(state.getPhase() == 1 && state.getTradeDeck().getCards().size() == 0) {
+            button2.setText("Draw 3 Cards");
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+            state.setPhase(2);
         }
         else if(state.getPhase() == 1) {
             button2.setText("Start Trading");
@@ -233,7 +245,6 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         }
 
         bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
-
     }
 
     //Getters
