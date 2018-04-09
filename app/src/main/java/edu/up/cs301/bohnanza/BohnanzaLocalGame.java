@@ -75,16 +75,17 @@ public class BohnanzaLocalGame extends LocalGame {
             return true;
         }
         if(action instanceof PlantBean) {
-            // Initial planting in phase 0
-            if( state.getPhase() == 0 ) {
-                PlantBean plantBean = (PlantBean) action;
-                plantBean(thisPlayerIdx, plantBean.getField(),
-                        state.getPlayerList()[thisPlayerIdx].getHand());
-                sendAllUpdatedState();
-                return true;
-            }
+            PlantBean plantBean = (PlantBean) action;
+            plantBean(thisPlayerIdx, plantBean.getField(),
+                   state.getPlayerList()[thisPlayerIdx].getHand());
+            sendAllUpdatedState();
+            return true;
         }
-        if(action instanceof HarvestField){}
+        if(action instanceof HarvestField){
+            HarvestField harvestField = (HarvestField) action;
+            harvestField(thisPlayerIdx, state.getPlayerList()[thisPlayerIdx].
+                    getField(harvestField.getField()));
+        }
         if(action instanceof TurnTwoCards){}
         if(action instanceof StartTrading){}
         if(action instanceof MakeOffer){}

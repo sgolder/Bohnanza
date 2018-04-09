@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import edu.up.cs301.actions.DrawThreeCards;
 import edu.up.cs301.actions.BuyThirdField;
+import edu.up.cs301.actions.HarvestField;
 import edu.up.cs301.actions.PlantBean;
 import edu.up.cs301.game.Game;
 
@@ -29,10 +30,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private BohnanzaHumanPlayer humanPlayer;
     private Game game;
 
-
-    // 0-3: correspond to players index, 4:
-    private int area;
-    private int section;
+    private boolean harvesting; // the player intends to harvest
 
     private BohnanzaState state;
     private int playerId;
@@ -61,6 +59,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             buttonLabel = (String)((Button) view).getText();
             //user presses Harvest Button
             if(buttonLabel.equalsIgnoreCase("Harvest")) {
+                harvesting = true;
                 Log.i("Button Pressed", buttonLabel);
             }
             //user presses Make Offer button
@@ -94,24 +93,38 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             Log.i("View Pressed", "Player 1 View");
             //user touches field 1
             if(yPos > height/20+20 && yPos < 11*height/40+25) {
-                area = 0;
-                section = 0;
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 0));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 0));
+                }
                 Log.i("Field Pressed", "Field 1");
             }
             //user touches field 2
             else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
-                area = 0;
-                section = 1;
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 1));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 1));
+                }
                 Log.i("Field Pressed", "Field 2");
             }
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
-                area = 0;
-                section = 2;
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 2));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 2));
+                }
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
-                area = 0;
-                section = 3;
+
                 Log.i("Field Pressed", "Player Hand");
             }
         }
@@ -120,13 +133,34 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             Log.i("View Pressed", "Player 2 View");
             //user touches field 1
             if(yPos > height/20+20 && yPos < 11*height/40+25) {
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 0));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 0));
+                }
                 Log.i("Field Pressed", "Field 1");
             }
             //user touches field 2
             else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 1));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 1));
+                }
                 Log.i("Field Pressed", "Field 2");
             }
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 2));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 2));
+                }
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
@@ -138,13 +172,34 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             Log.i("View Pressed", "Player 3 View");
             //user touches field 1
             if(yPos > height/20+20 && yPos < 11*height/40+25) {
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 0));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 0));
+                }
                 Log.i("Field Pressed", "Field 1");
             }
             //user touches field 2
             else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 1));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 1));
+                }
                 Log.i("Field Pressed", "Field 2");
             }
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 2));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 2));
+                }
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
@@ -156,13 +211,34 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             Log.i("View Pressed", "Player 4 View");
             //user touches field 1
             if(yPos > height/20+20 && yPos < 11*height/40+25) {
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 0));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 0));
+                }
                 Log.i("Field Pressed", "Field 1");
             }
             //user touches field 2
             else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 1));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 1));
+                }
                 Log.i("Field Pressed", "Field 2");
             }
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
+                if(harvesting) {
+                    game.sendAction(new HarvestField(humanPlayer, 2));
+                    harvesting = false;
+                }
+                else {
+                    game.sendAction(new PlantBean(humanPlayer, 2));
+                }
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
@@ -198,25 +274,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             return false;
         }
 
-
-        // If it's not their turn, they can only offer or harvest
-        if( state.getTurn() != playerId ) {
-            // Trading section
-            if( state.getPhase() == 2 ) {
-
-            }
-            // Harvesting
-        }
-        // Planting during turn
-        // Should I check for other situations of planting too?
-        else if( state.getPhase() == 0 ) {
-            Log.i("HumanP, onTouch", "Phase == 0");
-            //TODO: get field index from touch
-            int fieldNum = 0; // get field index from touch
-
-            //How am I going to access the game and humanPlayer?
-            game.sendAction(new PlantBean(humanPlayer, fieldNum));
-        }
         return true;
     }
 
