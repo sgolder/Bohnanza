@@ -9,10 +9,12 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.actions.AbstainFromTrading;
 import edu.up.cs301.actions.DrawThreeCards;
 import edu.up.cs301.actions.BuyThirdField;
 import edu.up.cs301.actions.HarvestField;
 import edu.up.cs301.actions.PlantBean;
+import edu.up.cs301.actions.TurnTwoCards;
 import edu.up.cs301.game.Game;
 
 /**
@@ -79,10 +81,12 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
             //user presses Pass button
             else if(buttonLabel.equalsIgnoreCase("Pass")) {
+                game.sendAction(new AbstainFromTrading(humanPlayer));
                 Log.i("Button Pressed", buttonLabel);
             }
             //user presses Turn 2 Cards button
             else if(buttonLabel.equalsIgnoreCase("Turn 2 Cards")) {
+                game.sendAction(new TurnTwoCards(humanPlayer));
                 Log.i("Button Pressed", buttonLabel);
             }
         }

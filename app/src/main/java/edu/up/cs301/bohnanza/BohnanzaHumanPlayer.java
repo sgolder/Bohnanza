@@ -192,6 +192,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
                 hand.add(cardImages[handIdx[j]]);
             }
             playerViews[i].setHandCards(hand);
+            playerViews[i].setCoins(state.getPlayerList()[i].getCoins());
             playerViews[i].setThirdField(state.getPlayerList()[i].getHasThirdField());
         }
 
@@ -200,7 +201,6 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             hand.add(cardImages[state.getPlayerList()[playerNum].getHand().getCards().get(i).getBeanIdx()]);
         }
         handView.setHand(hand);
-
         if(state.getTradeDeck().getCards().size() == 0) {
             tradeView.setCard1Bean(null);
             tradeView.setCard2Bean(null);
@@ -209,7 +209,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             tradeView.setCard1Bean(cardImages[state.getTradeDeck().getCards().get(0).getBeanIdx()]);
             tradeView.setCard2Bean(null);
         }
-        else if(state.getTradeDeck().getCards().size() == 1) {
+        else if(state.getTradeDeck().getCards().size() == 2) {
             tradeView.setCard1Bean(cardImages[state.getTradeDeck().getCards().get(0).getBeanIdx()]);
             tradeView.setCard2Bean(cardImages[state.getTradeDeck().getCards().get(1).getBeanIdx()]);
         }
@@ -233,7 +233,6 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         }
 
         bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
-        //use to get coins: state.getPlayerList()[0].getCoins();
 
     }
 
