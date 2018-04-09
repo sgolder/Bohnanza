@@ -119,7 +119,7 @@ public class Deck implements Serializable {
      * @param targetDeck
      * 		the deck to which the card should be moved
      */
-    public void moveFirstCardTo(Deck targetDeck) {
+    public void moveBottomCardTo(Deck targetDeck) {
 
         // will hold the card
         Card c = null;
