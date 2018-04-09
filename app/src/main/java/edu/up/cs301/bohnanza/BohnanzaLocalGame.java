@@ -75,8 +75,19 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         if(action instanceof PlantBean) {
             PlantBean plantBean = (PlantBean) action;
-            plantBean(thisPlayerIdx, plantBean.getField(),
-                   plantBean.getOrigin());
+            if(plantBean.getOrigin() == 0){
+                plantBean(thisPlayerIdx, plantBean.getField(),
+                        state.getPlayerList()[thisPlayerIdx].getHand());
+            }
+            else if (plantBean.getOrigin() == 1){
+                Deck cardToTrade = new Deck();
+                state.getTradeDeck().moveBottomCardTo(cardToTrade);
+                plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade);
+            }
+            else{
+                plantBean(thisPlayerIdx, plantBean.getField(), state.getTradeDeck());
+            }
+
             sendAllUpdatedState();
             return true;
         }
@@ -134,7 +145,6 @@ public class BohnanzaLocalGame extends LocalGame {
     public boolean plantBean(int playerId, int fieldId,
                              Deck origin) {
         Log.i("LocalGame, plantBean", "PlayerId == "+playerId);
-        //origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
 
         //Check if player's turn
         if (state.getTurn() != playerId) {
@@ -172,10 +182,12 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         else{
             state.getPlayerList()[playerId].setCoins(field.getFieldValue(field));
-            field.getCards().clear();
+            for(int i=0; i<field.getFieldValue(field); i++){
+                field.getCards().remove(i);
+            }
+            field.moveTopCardTo(state.getDiscardDeck());
             return true;
         }
-
     }
 
     /**

@@ -144,6 +144,25 @@ public class Deck implements Serializable {
     }
 
     /**
+     * move all cards in the current deck to a another deck by repeated moving
+     * a single card from top to top
+     *
+     * @param target
+     * 		the deck that will get the cards
+     */
+    public void moveAllCardsTo(Deck target) {
+        // if the source and target are the same, ignore
+        if (this == target) {
+            return;
+        }
+
+        // keep moving cards until the current deck is empty
+        while (size() > 0) {
+            moveTopCardTo(target);
+        }
+    }
+
+    /**
      * @return
      * 		the top card in the deck, without removing it; null
      * 		if the deck was empty

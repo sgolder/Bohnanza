@@ -31,7 +31,9 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private ArrayList<RectF> cardPositions = new ArrayList<>();
     private BohnanzaHumanPlayer humanPlayer;
     private Game game;
-    private Deck origin; // for planting
+    private boolean harvest = false;
+    // 0: hand, 1: trade[0], 2: trade[1]
+    private int origin = 0;
 
     private boolean harvesting = false; // the player intends to harvest
 
@@ -92,17 +94,12 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if( origin == null ) {
-            Log.i("Bohnanza Listener", "Origin is null");
-            origin = state.getPlayerList()[playerId].getHand();
-        }
         if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) return false;
 
         int yPos = (int)motionEvent.getY();
         int xPos = (int)motionEvent.getX();
         int height = view.getHeight();
         cardPositions = handView.getCardPositions();
-
 
         //user touches in player1
         if(view.equals(player1View)) {
@@ -147,7 +144,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
                 Log.i("Field Pressed", "Player Hand");
             }
-            origin = state.getPlayerList()[playerId].getHand();
+            origin = 0;
         }
         //user touches in player2
         else if(view.equals(player2View)) {
@@ -191,7 +188,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             else if(yPos > 3*height/4+25) {
                 Log.i("Field Pressed", "Player Hand");
             }
-            origin = state.getPlayerList()[playerId].getHand();
+            origin = 0;
         }
         //user touches in player3
         else if(view.equals(player3View)) {
@@ -235,7 +232,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             else if(yPos > 3*height/4+25) {
                 Log.i("Field Pressed", "Player Hand");
             }
-            origin = state.getPlayerList()[playerId].getHand();
+            origin = 0;
         }
         //user touches player4
         else if(view.equals(player4View)) {
@@ -279,7 +276,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             else if(yPos > 3*height/4+25) {
                 Log.i("Field Pressed", "Player Hand");
             }
-            origin = state.getPlayerList()[playerId].getHand();
+            origin = 0;
         }
         else if(view.equals(handView)) {
             if(yPos < height/7) {
@@ -294,13 +291,11 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         }
         else if(view.equals(tradeView)) {
             if(tradeView.getCard1Rect().contains(xPos, yPos)) {
-                origin = new Deck();
-                state.getTradeDeck().moveBottomCardTo(origin);
+                origin = 1;
                 Log.i("Trade Pressed", "Card 1");
             }
             else if(tradeView.getCard2Rect().contains(xPos,yPos)) {
-                origin = new Deck();
-                state.getTradeDeck().moveTopCardTo(origin);
+                origin = 2;
                 Log.i("Trade Pressed", "Card 2");
             }
         }
@@ -319,12 +314,4 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
     public void setState( BohnanzaState initstate ) { state = initstate; }
     public void setGame( Game initgame ) { game = initgame; }
-    public void initOrigin( ) {
-        Log.i("BListener", "initOrigin");
-        if( origin == null ) {
-            Log.i("BListener", "origin is no longer null");
-            origin = state.getPlayerList()[playerId].getHand();
-            Log.i("BListener", "Hand[0]" + origin.peekAtTopCard().getBeanName());
-        }
-    }
 }
