@@ -2,6 +2,11 @@ package edu.up.cs301.bohnanza;
 
 import java.lang.reflect.Field;
 
+import edu.up.cs301.actions.AbstainFromTrading;
+import edu.up.cs301.actions.DrawThreeCards;
+import edu.up.cs301.actions.HarvestField;
+import edu.up.cs301.actions.PlantBean;
+import edu.up.cs301.actions.TurnTwoCards;
 import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.infoMsg.GameInfo;
 
@@ -64,28 +69,29 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         BohnanzaPlayerState myInfo = savedState.getPlayerList()[playerNum];
 
         //plants from hand. Phase
-        plantBean(myInfo.getHand(), myInfo.getAllFields());
+        plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
 
         //turn two cards and plant them
-        savedState.turn2Cards(playerNum);
-        plantBean(savedState.getTradeDeck(), myInfo.getAllFields());
+        game.sendAction(new TurnTwoCards(this));
+        plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+        plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
 
         //end turn by drawing 3 cards
-        savedState.draw3Cards(playerNum);
+        game.sendAction(new DrawThreeCards(this));
 
         //when not turn
-        savedState.abstainFromTrading(playerNum);
+        game.sendAction(new AbstainFromTrading(this));
 
     }
 
-    protected void plantBean(Deck beans, Deck[] fields) {
+    protected void plantBean(Deck beans, Deck[] fields, int origin) {
         //plant the bean
         int size = beans.size();
         //check fields
         int target;
         for (int i = 0; i < size; i++){
             target = findTargetField(fields, beans.peekAtTopCard());
-            savedState.plantBean(playerNum, target, beans);
+            game.sendAction(new PlantBean(this, target, origin));
         }
     }
 
@@ -114,7 +120,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
     protected int dumbHarvest(Deck[] fields){
         for (int i=0; i<fields.length; i++){
             if(fields[i].size()>1){
-                savedState.harvestField(playerNum, fields[i]);
+                game.sendAction(new HarvestField(this, i));
                 return i;
             }
             else
