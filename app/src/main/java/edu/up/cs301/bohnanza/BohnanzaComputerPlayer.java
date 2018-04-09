@@ -73,7 +73,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
 
         //turn two cards and plant them
         game.sendAction(new TurnTwoCards(this));
-        plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+        plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 2);
         plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
 
         //end turn by drawing 3 cards
