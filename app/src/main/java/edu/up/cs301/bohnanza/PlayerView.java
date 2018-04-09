@@ -33,6 +33,7 @@ public class PlayerView extends SurfaceView {
     private ArrayList<Bitmap> handCards = new ArrayList<>();
     private int backGroundColor;
     private String playerName = "";
+    private Boolean thirdField = false;
 
     public PlayerView(Context context) {
         super(context);
@@ -95,6 +96,11 @@ public class PlayerView extends SurfaceView {
         invalidate();
     }
 
+    public void setThirdField (Boolean initThirdField) {
+        thirdField = initThirdField;
+        invalidate();
+    }
+
     @Override
     public void onDraw(Canvas canvas) {
         width = canvas.getWidth();
@@ -142,10 +148,19 @@ public class PlayerView extends SurfaceView {
             canvas.drawBitmap(field2Bean, null, field2, null);
             canvas.drawText(""+numField2Bean, width/2+40, 9*height/20, textPaint);
         }
-        if(numField3Bean != 0) {
-            canvas.drawBitmap(field3Bean, null, field3, null);
-            canvas.drawText(""+numField3Bean, width/2+40, 14*height/20, textPaint);
+
+        if(!thirdField) {
+            textPaint.setTextSize(40);
+            textPaint.setColor(Color.rgb(252, 255, 102));
+            canvas.drawText("BUY THIRD BEAN FIELD", width/10-10, 13*height/20+15, textPaint);
         }
+        else {
+            if(numField3Bean != 0) {
+                canvas.drawBitmap(field3Bean, null, field3, null);
+                canvas.drawText("" + numField3Bean, width / 2 + 40, 14 * height / 20, textPaint);
+            }
+        }
+
 
         if(handCards.size() != 0) {
             for(int i = 0; i<handCards.size(); i++){

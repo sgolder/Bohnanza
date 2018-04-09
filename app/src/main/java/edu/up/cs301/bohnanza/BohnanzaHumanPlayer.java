@@ -211,6 +211,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
                 hand.add(cardImages[handIdx[j]]);
             }
             playerViews[i].setHandCards(hand);
+            playerViews[i].setThirdField(state.getPlayerList()[i].getHasThirdField());
         }
 
         ArrayList<Bitmap> hand = new ArrayList<>();
@@ -219,9 +220,6 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         }
         handView.setHand(hand);
 
-        //tradeView.setCard1Bean(cardImages[7]);
-        //tradeView.setCard2Bean(cardImages[0]);
-        //tradeView.setActiveCard(1);
         if(state.getTradeDeck().getCards().size() == 0) {
             tradeView.setCard1Bean(null);
             tradeView.setCard2Bean(null);
