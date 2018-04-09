@@ -293,10 +293,16 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         else if(view.equals(tradeView)) {
             if(tradeView.getCard1Rect().contains(xPos, yPos)) {
                 origin = 1;
+                if(state.getTurn() == playerId) {
+                    tradeView.setActiveCard(1);
+                }
                 Log.i("Trade Pressed", "Card 1");
             }
             else if(tradeView.getCard2Rect().contains(xPos,yPos)) {
                 origin = 2;
+                if(state.getTurn() == playerId) {
+                    tradeView.setActiveCard(2);
+                }
                 Log.i("Trade Pressed", "Card 2");
             }
         }

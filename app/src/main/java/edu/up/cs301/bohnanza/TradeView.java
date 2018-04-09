@@ -84,10 +84,10 @@ public class TradeView extends SurfaceView {
         selectPaint.setStyle(Paint.Style.STROKE);
         selectPaint.setStrokeWidth(5.0f);
 
-        if(activeCard == 1) {
+        if(activeCard == 1 && card1Bean != null) {
             canvas.drawRect(2*width/10-10, height/10-10, 5*width/10+10, 9*height/10+10, selectPaint);
         }
-        else if(activeCard == 2) {
+        else if(activeCard == 2 && card2Bean != null) {
             canvas.drawRect(6*width/10-10, height/10-10, 9*width/10+10, 9*height/10+10, selectPaint);
         }
     }
