@@ -177,8 +177,10 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         else{
             state.getPlayerList()[playerId].setCoins(field.getFieldValue(field));
-
-            field.getCards().clear();
+            for(int i=0; i<field.getFieldValue(field); i++){
+                field.getCards().remove(i);
+            }
+            field.moveTopCardTo(state.getDiscardDeck());
             return true;
         }
     }

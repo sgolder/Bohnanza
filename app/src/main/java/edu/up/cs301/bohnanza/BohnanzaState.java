@@ -97,6 +97,7 @@ public class BohnanzaState extends GameState {
     public int getTurn(){return turn;}
     public Deck getMainDeck(){return mainDeck;}
     public Deck getTradeDeck(){return tradeDeck;}
+    public Deck getDiscardDeck(){return discardDeck;}
     public int getPhase(){return phase;}
     public void setTurn(int newTurn){this.turn = newTurn; }
     public void setPhase(int newPhase){this.phase = newPhase;}
