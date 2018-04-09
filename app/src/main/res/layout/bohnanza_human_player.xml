@@ -81,19 +81,19 @@
                 android:text="Harvest" />
 
             <Button
-                android:id="@+id/buttonStartTrading"
+                android:id="@+id/button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start Trading" />
 
             <Button
-                android:id="@+id/buttonMakeOffer"
+                android:id="@+id/button3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Make Offer" />
 
             <Button
-                android:id="@+id/buttonEndTurn"
+                android:id="@+id/button4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="End Turn" />

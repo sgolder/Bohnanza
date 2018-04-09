@@ -26,6 +26,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private ArrayList<RectF> cardPositions = new ArrayList<>();
     private BohnanzaHumanPlayer humanPlayer;
     private Game game;
+    private boolean harvest = false;
 
 
     // 0-3: correspond to players index, 4:
