@@ -256,6 +256,7 @@ public class Deck implements Serializable {
                 fieldVal = 0;
             }
             return fieldVal;
+
         }
 
         else {
