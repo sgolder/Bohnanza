@@ -82,10 +82,18 @@ public class BohnanzaLocalGame extends LocalGame {
             else if (plantBean.getOrigin() == 1){
                 Deck cardToTrade = new Deck();
                 state.getTradeDeck().moveBottomCardTo(cardToTrade);
-                plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade);
+                if(! (plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade)) ) {
+                    cardToTrade.moveBottomCardTo(state.getTradeDeck());
+                    return false;
+                }
             }
             else{
-                plantBean(thisPlayerIdx, plantBean.getField(), state.getTradeDeck());
+                Deck cardToTrade = new Deck();
+                state.getTradeDeck().moveBottomCardTo(cardToTrade);
+                if(! (plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade)) ) {
+                    cardToTrade.moveBottomCardTo(state.getTradeDeck());
+                    return false;
+                }
             }
 
             sendAllUpdatedState();
@@ -110,7 +118,6 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         if(action instanceof DrawThreeCards){
             //ending turn during phase 3, changes phase to 3
-            DrawThreeCards drawThreeCards = (DrawThreeCards)action;
             draw3Cards(thisPlayerIdx);
             sendAllUpdatedState();
             return true;
@@ -161,14 +168,14 @@ public class BohnanzaLocalGame extends LocalGame {
                     !(state.getPlayerList()[playerId].getHasThirdField())) {
                 return false; // cannot plant if third field isn't purchased
             }
-            origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
+            origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
             if( state.getPhase() == -1 ) state.setPhase(0);
             return true;
         }
         //check if card to be planted is the same as current bean in the field
         else if (state.getPlayerList()[playerId].getField(fieldId).peekAtTopCard().equals
                 (origin.peekAtTopCard())) {
-            origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
+            origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
             if( state.getPhase() == -1 ) state.setPhase(0);
             return true;
         }
