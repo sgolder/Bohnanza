@@ -33,7 +33,7 @@ public class BohnanzaState extends GameState {
         tradeDeck = new Deck();
 
         turn = 0;
-        phase = 0;
+        phase = -1;
 
         playerList[0] = new BohnanzaPlayerState("Player 1");
         playerList[1] = new BohnanzaPlayerState("Player 2");

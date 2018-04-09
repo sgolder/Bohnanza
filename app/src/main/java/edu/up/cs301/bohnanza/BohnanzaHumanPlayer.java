@@ -141,7 +141,6 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         drawGUI();
         myListener.setState( state );
         myListener.setGame( game );
-        myListener.initOrigin();
     }
 
     public void baseLayout(Canvas canvas) {

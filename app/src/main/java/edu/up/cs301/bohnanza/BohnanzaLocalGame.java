@@ -157,12 +157,14 @@ public class BohnanzaLocalGame extends LocalGame {
                 return false; // cannot plant if third field isn't purchased
             }
             origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
+            if( state.getPhase() == -1 ) state.setPhase(0);
             return true;
         }
         //check if card to be planted is the same as current bean in the field
         else if (state.getPlayerList()[playerId].getField(fieldId).peekAtTopCard().equals
                 (origin.peekAtTopCard())) {
             origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
+            if( state.getPhase() == -1 ) state.setPhase(0);
             return true;
         }
         return false;
@@ -180,7 +182,7 @@ public class BohnanzaLocalGame extends LocalGame {
             for(int i=0; i<field.getFieldValue(field); i++){
                 field.getCards().remove(i);
             }
-            field.moveTopCardTo(state.getDiscardDeck());
+            field.moveAllCardsTo(state.getDiscardDeck());
             return true;
         }
     }
@@ -252,8 +254,8 @@ public class BohnanzaLocalGame extends LocalGame {
                 state.setTurn(0);
             } else {
                 state.setTurn(state.getTurn() + 1);
-
             }
+            state.setPhase( -1 );
             return true;
         } else {
             return false;
