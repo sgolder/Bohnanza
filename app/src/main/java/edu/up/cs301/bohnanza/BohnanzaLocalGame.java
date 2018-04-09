@@ -68,7 +68,12 @@ public class BohnanzaLocalGame extends LocalGame {
         Log.i("LocalGame, makeMove", "");
         int thisPlayerIdx = getPlayerIdx(action.getPlayer());
 
-        if(action instanceof BuyThirdField){}
+        if(action instanceof BuyThirdField){
+            BuyThirdField buyThirdField = (BuyThirdField) action;
+            buyThirdField(thisPlayerIdx);
+            sendAllUpdatedState();
+            return true;
+        }
         if(action instanceof PlantBean) {
             // Initial planting in phase 0
             if( state.getPhase() == 0 ) {

@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.actions.BuyThirdField;
 import edu.up.cs301.actions.PlantBean;
 import edu.up.cs301.game.Game;
 
@@ -71,6 +72,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
             //user presses End Turn button
             else if(buttonLabel.equalsIgnoreCase("End Turn")) {
+
                 Log.i("Button Pressed", buttonLabel);
             }
         }
@@ -106,6 +108,10 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 area = 0;
                 section = 2;
                 Log.i("Field Pressed", "Field 3");
+                if(!state.getPlayerList()[playerId].getHasThirdField()){
+                    game.sendAction(new BuyThirdField(humanPlayer));
+                }
+
             }
             else if(yPos > 3*height/4+25) {
                 area = 0;
