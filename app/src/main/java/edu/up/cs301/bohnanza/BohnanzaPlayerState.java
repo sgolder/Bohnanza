@@ -49,7 +49,7 @@ public class BohnanzaPlayerState {
     public int getMakeOffer() {return makeOffer;}
 
     //setter methods
-    public void setCoins (int newCoins) {coins = newCoins;}
+    public void setCoins (int newCoins) {coins += newCoins;}
     public void setHasThirdField (boolean newHasThirdField) {
         hasThirdField = newHasThirdField;
     }

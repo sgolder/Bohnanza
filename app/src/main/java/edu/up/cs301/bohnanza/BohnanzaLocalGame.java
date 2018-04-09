@@ -68,23 +68,37 @@ public class BohnanzaLocalGame extends LocalGame {
         Log.i("LocalGame, makeMove", "");
         int thisPlayerIdx = getPlayerIdx(action.getPlayer());
 
-        if(action instanceof BuyThirdField){}
-        if(action instanceof PlantBean) {
-            // Initial planting in phase 0
-            if( state.getPhase() == 0 ) {
-                PlantBean plantBean = (PlantBean) action;
-                plantBean(thisPlayerIdx, plantBean.getField(),
-                        state.getPlayerList()[thisPlayerIdx].getHand());
-                sendAllUpdatedState();
-                return true;
-            }
+        if(action instanceof BuyThirdField){
+            BuyThirdField buyThirdField = (BuyThirdField) action;
+            buyThirdField(thisPlayerIdx);
+            sendAllUpdatedState();
+            return true;
         }
-        if(action instanceof HarvestField){}
+        if(action instanceof PlantBean) {
+            PlantBean plantBean = (PlantBean) action;
+            plantBean(thisPlayerIdx, plantBean.getField(),
+                   state.getPlayerList()[thisPlayerIdx].getHand());
+            sendAllUpdatedState();
+            return true;
+        }
+        if(action instanceof HarvestField){
+            HarvestField harvestField = (HarvestField) action;
+            harvestField(thisPlayerIdx, state.getPlayerList()[thisPlayerIdx].
+                    getField(harvestField.getField()));
+            sendAllUpdatedState();
+            return true;
+        }
         if(action instanceof TurnTwoCards){}
         if(action instanceof StartTrading){}
         if(action instanceof MakeOffer){}
         if(action instanceof AbstainFromTrading){}
-        if(action instanceof DrawThreeCards){}
+        if(action instanceof DrawThreeCards){
+            //ending turn during phase 3, changes phase to 3
+            DrawThreeCards drawThreeCards = (DrawThreeCards)action;
+            draw3Cards(thisPlayerIdx);
+            sendAllUpdatedState();
+            return true;
+        }
 
 
         return false;
@@ -144,8 +158,12 @@ public class BohnanzaLocalGame extends LocalGame {
         if (field.size() == 0) {
             return false;
         }
-        field.getCards().clear();
-        return true;
+        else{
+            state.getPlayerList()[playerId].setCoins(field.getFieldValue(field));
+            field.getCards().clear();
+            return true;
+        }
+
     }
 
     /**
