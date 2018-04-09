@@ -191,7 +191,7 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         //check if card to be planted is the same as current bean in the field
         else if (state.getPlayerList()[playerId].getField(fieldId).peekAtTopCard().equals
-                (origin.peekAtTopCard())) {
+                (origin.peekAtBottomCard())) {
             origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
             if( state.getPhase() == -1 ) state.setPhase(0);
             return true;
@@ -300,6 +300,9 @@ public class BohnanzaLocalGame extends LocalGame {
                 state.setTurn(state.getTurn() + 1);
             }
             state.setPhase( -1 );
+            for(int i = 0; i < 4; i++) {
+                state.getPlayerList()[i].setMakeOffer(0);
+            }
             return true;
         } else {
             return false;

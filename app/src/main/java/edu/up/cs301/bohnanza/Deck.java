@@ -176,6 +176,18 @@ public class Deck implements Serializable {
         }
     }
 
+    /**
+     * @return
+     * 		the bottom card in the deck, without removing it; null
+     * 		if the deck was empty
+     */
+    public Card peekAtBottomCard() {
+        synchronized (this.cards) {
+            if (cards.isEmpty()) return null;
+            return cards.get(0);
+        }
+    }
+
     public int size() {
         return cards.size();
     }

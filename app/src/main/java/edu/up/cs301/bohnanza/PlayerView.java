@@ -34,6 +34,8 @@ public class PlayerView extends SurfaceView {
     private int backGroundColor;
     private String playerName = "";
     private Boolean thirdField = false;
+    private int phase = 0;
+    private int offer = 0;
 
     public PlayerView(Context context) {
         super(context);
@@ -101,6 +103,15 @@ public class PlayerView extends SurfaceView {
         invalidate();
     }
 
+    public void setPhase(int initPhase) {
+        phase = initPhase;
+        invalidate();
+    }
+    public void setOffer(int initOffer) {
+        offer = initOffer;
+        invalidate();
+    }
+
     @Override
     public void onDraw(Canvas canvas) {
         width = canvas.getWidth();
@@ -162,9 +173,16 @@ public class PlayerView extends SurfaceView {
         }
 
 
-        if(handCards.size() != 0) {
-            for(int i = 0; i<handCards.size(); i++){
-                canvas.drawBitmap(handCards.get(i), null, new Rect(10+i*width/10, 16*height/20-5, (i+2)*width/10, height-5), null);
+        if(handCards.size() != 0 && phase != 2) {
+            for(int i = handCards.size()-1; i>=0; i--){
+                canvas.drawBitmap(handCards.get(i), null, new Rect((8-i)*width/10, 16*height/20-5, (8-i+2)*width/10-10, height-5), null);
+            }
+        }
+        else if(phase == 2) {
+            if(offer == 1) {
+                textPaint.setTextSize(50);
+                textPaint.setColor(Color.WHITE);
+                canvas.drawText("NOT TRADING", width/5, 18*height/20+15, textPaint);
             }
         }
     }
