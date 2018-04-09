@@ -140,7 +140,6 @@ public class BohnanzaLocalGame extends LocalGame {
     public boolean plantBean(int playerId, int fieldId,
                              Deck origin) {
         Log.i("LocalGame, plantBean", "PlayerId == "+playerId);
-        //origin.moveTopCardTo(state.getPlayerList()[playerId].getField(fieldId));
 
         //Check if player's turn
         if (state.getTurn() != playerId) {
@@ -182,7 +181,6 @@ public class BohnanzaLocalGame extends LocalGame {
             field.getCards().clear();
             return true;
         }
-
     }
 
     /**

@@ -11,7 +11,8 @@ import edu.up.cs301.game.actionMsg.GameAction;
 public class PlantBean extends GameAction{
 
     private int field;
-    private Deck origin;
+    // 0: hand, 1: trade[0], 2: trade[1]
+    private int origin;
 
     public PlantBean(GamePlayer initPlayer, int targetField){
         super(initPlayer);
@@ -19,12 +20,12 @@ public class PlantBean extends GameAction{
     }
 
     public PlantBean(GamePlayer initPlayer, int targetField,
-                     Deck initorigin){
+                     int initorigin){
         super(initPlayer);
         field = targetField;
         origin = initorigin;
     }
 
     public int getField() { return field; }
-    public Deck getOrigin() { return origin; }
+    public int getOrigin() { return origin; }
 }
