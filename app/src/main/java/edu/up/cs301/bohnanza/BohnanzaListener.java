@@ -72,8 +72,16 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             else if(buttonLabel.equalsIgnoreCase("Start Trading")) {
                 Log.i("Button Pressed", buttonLabel);
             }
-            //user presses End Turn button
-            else if(buttonLabel.equalsIgnoreCase("End Turn")) {
+            //user presses Draw 3 Cards button
+            else if(buttonLabel.equalsIgnoreCase("Draw 3 Cards")) {
+                Log.i("Button Pressed", buttonLabel);
+            }
+            //user presses Pass button
+            else if(buttonLabel.equalsIgnoreCase("Pass")) {
+                Log.i("Button Pressed", buttonLabel);
+            }
+            //user presses Turn 2 Cards button
+            else if(buttonLabel.equalsIgnoreCase("Turn 2 Cards")) {
                 Log.i("Button Pressed", buttonLabel);
             }
         }
