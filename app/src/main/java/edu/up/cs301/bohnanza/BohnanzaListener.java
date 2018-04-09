@@ -14,6 +14,7 @@ import edu.up.cs301.actions.DrawThreeCards;
 import edu.up.cs301.actions.BuyThirdField;
 import edu.up.cs301.actions.HarvestField;
 import edu.up.cs301.actions.PlantBean;
+import edu.up.cs301.actions.StartTrading;
 import edu.up.cs301.actions.TurnTwoCards;
 import edu.up.cs301.game.Game;
 
@@ -73,6 +74,8 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
             //user presses Start Trading button
             else if(buttonLabel.equalsIgnoreCase("Start Trading")) {
+                game.sendAction(new StartTrading(humanPlayer));
+                tradeView.setActiveCard(1);
                 Log.i("Button Pressed", buttonLabel);
             }
             //user presses Draw 3 Cards button
@@ -104,6 +107,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
         //user touches in player1
         if(view.equals(player1View)) {
+            tradeView.setActiveCard(0);
             Log.i("View Pressed", "Player 1 View");
             //user touches field 1
             if(yPos > height/20+20 && yPos < 11*height/40+25) {
@@ -149,6 +153,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         }
         //user touches in player2
         else if(view.equals(player2View)) {
+            tradeView.setActiveCard(0);
             Log.i("View Pressed", "Player 2 View");
             //user touches field 1
             if(yPos > height/20+20 && yPos < 11*height/40+25) {
@@ -193,6 +198,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         }
         //user touches in player3
         else if(view.equals(player3View)) {
+            tradeView.setActiveCard(0);
             Log.i("View Pressed", "Player 3 View");
             //user touches field 1
             if(yPos > height/20+20 && yPos < 11*height/40+25) {
@@ -237,6 +243,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         }
         //user touches player4
         else if(view.equals(player4View)) {
+            tradeView.setActiveCard(0);
             Log.i("View Pressed", "Player 4 View");
             //user touches field 1
             if(yPos > height/20+20 && yPos < 11*height/40+25) {
@@ -280,6 +287,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             origin = 0;
         }
         else if(view.equals(handView)) {
+            tradeView.setActiveCard(0);
             if(yPos < height/7) {
                 return false;
             }
@@ -296,12 +304,18 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 if(state.getTurn() == playerId) {
                     tradeView.setActiveCard(1);
                 }
+                else {
+                    tradeView.setActiveCard(0);
+                }
                 Log.i("Trade Pressed", "Card 1");
             }
             else if(tradeView.getCard2Rect().contains(xPos,yPos)) {
                 origin = 2;
                 if(state.getTurn() == playerId) {
                     tradeView.setActiveCard(2);
+                }
+                else {
+                    tradeView.setActiveCard(0);
                 }
                 Log.i("Trade Pressed", "Card 2");
             }

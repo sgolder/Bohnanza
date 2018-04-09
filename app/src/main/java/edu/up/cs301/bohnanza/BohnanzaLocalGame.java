@@ -110,7 +110,10 @@ public class BohnanzaLocalGame extends LocalGame {
             turn2Cards(thisPlayerIdx);
             sendAllUpdatedState();
         }
-        if(action instanceof StartTrading){}
+        if(action instanceof StartTrading){
+            startTrading(thisPlayerIdx);
+            sendAllUpdatedState();
+        }
         if(action instanceof MakeOffer){}
         if(action instanceof AbstainFromTrading){
             abstainFromTrading(thisPlayerIdx);

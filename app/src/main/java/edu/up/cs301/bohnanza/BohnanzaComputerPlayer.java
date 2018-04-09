@@ -67,14 +67,14 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         plantBean(myInfo.getHand(), myInfo.getAllFields());
 
         //turn two cards and plant them
-        savedState.turn2Cards(playerNum);
+        //savedState.turn2Cards(playerNum);
         plantBean(savedState.getTradeDeck(), myInfo.getAllFields());
 
         //end turn by drawing 3 cards
-        savedState.draw3Cards(playerNum);
+        //savedState.draw3Cards(playerNum);
 
         //when not turn
-        savedState.abstainFromTrading(playerNum);
+        //savedState.abstainFromTrading(playerNum);
 
     }
 
@@ -85,7 +85,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         int target;
         for (int i = 0; i < size; i++){
             target = findTargetField(fields, beans.peekAtTopCard());
-            savedState.plantBean(playerNum, target, beans);
+            //savedState.plantBean(playerNum, target, beans);
         }
     }
 
@@ -114,7 +114,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
     protected int dumbHarvest(Deck[] fields){
         for (int i=0; i<fields.length; i++){
             if(fields[i].size()>1){
-                savedState.harvestField(playerNum, fields[i]);
+                //savedState.harvestField(playerNum, fields[i]);
                 return i;
             }
             else
