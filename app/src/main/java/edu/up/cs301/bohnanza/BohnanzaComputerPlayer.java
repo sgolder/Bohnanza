@@ -53,17 +53,18 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             return;
         }
         savedState = (BohnanzaState) info;
-
+        Log.i("BCompP", "Received new state");
         if (smartAI) {startSmartAI();}
         else {
-            startDumbAI();
+            if(savedState.getTurn() == playerNum) {
+                startDumbAI();
+            }
         }
-
     }
 
     @Override
     protected void timerTicked() {
-        getTimer().stop();
+        //getTimer().stop();
     }
 
     protected void startSmartAI(){}
@@ -76,17 +77,18 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             getTimer().start();
             if (savedState.getPhase() == -1) {
                 //plants from hand.
-                Log.i("BCompP", "startDumbAI: phase -1");
+                Log.i("BCompP", "startDumbAI: phase1 == "+savedState.getPhase());
                 plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
-                sleep(3000);
+                //sleep(3000);
                 //savedState.setPhase(curPhase);
             }
-            if (savedState.getPhase() == 0) {
-                Log.i("BCompP", "startDumbAI: phase 0");
+            else if (savedState.getPhase() == 0) {
                 //turn two card
                 game.sendAction(new TurnTwoCards(this));
-                //savedState.setPhase(curPhase);
+                sleep(3000);
+                Log.i("BCompP", "startDumbAi: phase2 == "+savedState.getPhase());
             }
+            /*
             if (savedState.getPhase() == 1) {
                 plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
                 Log.i("BCompP", "startDumbAI: phase 1");
@@ -95,7 +97,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
 
                 //savedState.setPhase(curPhase);
             }
-            /*if (savedState.getPhase() == 3) {
+            if (savedState.getPhase() == 3) {
                 //end turn by drawing 3 cards
                 game.sendAction(new DrawThreeCards(this));
                 Log.i("BCompP", "startDumbAI: phase 3");

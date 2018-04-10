@@ -148,7 +148,6 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     }
     ///////Gui!!!
     public void drawGUI() {
-        Log.i("Player ID", ""+playerIndex);
         if(state == null) return;
 
         int player1Color = Color.rgb(37, 127, 37);

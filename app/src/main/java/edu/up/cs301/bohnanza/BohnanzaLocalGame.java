@@ -225,9 +225,6 @@ public class BohnanzaLocalGame extends LocalGame {
         if (state.getTurn() != playerId) {
             return false;
         }
-        if (state.getMainDeck().size() < 2) {
-            return false;
-        }
         //move top two cards to trade deck
         if(state.getMainDeck().getCards().size() < 2 ){
             if(!(state.getTimesThroughDeck() < 3)){
@@ -238,6 +235,7 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         state.getMainDeck().moveTopCardTo(state.getTradeDeck());
         state.getMainDeck().moveTopCardTo(state.getTradeDeck());
+        Log.i("BLocalGame, turn2", "phase ==" +state.getPhase());
         state.setPhase(1); //phase 1 starts now
         return true;
     }
