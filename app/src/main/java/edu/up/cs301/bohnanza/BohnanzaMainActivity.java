@@ -48,8 +48,8 @@ public class BohnanzaMainActivity extends GameMainActivity {
                         "Bohnanza", PORT_NUMBER);
 
         // Add the default players
-        defaultConfig.addPlayer("Human", 0);
         defaultConfig.addPlayer("Computer", 1);
+        defaultConfig.addPlayer("Human", 0);
 
         // Set the initial information for the remote player
         defaultConfig.setRemoteData("Guest", "", 1);
