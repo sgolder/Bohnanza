@@ -141,10 +141,7 @@ public class BohnanzaLocalGame extends LocalGame {
     }
 
 
-    /**
-     * missing method:
-     * public void sendAllUpdatedState()
-     */
+
     public boolean buyThirdField(int playerId) {
         if (state.getPlayerList()[playerId].getHasThirdField()) {
             return false;
