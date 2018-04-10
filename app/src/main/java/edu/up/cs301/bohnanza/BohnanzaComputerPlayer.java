@@ -2,6 +2,7 @@ package edu.up.cs301.bohnanza;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import edu.up.cs301.actions.AbstainFromTrading;
@@ -22,7 +23,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
     private boolean smartAI = false;
     //most recent state of the game
     protected BohnanzaState savedState;
-    private int curPhase = 0;
+    private int curPhase = -1;
 
     /**
      * constructor
@@ -53,14 +54,12 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             return;
         }
         savedState = (BohnanzaState) info;
-        Log.i("BCompP", "Received new state");
+        Log.i("BCompP"+playerNum, "Received new state");
         if (smartAI) {startSmartAI();}
         else {
-            if(savedState.getTurn() == playerNum) {
                 if( startDumbAI() ) {
-                    Log.i("BCompP", "AI successful");
+                    Log.i("BCompP"+playerNum, "AI successful");
                 }
-            }
         }
     }
 
@@ -72,45 +71,60 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
     protected void startSmartAI(){}
 
     protected boolean startDumbAI(){
-
-        //get player state
-        BohnanzaPlayerState myInfo = savedState.getPlayerList()[playerNum];
-
-        if(savedState.getTurn() == playerNum) {
-            getTimer().start();
-            if (savedState.getPhase() == -1) {
-                //plants from hand.
-                Log.i("BCompP", "Plant. Phase == "+savedState.getPhase());
-                plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
-                //sleep(3000);
-                //savedState.setPhase(curPhase);
-                return true;
+        synchronized(this) {
+            Log.i("BCompP"+playerNum, "Current turn: " + savedState.getTurn());
+            if (savedState.getTurn() != playerNum) {
+                return false;
             }
-            else if (savedState.getPhase() == 0) {
-                //turn two card
-                Log.i("BCompP", "Turn 2. Phase == "+savedState.getPhase());
-                game.sendAction(new TurnTwoCards(this));
-                sleep(3000);
-                return true;
-            }
-            else if (savedState.getPhase() == 1) {
-                plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
-                game.sendAction(new HarvestField(this, 1));
-                plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
-                Log.i("BCompP", "Plant trade. Phase == "+savedState.getPhase());
-                Log.i("BCompP", "Draw 3. Phase == "+savedState.getPhase());
-                game.sendAction(new DrawThreeCards(this));
-                //Log.i("BCompP", "startDumbAI: phase 1 pt2");
+            //get player state
+            BohnanzaPlayerState myInfo = savedState.getPlayerList()[playerNum];
 
-                //savedState.setPhase(curPhase);
-                return true;
+            if (savedState.getTurn() == playerNum) {
+                getTimer().start();
+                if (curPhase == -1) {
+                    //plants from hand.
+                    Log.i("BCompP"+playerNum, "Plant. Phase == " + savedState.getPhase());
+                    plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
+                    curPhase = 0;
+                    return true;
+                } else if (curPhase == 0) {
+                    //turn two card
+                    Log.i("BCompP"+playerNum, "Turn 2. Phase == " + savedState.getPhase());
+                    game.sendAction(new TurnTwoCards(this));
+                    curPhase = 1;
+                    return true;
+                } else if (curPhase == 1) {
+                    plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+                    curPhase = 2;
+                    return true;
+                }
+                else if(curPhase == 2){
+                    plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+                    curPhase = 3;
+                    return true;
+                }
+                else if(curPhase == 3){
+                    game.sendAction(new HarvestField(this, 1));
+                    curPhase = 4;
+                    return true;
+                }
+                else if(curPhase == 4){
+                    plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+                    curPhase = 5;
+                    return true;
+                }
+                else if(curPhase == 5){
+                    game.sendAction(new DrawThreeCards(this));
+                    curPhase = 0;
+                    sleep(3000);
+                    return true;
+                }
+            } else {
+                //when not turn
+                //game.sendAction(new AbstainFromTrading(this));
             }
+            return false;
         }
-        else{
-            //when not turn
-            game.sendAction(new AbstainFromTrading(this));
-        }
-        return false;
     }
 
     protected void plantBean(Deck beans, Deck[] fields, int origin) {
