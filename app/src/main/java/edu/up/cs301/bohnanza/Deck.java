@@ -1,5 +1,7 @@
 package edu.up.cs301.bohnanza;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -174,6 +176,18 @@ public class Deck implements Serializable {
         }
     }
 
+    /**
+     * @return
+     * 		the bottom card in the deck, without removing it; null
+     * 		if the deck was empty
+     */
+    public Card peekAtBottomCard() {
+        synchronized (this.cards) {
+            if (cards.isEmpty()) return null;
+            return cards.get(0);
+        }
+    }
+
     public int size() {
         return cards.size();
     }
@@ -243,26 +257,30 @@ public class Deck implements Serializable {
     public int getFieldValue(Deck initDeck) {
         Card cardType = initDeck.peekAtTopCard();
         int[] coinCount = cardType.getCoinCount();
-
+        int fieldVal = 0;
         if (coinCount[0] == -1) {
             //special case: garden bean
             if (initDeck.size() >= coinCount[2]) {
-                return 3;
+                fieldVal = 3;
             } else if (initDeck.size() >= 2) {
-                return 2;
+                fieldVal = 2;
             } else {
-                return 0;
+                fieldVal = 0;
             }
-        }
-        else {
-            for (int i = 3; i > 0; i--) {
-                if (initDeck.size() >= coinCount[i]) {
-                    return i + 1;
+            return fieldVal;
 
+        }
+
+        else {
+            for (int i = 3; i >= 0; i--) {
+                if (initDeck.size() >= coinCount[i]) {
+                    fieldVal =  i + 1;
+                    return fieldVal;
                 }
             }
-            return 0;
         }
+        Log.i("Deck, getfval", "fieldval =="+fieldVal);
+    return fieldVal;
     }
 
     @Override

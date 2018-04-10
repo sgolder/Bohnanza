@@ -1,5 +1,7 @@
 package edu.up.cs301.bohnanza;
 
+import android.util.Log;
+
 /**
  * Player state for a given player in Bohnanza
  *
@@ -54,7 +56,10 @@ public class BohnanzaPlayerState {
     public Deck getToPlant() {return toPlant;}
 
     //setter methods
-    public void setCoins (int newCoins) {coins += newCoins;}
+    public void setCoins (int newCoins) {
+        coins =+ newCoins;
+        Log.i("BohPlaSt, setCoins", "coins =="+coins);
+    }
     public void setHasThirdField (boolean newHasThirdField) {
         hasThirdField = newHasThirdField;
     }

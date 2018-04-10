@@ -194,6 +194,8 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             playerViews[i].setHandCards(hand);
             playerViews[i].setCoins(state.getPlayerList()[i].getCoins());
             playerViews[i].setThirdField(state.getPlayerList()[i].getHasThirdField());
+            playerViews[i].setPhase(state.getPhase());
+            playerViews[i].setOffer(state.getPlayerList()[i].getMakeOffer());
         }
 
         ArrayList<Bitmap> hand = new ArrayList<>();
@@ -201,6 +203,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             hand.add(cardImages[state.getPlayerList()[playerNum].getHand().getCards().get(i).getBeanIdx()]);
         }
         handView.setHand(hand);
+
         if(state.getTradeDeck().getCards().size() == 0) {
             tradeView.setCard1Bean(null);
             tradeView.setCard2Bean(null);
@@ -273,6 +276,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         }
 
         bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
+
     }
 
     //Getters
