@@ -1,5 +1,7 @@
 package edu.up.cs301.bohnanza;
 
+import android.util.Log;
+
 import java.lang.reflect.Field;
 
 import edu.up.cs301.actions.AbstainFromTrading;
@@ -49,11 +51,13 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         if(!(info instanceof BohnanzaState)) {
             return;
         }
+        savedState = (BohnanzaState) info;
 
-        savedState = (BohnanzaState)info;
+        if (smartAI) {startSmartAI();}
+        else {
+            startDumbAI();
+        }
 
-        if(smartAI) {startSmartAI();}
-        else{startDumbAI();}
     }
 
     @Override
@@ -64,35 +68,49 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
     protected void startSmartAI(){}
 
     protected void startDumbAI(){
-
         //get player state
         BohnanzaPlayerState myInfo = savedState.getPlayerList()[playerNum];
 
-        //plants from hand. Phase
-        plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
-
-        //turn two cards and plant them
-        game.sendAction(new TurnTwoCards(this));
-        plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 2);
-        plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
-
-        //end turn by drawing 3 cards
-        game.sendAction(new DrawThreeCards(this));
-
-        //when not turn
-        game.sendAction(new AbstainFromTrading(this));
+        if(savedState.getTurn() == playerNum) {
+            if (savedState.getPhase() == -1) {
+                //plants from hand.
+                Log.i("BCompP", "startDumbAI: phase -1");
+                plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
+                sleep(3000);
+                //savedState.setPhase(0);
+            }
+            if (savedState.getPhase() == 0) {
+                Log.i("BCompP", "startDumbAI: phase 0");
+                //turn two card
+                game.sendAction(new TurnTwoCards(this));
+                //savedState.setPhase(1);
+            }
+            /*if (savedState.getPhase() == 1) {
+                plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+                Log.i("BCompP", "startDumbAI: phase 1");
+                //plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+                //Log.i("BCompP", "startDumbAI: phase 1 pt2");
+                //savedState.setPhase(3);
+            }
+            if (savedState.getPhase() == 3) {
+                //end turn by drawing 3 cards
+                game.sendAction(new DrawThreeCards(this));
+                Log.i("BCompP", "startDumbAI: phase 3");
+            }*/
+        }
+        else{
+            //when not turn
+            game.sendAction(new AbstainFromTrading(this));
+        }
 
     }
 
     protected void plantBean(Deck beans, Deck[] fields, int origin) {
-        //plant the bean
-        int size = beans.size();
         //check fields
         int target;
-        for (int i = 0; i < size; i++){
-            target = findTargetField(fields, beans.peekAtTopCard());
-            game.sendAction(new PlantBean(this, target, origin));
-        }
+        target = findTargetField(fields, beans.peekAtTopCard());
+
+        game.sendAction(new PlantBean(this, target, origin));
     }
 
     protected int findTargetField (Deck[] fields, Card cardType){
