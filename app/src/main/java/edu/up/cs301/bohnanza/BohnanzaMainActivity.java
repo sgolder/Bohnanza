@@ -16,7 +16,7 @@ import edu.up.cs301.game.config.GamePlayerType;
 
 public class BohnanzaMainActivity extends GameMainActivity {
 
-    public static final int PORT_NUMBER = 4753;
+    public static final int PORT_NUMBER = 4752;
 
     @Override
     public GameConfig createDefaultConfig() {
@@ -48,8 +48,8 @@ public class BohnanzaMainActivity extends GameMainActivity {
                         "Bohnanza", PORT_NUMBER);
 
         // Add the default players
-        defaultConfig.addPlayer("Computer", 1);
         defaultConfig.addPlayer("Human", 0);
+        defaultConfig.addPlayer("Computer", 1);
 
         // Set the initial information for the remote player
         defaultConfig.setRemoteData("Guest", "", 1);

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class Deck implements Serializable {
 
-    private static final long serialVersionUID = 3216223171210121485L;
+    //private static final long serialVersionUID = 3216223171210121485L;
 
     private ArrayList<Card> cards;
 

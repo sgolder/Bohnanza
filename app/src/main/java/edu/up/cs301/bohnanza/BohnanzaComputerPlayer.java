@@ -22,7 +22,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
     private boolean smartAI = false;
     //most recent state of the game
     protected BohnanzaState savedState;
-    private int curPhase;
+    private int curPhase = 0;
 
     /**
      * constructor
@@ -57,7 +57,9 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         if (smartAI) {startSmartAI();}
         else {
             if(savedState.getTurn() == playerNum) {
-                startDumbAI();
+                if( startDumbAI() ) {
+                    Log.i("BCompP", "AI successful");
+                }
             }
         }
     }
@@ -69,7 +71,8 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
 
     protected void startSmartAI(){}
 
-    protected void startDumbAI(){
+    protected boolean startDumbAI(){
+
         //get player state
         BohnanzaPlayerState myInfo = savedState.getPlayerList()[playerNum];
 
@@ -77,37 +80,37 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             getTimer().start();
             if (savedState.getPhase() == -1) {
                 //plants from hand.
-                Log.i("BCompP", "startDumbAI: phase1 == "+savedState.getPhase());
+                Log.i("BCompP", "Plant. Phase == "+savedState.getPhase());
                 plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
                 //sleep(3000);
                 //savedState.setPhase(curPhase);
+                return true;
             }
             else if (savedState.getPhase() == 0) {
                 //turn two card
+                Log.i("BCompP", "Turn 2. Phase == "+savedState.getPhase());
                 game.sendAction(new TurnTwoCards(this));
                 sleep(3000);
-                Log.i("BCompP", "startDumbAi: phase2 == "+savedState.getPhase());
+                return true;
             }
-            /*
-            if (savedState.getPhase() == 1) {
+            else if (savedState.getPhase() == 1) {
                 plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
-                Log.i("BCompP", "startDumbAI: phase 1");
-                //plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+                game.sendAction(new HarvestField(this, 1));
+                plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+                Log.i("BCompP", "Plant trade. Phase == "+savedState.getPhase());
+                Log.i("BCompP", "Draw 3. Phase == "+savedState.getPhase());
+                game.sendAction(new DrawThreeCards(this));
                 //Log.i("BCompP", "startDumbAI: phase 1 pt2");
 
                 //savedState.setPhase(curPhase);
+                return true;
             }
-            if (savedState.getPhase() == 3) {
-                //end turn by drawing 3 cards
-                game.sendAction(new DrawThreeCards(this));
-                Log.i("BCompP", "startDumbAI: phase 3");
-            }*/
         }
         else{
             //when not turn
             game.sendAction(new AbstainFromTrading(this));
         }
-
+        return false;
     }
 
     protected void plantBean(Deck beans, Deck[] fields, int origin) {
@@ -142,7 +145,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
 
     protected int dumbHarvest(Deck[] fields){
         for (int i=0; i<fields.length; i++){
-            if(fields[i].size()>1){
+            if(fields[i].size()>=1){
                 game.sendAction(new HarvestField(this, i));
                 return i;
             }
