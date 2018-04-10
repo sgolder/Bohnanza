@@ -63,7 +63,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
 
     @Override
     protected void timerTicked() {
-
+        getTimer().stop();
     }
 
     protected void startSmartAI(){}
@@ -73,6 +73,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         BohnanzaPlayerState myInfo = savedState.getPlayerList()[playerNum];
 
         if(savedState.getTurn() == playerNum) {
+            getTimer().start();
             if (savedState.getPhase() == -1) {
                 //plants from hand.
                 Log.i("BCompP", "startDumbAI: phase -1");
