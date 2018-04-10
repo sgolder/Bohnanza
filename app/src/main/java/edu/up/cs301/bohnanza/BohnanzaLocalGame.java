@@ -225,6 +225,9 @@ public class BohnanzaLocalGame extends LocalGame {
         if (state.getTurn() != playerId) {
             return false;
         }
+        if(!state.getTradeDeck().getCards().isEmpty()){
+            return false;
+        }
         //move top two cards to trade deck
         if(state.getMainDeck().getCards().size() < 2 ){
             if(!(state.getTimesThroughDeck() < 3)){
