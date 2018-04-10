@@ -186,6 +186,7 @@ public class BohnanzaLocalGame extends LocalGame {
                 return false; // cannot plant if third field isn't purchased
             }
             origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
+            Log.i("BComP", "plantBean: 1");
             if( state.getPhase() == -1 ) state.setPhase(0);
             return true;
         }
@@ -193,6 +194,7 @@ public class BohnanzaLocalGame extends LocalGame {
         else if (state.getPlayerList()[playerId].getField(fieldId).peekAtTopCard().equals
                 (origin.peekAtBottomCard())) {
             origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
+            Log.i("BComP", "plantBean: 2");
             if( state.getPhase() == -1 ) state.setPhase(0);
             return true;
         }
