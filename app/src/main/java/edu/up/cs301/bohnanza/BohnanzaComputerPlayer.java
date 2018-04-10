@@ -22,6 +22,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
     private boolean smartAI = false;
     //most recent state of the game
     protected BohnanzaState savedState;
+    private int curPhase;
 
     /**
      * constructor
@@ -77,22 +78,23 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                 Log.i("BCompP", "startDumbAI: phase -1");
                 plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
                 sleep(3000);
-                //savedState.setPhase(0);
+                //savedState.setPhase(curPhase);
             }
             if (savedState.getPhase() == 0) {
                 Log.i("BCompP", "startDumbAI: phase 0");
                 //turn two card
                 game.sendAction(new TurnTwoCards(this));
-                //savedState.setPhase(1);
+                //savedState.setPhase(curPhase);
             }
-            /*if (savedState.getPhase() == 1) {
+            if (savedState.getPhase() == 1) {
                 plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
                 Log.i("BCompP", "startDumbAI: phase 1");
                 //plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
                 //Log.i("BCompP", "startDumbAI: phase 1 pt2");
-                //savedState.setPhase(3);
+
+                //savedState.setPhase(curPhase);
             }
-            if (savedState.getPhase() == 3) {
+            /*if (savedState.getPhase() == 3) {
                 //end turn by drawing 3 cards
                 game.sendAction(new DrawThreeCards(this));
                 Log.i("BCompP", "startDumbAI: phase 3");
