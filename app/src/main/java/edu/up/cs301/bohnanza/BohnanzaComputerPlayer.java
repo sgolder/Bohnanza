@@ -116,7 +116,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                 else if(curPhase == 5){
                     game.sendAction(new DrawThreeCards(this));
                     curPhase = -1;
-                    sleep(3000);
+                    //sleep(3000);
                     return true;
                 }
             } else {

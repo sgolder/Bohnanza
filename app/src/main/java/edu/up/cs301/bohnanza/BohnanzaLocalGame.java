@@ -87,8 +87,10 @@ public class BohnanzaLocalGame extends LocalGame {
             PlantBean plantBean = (PlantBean) action;
             Log.i("BLocal, makeMove", "Origin = "+plantBean.getOrigin());
             if(plantBean.getOrigin() == 0){
-                plantBean(thisPlayerIdx, plantBean.getField(),
-                        state.getPlayerList()[thisPlayerIdx].getHand());
+                if( !(state.getPhase() == 1) ){
+                    plantBean(thisPlayerIdx, plantBean.getField(),
+                            state.getPlayerList()[thisPlayerIdx].getHand());
+                }
             }
             else if (plantBean.getOrigin() == 1){
                 Deck cardToTrade = new Deck();
