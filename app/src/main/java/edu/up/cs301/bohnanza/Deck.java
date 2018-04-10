@@ -73,14 +73,16 @@ public class Deck implements Serializable {
      */
     public Deck shuffle() {
         // go through a loop that randomly rearranges the cards
-        for (int i = cards.size(); i > 1; i--) {
-            int spot = (int)(i*Math.random());
-            Card temp = cards.get(spot);
-            cards.set(spot, cards.get(i-1));
-            cards.set(i-1, temp);
+        synchronized(this.cards) {
+            for (int i = cards.size(); i > 1; i--) {
+                int spot = (int) (i * Math.random());
+                Card temp = cards.get(spot);
+                cards.set(spot, cards.get(i - 1));
+                cards.set(i - 1, temp);
+            }
+            // return the deck
+            return this;
         }
-        // return the deck
-        return this;
     }
 
     /**
@@ -91,7 +93,6 @@ public class Deck implements Serializable {
      * 		the deck to which the card should be moved
      */
     public void moveTopCardTo(Deck targetDeck) {
-
         // will hold the card
         Card c = null;
 
@@ -153,14 +154,16 @@ public class Deck implements Serializable {
      * 		the deck that will get the cards
      */
     public void moveAllCardsTo(Deck target) {
-        // if the source and target are the same, ignore
-        if (this == target) {
-            return;
-        }
+        synchronized(this.cards) {
+            // if the source and target are the same, ignore
+            if (this == target) {
+                return;
+            }
 
-        // keep moving cards until the current deck is empty
-        while (size() > 0) {
-            moveTopCardTo(target);
+            // keep moving cards until the current deck is empty
+            while (size() > 0) {
+                moveTopCardTo(target);
+            }
         }
     }
 
@@ -235,11 +238,13 @@ public class Deck implements Serializable {
     public ArrayList<Card> getCards() { return cards; }
 
     public void turnHandOver() {
-        int oldSize = size();
-        cards.clear();
-        for(int i = 0; i<oldSize; i++ ){
-            int[] cardBackCoins = {-1, -1, -1, -1};
-            cards.add(new Card(8, "CardBack", cardBackCoins, 0));
+        synchronized(this.cards) {
+            int oldSize = size();
+            cards.clear();
+            for (int i = 0; i < oldSize; i++) {
+                int[] cardBackCoins = {-1, -1, -1, -1};
+                cards.add(new Card(8, "CardBack", cardBackCoins, 0));
+            }
         }
     }
 
@@ -255,32 +260,32 @@ public class Deck implements Serializable {
      *
      */
     public int getFieldValue(Deck initDeck) {
-        Card cardType = initDeck.peekAtTopCard();
-        int[] coinCount = cardType.getCoinCount();
-        int fieldVal = 0;
-        if (coinCount[0] == -1) {
-            //special case: garden bean
-            if (initDeck.size() >= coinCount[2]) {
-                fieldVal = 3;
-            } else if (initDeck.size() >= 2) {
-                fieldVal = 2;
+        synchronized(this.cards) {
+            Card cardType = initDeck.peekAtTopCard();
+            int[] coinCount = cardType.getCoinCount();
+            int fieldVal = 0;
+            if (coinCount[0] == -1) {
+                //special case: garden bean
+                if (initDeck.size() >= coinCount[2]) {
+                    fieldVal = 3;
+                } else if (initDeck.size() >= 2) {
+                    fieldVal = 2;
+                } else {
+                    fieldVal = 0;
+                }
+                return fieldVal;
+
             } else {
-                fieldVal = 0;
-            }
-            return fieldVal;
-
-        }
-
-        else {
-            for (int i = 3; i >= 0; i--) {
-                if (initDeck.size() >= coinCount[i]) {
-                    fieldVal =  i + 1;
-                    return fieldVal;
+                for (int i = 3; i >= 0; i--) {
+                    if (initDeck.size() >= coinCount[i]) {
+                        fieldVal = i + 1;
+                        return fieldVal;
+                    }
                 }
             }
+            Log.i("Deck, getfval", "fieldval ==" + fieldVal);
+            return fieldVal;
         }
-        Log.i("Deck, getfval", "fieldval =="+fieldVal);
-    return fieldVal;
     }
 
     @Override

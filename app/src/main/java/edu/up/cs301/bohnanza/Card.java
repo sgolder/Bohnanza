@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
  *
  * @autor Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
  */
-
 public class Card {
     private int beanIdx;
     private String beanName;
@@ -29,11 +28,10 @@ public class Card {
     public Card(Card orig){
         beanIdx = orig.beanIdx;
         beanName = orig.beanName;
-        for(int i = 0; i<orig.coinCount.length; i++) {
+        for (int i = 0; i < orig.coinCount.length; i++) {
             coinCount[i] = orig.coinCount[i];
         }
         numBean = orig.numBean;
-
     }
 
     public boolean equals(Object other) {
