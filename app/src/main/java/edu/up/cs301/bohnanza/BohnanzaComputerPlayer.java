@@ -63,13 +63,6 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
 
     @Override
     protected void timerTicked() {
-
-    }
-
-    protected void startSmartAI(){}
-
-    protected void startDumbAI(){
-        //get player state
         BohnanzaPlayerState myInfo = savedState.getPlayerList()[playerNum];
 
         if(savedState.getTurn() == playerNum) {
@@ -104,6 +97,15 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             //when not turn
             game.sendAction(new AbstainFromTrading(this));
         }
+        getTimer().stop();
+
+    }
+
+    protected void startSmartAI(){}
+
+    protected void startDumbAI(){
+        //get player state
+
 
     }
 

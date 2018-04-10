@@ -48,6 +48,7 @@ public class BohnanzaMainActivity extends GameMainActivity {
                         "Bohnanza", PORT_NUMBER);
 
         // Add the default players
+        defaultConfig.addPlayer("Comp", 1);
         defaultConfig.addPlayer("Human", 0);
         //TODO: add computer player
 
