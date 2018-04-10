@@ -1,5 +1,6 @@
 package edu.up.cs301.bohnanza;
 
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;

@@ -196,6 +196,13 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             playerViews[i].setThirdField(state.getPlayerList()[i].getHasThirdField());
             playerViews[i].setPhase(state.getPhase());
             playerViews[i].setOffer(state.getPlayerList()[i].getMakeOffer());
+            if(state.getTurn() == i) {
+                playerViews[i].setPhase(0);
+            }
+            else {
+                playerViews[i].setPhase(state.getPhase());
+            }
+            playerViews[i].invalidate();
         }
 
         ArrayList<Bitmap> hand = new ArrayList<>();
@@ -203,6 +210,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             hand.add(cardImages[state.getPlayerList()[playerNum].getHand().getCards().get(i).getBeanIdx()]);
         }
         handView.setHand(hand);
+        handView.invalidate();
 
         if(state.getTradeDeck().getCards().size() == 0) {
             tradeView.setCard1Bean(null);
@@ -217,6 +225,9 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             tradeView.setCard2Bean(cardImages[state.getTradeDeck().getCards().get(1).getBeanIdx()]);
         }
 
+        tradeView.invalidate();
+
+        //set the buttons the user is able to see based on stage of the game
         if(state.getPhase() == -1) {
             button2.setVisibility(View.INVISIBLE);
             button3.setVisibility(View.INVISIBLE);
@@ -260,12 +271,10 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             button4.setVisibility(View.INVISIBLE);
         }
         else if(state.getPhase() == 2 && state.getTurn() == playerNum) {
-            button2.setText("Make Offer");
-            button3.setText("Pass");
-            button4.setText("Draw 3 Cards");
+            button2.setText("Draw 3 Cards");
             button2.setVisibility(View.VISIBLE);
-            button3.setVisibility(View.VISIBLE);
-            button4.setVisibility(View.VISIBLE);
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
         }
         else if(state.getPhase() == 2 && state.getTurn() != playerNum) {
             button2.setText("Make Offer");
@@ -274,9 +283,8 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             button3.setVisibility(View.VISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
-
+        //set white part of screen to have same background as surface views
         bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
-
     }
 
     //Getters

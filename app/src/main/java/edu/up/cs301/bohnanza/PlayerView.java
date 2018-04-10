@@ -66,51 +66,42 @@ public class PlayerView extends SurfaceView {
 
     public void setCoins (int initCoins) {
         coins = initCoins;
-        invalidate();
     }
     public void setField1Bean(Bitmap bean, int num) {
         field1Bean = bean;
         numField1Bean = num;
-        invalidate();
     }
     public void setField2Bean(Bitmap bean, int num) {
         field2Bean = bean;
         numField2Bean = num;
-        invalidate();
     }
     public void setField3Bean(Bitmap bean, int num) {
         field3Bean = bean;
         numField3Bean = num;
-        invalidate();
     }
     public void setHandCards(ArrayList<Bitmap> initHand) {
         handCards = initHand;
-        invalidate();
     }
 
     public void setPlayerColor(int initBackGround) {
         backGroundColor = initBackGround;
-        invalidate();
     }
 
     public void setPlayerName (String initName) {
         playerName = initName;
-        invalidate();
     }
 
     public void setThirdField (Boolean initThirdField) {
         thirdField = initThirdField;
-        invalidate();
     }
 
     public void setPhase(int initPhase) {
         phase = initPhase;
-        invalidate();
     }
     public void setOffer(int initOffer) {
         offer = initOffer;
-        invalidate();
     }
+
 
     @Override
     public void onDraw(Canvas canvas) {
