@@ -44,13 +44,6 @@ public class Deck implements Serializable {
         }
     }
 
-    //TODO: add method that accesses cards at specific index based on name
-
-    /**
-     * missing methods from UML:
-     * public int size()
-     *
-     */
     /**
      * add a card to the top of a deck
      *

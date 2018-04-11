@@ -91,7 +91,9 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                     //turn two card
                     Log.i("BCompP"+playerNum, "Turn 2. Phase == " + savedState.getPhase());
                     game.sendAction(new TurnTwoCards(this));
-                    curPhase = 1;
+                    if (savedState.getTradeDeck().size() != 0) {
+                        curPhase = 1;
+                    }
                     return true;
                 } else if (curPhase == 1) {
                     plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
@@ -117,9 +119,11 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                     game.sendAction(new DrawThreeCards(this));
                     curPhase = -1;
                     //sleep(3000);
+                    getTimer().stop();
                     return true;
                 }
-            } else {
+            }
+            else {
                 //when not turn
                 //game.sendAction(new AbstainFromTrading(this));
             }

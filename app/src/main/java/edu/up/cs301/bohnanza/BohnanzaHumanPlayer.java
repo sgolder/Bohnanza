@@ -2,37 +2,26 @@ package edu.up.cs301.bohnanza;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-
 import java.util.ArrayList;
-
-import edu.up.cs301.actions.PlantBean;
-import edu.up.cs301.animation.AnimationSurface;
-import edu.up.cs301.animation.Animator;
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.infoMsg.GameInfo;
 
 
 /**
- * Created by Toshiba on 4/2/2018.
+ * Displays the game to a human player on the GUI.
+ *
+ * @autor Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
  */
 
-public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
-
+public class BohnanzaHumanPlayer extends GameHumanPlayer {
+    //instance variables
     protected BohnanzaState state;
     private Activity myActivity;
-    private AnimationSurface surface;
     private PlayerView player1View;
     private PlayerView player2View;
     private PlayerView player3View;
@@ -41,15 +30,10 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
     private TradeView tradeView;
     private LinearLayout bottomLayout;
     private BohnanzaListener myListener;
-    Button harvest;
-    Button button2;
-    Button button3;
-    Button button4;
-
-
-    //////missing variables
-    private int playerIndex;
-    private String playerName;
+    private Button harvest;
+    private Button button2;
+    private Button button3;
+    private Button button4;
 
     /**
      * constructor
@@ -58,18 +42,19 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
      */
     public BohnanzaHumanPlayer(String name) {
         super(name);
-        //TODO: sync up the playerId
-        playerIndex = 0;
     }
 
+    /**
+     * Used to initialize GUI objects
+     *
+     * @param activity the main activity of the game
+     */
     public void setAsGui(GameMainActivity activity) {
         myActivity = activity;
 
         activity.setContentView(R.layout.bohnanza_human_player);
 
-        //surface = (AnimationSurface) myActivity.findViewById(R.id.surfaceViewPlayer1);
-        //surface.setAnimator(this);
-
+        //initialize surface views
         player1View = (PlayerView) myActivity.findViewById(R.id.surfaceViewPlayer1);
         player2View = (PlayerView)myActivity.findViewById(R.id.surfaceViewPlayer2);
         player3View = (PlayerView)myActivity.findViewById(R.id.surfaceViewPlayer3);
@@ -79,14 +64,17 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
 
         bottomLayout = (LinearLayout)myActivity.findViewById(R.id.BottomLinearLayout);
 
+        //call listener to listen for actions the user takes
         myListener = new BohnanzaListener(state, playerNum, player1View, player2View,
                 player3View, player4View, handView, tradeView, this, game);
 
+        //initialize buttons
         harvest = (Button)myActivity.findViewById(R.id.buttonHarvest);
         button2 = (Button)myActivity.findViewById(R.id.button2);
         button3 = (Button)myActivity.findViewById(R.id.button3);
         button4 = (Button)myActivity.findViewById(R.id.button4);
 
+        //connect objects to listeners so that we receive information when a user touches them
         harvest.setOnClickListener(myListener);
         button2.setOnClickListener(myListener);
         button3.setOnClickListener(myListener);
@@ -98,33 +86,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
         handView.setOnTouchListener(myListener);
         tradeView.setOnTouchListener(myListener);
 
-        Card.initImages(activity);
-    }
-
-    public int interval() {
-        return 0;
-    }
-
-    public int backgroundColor() {
-        return Color.rgb(45, 45, 45);
-    }
-
-    public boolean doPause() {
-        return false;
-    }
-
-    public boolean doQuit() {
-        return false;
-    }
-
-    public void tick(Canvas g) {
-
-    }
-
-    /////////////////(Buttons, SurfaceView) -> (x,y)
-    ///////////////// connect the clicks to the locations
-    public void onTouch(MotionEvent event) {
-        // we use the BohnanzaListener instead
+        Card.initImages(activity); //initialize all card bitmaps
     }
 
     @Override
@@ -138,29 +100,51 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             return;
         }
         state = (BohnanzaState)info;
-        drawGUI();
+        drawGUI(); //update gui after state has been received
         myListener.setState( state );
         myListener.setGame( game );
     }
 
-    public void baseLayout(Canvas canvas) {
-
-    }
-    ///////Gui!!!
+    /**
+     * draws the gui that the human player will see
+     *
+     */
     public void drawGUI() {
-        if(state == null) return;
+        if(state == null) return; //return if we have not yet received the game state
 
+        int[] delete = {0};
+        Card getCards = new Card(0, "", delete, 0);
+        Bitmap[] cardImages = getCards.getCardImages(); //get bitmaps of each card
+
+        updatePlayerViews(cardImages);//draw the fields and hand for each user
+
+        updateHandView(cardImages); //draw the hand for the current user
+
+        updateTradeView(cardImages); //draw the trade pile
+
+        updateButtons(); //correctly show buttons depending on state of game
+
+        //set white part of screen to have same background as surface views
+        bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
+    }
+
+    /**
+     * draw the bean fields and player hands for each player
+     *
+     * @param cardImages
+     * 		bitmap of each card in Bohnanza
+     */
+    private void updatePlayerViews(Bitmap[] cardImages) {
+        //set player colors
         int player1Color = Color.rgb(37, 127, 37);
         int player2Color = Color.rgb(220, 102, 30);
         int player3Color = Color.rgb(7, 169, 207);
         int player4Color = Color.rgb(248, 93, 89);
         int[] playerColors = {player1Color, player2Color, player3Color, player4Color};
 
-        int[] delete = {0};
-        Card getCards = new Card(0, "", delete, 0);
-        Bitmap[] cardImages = getCards.getCardImages();
+        PlayerView[] playerViews = {player1View, player2View, player3View, player4View};
 
-
+        //set bean information for each players fields
         int[][] beanIdx = new int[4][3];
         int[][] numBeans = new int[4][3];
         for(int i = 0; i<4; i++) {
@@ -175,15 +159,17 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             }
         }
 
-        PlayerView[] playerViews = {player1View, player2View, player3View, player4View};
-
-        //set player fields and player hands
+        //draw the information for each player: coins, name, hand, fields
         for(int i = 0; i<4; i++) {
             playerViews[i].setPlayerColor(playerColors[i]);
             playerViews[i].setPlayerName("Player " +(i+1));
+
+            //draw fields
             playerViews[i].setField1Bean(cardImages[beanIdx[i][0]], numBeans[i][0]);
             playerViews[i].setField2Bean(cardImages[beanIdx[i][1]], numBeans[i][1]);
             playerViews[i].setField3Bean(cardImages[beanIdx[i][2]], numBeans[i][2]);
+
+            //draw hands
             int[] handIdx = new int[state.getPlayerList()[i].getHand().size()];
             ArrayList<Bitmap> hand = new ArrayList<>();
             for(int j = 0; j<state.getPlayerList()[i].getHand().size(); j++) {
@@ -191,6 +177,8 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
                 hand.add(cardImages[handIdx[j]]);
             }
             playerViews[i].setHandCards(hand);
+
+            //set information about player
             playerViews[i].setCoins(state.getPlayerList()[i].getCoins());
             playerViews[i].setThirdField(state.getPlayerList()[i].getHasThirdField());
             playerViews[i].setPhase(state.getPhase());
@@ -201,16 +189,33 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             else {
                 playerViews[i].setPhase(state.getPhase());
             }
-            playerViews[i].invalidate();
+            playerViews[i].invalidate(); //redraw after all information is set
         }
+    }
 
+    /**
+     * draw the hand of the human player
+     *
+     * @param cardImages
+     * 		bitmap of each card in Bohnanza
+     */
+    private void updateHandView(Bitmap[] cardImages) {
         ArrayList<Bitmap> hand = new ArrayList<>();
         for(int i = 0; i<state.getPlayerList()[playerNum].getHand().size(); i++) {
             hand.add(cardImages[state.getPlayerList()[playerNum].getHand().getCards().get(i).getBeanIdx()]);
         }
         handView.setHand(hand);
-        handView.invalidate();
+        handView.invalidate(); //redraw after all information is set
+    }
 
+    /**
+     * draw the trade pile for the current state of the game
+     *
+     * @param cardImages
+     * 		bitmap of each card in Bohnanza
+     */
+    private void updateTradeView(Bitmap[] cardImages) {
+        //set trading cards based on how many cards are in trading deck
         if(state.getTradeDeck().getCards().size() == 0) {
             tradeView.setCard1Bean(null);
             tradeView.setCard2Bean(null);
@@ -223,8 +228,22 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             tradeView.setCard1Bean(cardImages[state.getTradeDeck().getCards().get(0).getBeanIdx()]);
             tradeView.setCard2Bean(cardImages[state.getTradeDeck().getCards().get(1).getBeanIdx()]);
         }
+        tradeView.setDeck(state.getTimesThroughDeck(), state.getMainDeck().size());
+    }
 
-        tradeView.invalidate();
+    /**
+     * Only display buttons that are needed for the current state of the game
+     *
+     */
+    private void updateButtons() {
+        /**
+         External Citation
+         Date:      6 March 2018
+         Problem:   Did not know how to set the visibility of buttons and change the text
+         Resource:  https://stackoverflow.com/questions/4127725/
+                    how-can-i-remove-a-button-or-make-it-invisible-in-android
+         Solution:  Used an example from this post
+         */
 
         //set the buttons the user is able to see based on stage of the game
         if(state.getPhase() == -1) {
@@ -282,10 +301,8 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer implements Animator {
             button3.setVisibility(View.VISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
-        //set white part of screen to have same background as surface views
-        bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
     }
 
     //Getters
-    public int getPlayerIndex() { return playerIndex; }
+    public int getPlayerIndex() { return playerNum; }
 }

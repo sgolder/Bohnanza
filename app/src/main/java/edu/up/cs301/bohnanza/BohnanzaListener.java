@@ -35,7 +35,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private ArrayList<RectF> cardPositions = new ArrayList<>();
     private BohnanzaHumanPlayer humanPlayer;
     private Game game;
-    private boolean harvest = false;
     // 0: hand, 1: trade[0], 2: trade[1]
     private int origin = 0;
 
@@ -69,7 +68,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             buttonLabel = (String)((Button) view).getText();
             //user presses Harvest Button
             if(buttonLabel.equalsIgnoreCase("Harvest")) {
-                harvesting = true;
+                harvesting = !harvesting;
                 Log.i("Button Pressed", buttonLabel);
             }
             //user presses Make Offer button

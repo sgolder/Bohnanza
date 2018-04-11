@@ -54,8 +54,7 @@ public class BohnanzaLocalGame extends LocalGame {
     }
 
     protected boolean canMove(int playerIdx) {
-        // Always true because players can harvest or trade
-        // when it's not their turn
+        //can play during trading phase or during the users own turn
         if( state.getPhase() == 2 ){
             return true;
         }
@@ -66,9 +65,36 @@ public class BohnanzaLocalGame extends LocalGame {
     }
 
     protected String checkIfGameOver() {
-        //check if we've been through the deck 3 times
+        int maxCoins = 0;
+        int winners = 0; //if winners > 1, there is a tie
+        //check if we've been through the deck 1 time
         if( state.getTimesThroughDeck() == 1) {
-            return "Game is over, you probably won";
+            //find the maximum number of coins players have
+            for(int i=0; i<4; i++) {
+                if(state.getPlayerList()[i].getCoins() > maxCoins) {
+                    maxCoins = state.getPlayerList()[i].getCoins();
+                }
+
+            }
+            //check how many players have the maximum number of coins
+            for(int i=0; i<4; i++) {
+                if(state.getPlayerList()[i].getCoins() == maxCoins) {
+                    maxCoins = state.getPlayerList()[i].getCoins();
+                    winners++;
+                }
+            }
+            //game is a draw
+            if(winners > 1) {
+                return "Game is a draw";
+            }
+            //announce winner
+            if(winners == 1) {
+                for(int i=0; i<4; i++) {
+                    if (state.getPlayerList()[i].getCoins() == maxCoins) {
+                        return "Player " + (i + 1) + " wins";
+                    }
+                }
+            }
         }
         return null;
     }
@@ -78,7 +104,6 @@ public class BohnanzaLocalGame extends LocalGame {
         int thisPlayerIdx = getPlayerIdx(action.getPlayer());
 
         if(action instanceof BuyThirdField){
-            BuyThirdField buyThirdField = (BuyThirdField) action;
             buyThirdField(thisPlayerIdx);
             sendAllUpdatedState();
             return true;
@@ -129,6 +154,7 @@ public class BohnanzaLocalGame extends LocalGame {
         if(action instanceof MakeOffer){
             MakeOffer makeOffer = (MakeOffer) action;
             makeOffer(thisPlayerIdx, makeOffer.getOffer());
+            sendAllUpdatedState();
         }
         if(action instanceof AbstainFromTrading){
             abstainFromTrading(thisPlayerIdx);
