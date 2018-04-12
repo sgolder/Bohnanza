@@ -246,22 +246,26 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
          */
 
         //set the buttons the user is able to see based on stage of the game
+        //planting first card, only button available is harvest
         if(state.getPhase() == -1) {
             button2.setVisibility(View.INVISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
+        //option to turn to cards
         else if(state.getPhase() == 0 && state.getTurn() == playerNum) {
             button2.setText("Turn 2 Cards");
             button2.setVisibility(View.VISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
+        //only option is to harvest because it is not their turn
         else if(state.getPhase() == 0 && state.getTurn() != playerNum) {
             button2.setVisibility(View.INVISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
+        //player can end their turn
         else if(state.getPhase() == 1 && state.getTradeDeck().getCards().size() == 0 &&
                 state.getTurn() == playerNum) {
             button2.setText("Draw 3 Cards");
@@ -270,6 +274,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             button4.setVisibility(View.INVISIBLE);
             state.setPhase(2);
         }
+        //only option is to harvest becasue it is not their turn
         else if(state.getPhase() == 1 && state.getTradeDeck().getCards().size() == 0 &&
                 state.getTurn() != playerNum) {
             button2.setVisibility(View.INVISIBLE);
@@ -277,23 +282,27 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             button4.setVisibility(View.INVISIBLE);
             state.setPhase(2);
         }
+        //player can start trading
         else if(state.getPhase() == 1 && state.getTurn() == playerNum) {
             button2.setText("Start Trading");
             button2.setVisibility(View.VISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
+        //only option is to harvest because it is not their turn
         else if(state.getPhase() == 1 && state.getTurn() != playerNum) {
             button2.setVisibility(View.INVISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
+        //player can end their turn
         else if(state.getPhase() == 2 && state.getTurn() == playerNum) {
             button2.setText("Draw 3 Cards");
             button2.setVisibility(View.VISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
+        //player can make an offer or choose to not trade
         else if(state.getPhase() == 2 && state.getTurn() != playerNum) {
             button2.setText("Make Offer");
             button3.setText("Pass");
