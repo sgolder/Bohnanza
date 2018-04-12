@@ -22,6 +22,9 @@ import edu.up.cs301.actions.TurnTwoCards;
 import edu.up.cs301.game.Game;
 
 /**
+ * Listener class for BohnanzaHumanPlayer. Sends the game actions
+ * based on human player's touches and clicks.
+ *
  * Created by AdamMercer on 4/6/18.
  */
 

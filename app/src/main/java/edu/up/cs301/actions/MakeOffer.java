@@ -5,13 +5,23 @@ import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 
 /**
- * Created by rbard on 4/4/2018.
+ * A MakeOffer action represents a player choosing to offer a bean
+ * from their hand in exchange for the current trading card.
+ *
+ * @author Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
  */
 
 public class MakeOffer extends GameAction {
 
     private Card offer;
 
+    /**
+     * Constructor for MakeOffer class.
+     *
+     * @param initPlayer player making the offer
+     * @param initoffer a pointer to the card the player is offering
+     *                  from their hand.
+     */
     public MakeOffer(GamePlayer initPlayer, Card initoffer){
         super(initPlayer);
         offer = initoffer;

@@ -17,53 +17,78 @@ import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
 
 /**
- * Created by Toshiba on 4/2/2018.
+ * The LocalGame class for a Bohnanza game. Defines and enforces the
+ * game rules; handles interactions between players.
+ *
+ * @author Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
  */
 
 public class BohnanzaLocalGame extends LocalGame {
 
+    // The official game state
     BohnanzaState state;
 
+    /**
+     * Constructor for the BohnanzaLocalGame.
+     */
     public BohnanzaLocalGame() {
-
         // create the state for the beginning of the game
         state = new BohnanzaState();
-
-        //state.getPlayerList()[0].getHand().moveTopCardTo(
-        //        state.getPlayerList()[0].getField(0));
     }
 
+    /**
+     * Sends the updated state to the given player. In our case, we need to
+     * make a copy of the Deck, and null out all the cards except the top card
+     * in the middle deck, since that's the only one they can "see"
+     *
+     * @param p
+     * 		the player to which the state is to be sent
+     */
     protected void sendUpdatedStateTo(GamePlayer p) {
         // if there is no state to send, ignore
         if (state == null) {
             return;
         }
 
-        // make a copy of the state; null out all cards except for the
-        // top card in the middle deck
+        // Figure out the ID of the player that was passed in
         int playerID = -1;
         if(p instanceof BohnanzaHumanPlayer) {
             BohnanzaHumanPlayer player = (BohnanzaHumanPlayer) p;
             playerID = player.getPlayerIndex();
         }
+        else if(p instanceof BohnanzaComputerPlayer){
+            BohnanzaComputerPlayer player = (BohnanzaComputerPlayer) p;
+            playerID = player.getPlayerIndex();
+        }
 
-        BohnanzaState stateForPlayer = new BohnanzaState(state, playerID); // copy of state
+        // Create copy of the state using constructor that hides other
+        // players' hands
+        BohnanzaState stateForPlayer = new BohnanzaState(state, playerID);
 
         // send the modified copy of the state to the player
         p.sendInfo(stateForPlayer);
     }
 
+    /**
+     * whether a player is allowed to move
+     *
+     * @param playerIdx
+     * 		the player-number of the player in question
+     */
     protected boolean canMove(int playerIdx) {
-        //can play during trading phase or during the users own turn
-        if( state.getPhase() == 2 ){
-            return true;
-        }
-        else if( state.getTurn() == playerIdx ){
+        if( state.getPhase() == 2 || state.getTurn() == playerIdx){
+            // can make a move during trading phase or during the users own turn
             return true;
         }
         return false;
     }
 
+    /**
+     * Checks whether the game is over; if so, returns a string giving the result
+     *
+     * @result
+     * 		the end-of-game message, or null if the game is not over
+     */
     protected String checkIfGameOver() {
         int maxCoins = 0;
         int winners = 0; //if winners > 1, there is a tie
@@ -98,36 +123,56 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         return null;
     }
-
+    /**
+     * makes a move on behalf of a player
+     *
+     * @param action
+     * 		the action denoting the move to be made
+     * @return
+     * 		true if the move was legal; false otherwise
+     */
     protected boolean makeMove(GameAction action) {
         Log.i("LocalGame, makeMove", "");
         int thisPlayerIdx = getPlayerIdx(action.getPlayer());
 
+        // If the player is trying to buy a third field
         if(action instanceof BuyThirdField){
-            buyThirdField(thisPlayerIdx);
-            sendAllUpdatedState();
-            return true;
+            if( !(buyThirdField(thisPlayerIdx)) ) {
+                return false;
+            }
         }
+        // If the player is trying to plant a bean
         if(action instanceof PlantBean) {
             PlantBean plantBean = (PlantBean) action;
             Log.i("BLocal, makeMove", "Origin = "+plantBean.getOrigin());
+            // Plant from hand
             if(plantBean.getOrigin() == 0){
-                if( !(state.getPhase() == 1) ){
+                // Cannot keep planting from their hand endlessly
+                // during the first phase or phase between turning
+                // 2 cards and trading
+                if( !(state.getPhase() == 0 || state.getPhase() == 1 ) ){
                     plantBean(thisPlayerIdx, plantBean.getField(),
                             state.getPlayerList()[thisPlayerIdx].getHand());
                 }
             }
+            // Plant first trading card
             else if (plantBean.getOrigin() == 1){
+                // Create new deck to hold the desired trade card so
+                // that the plantBean method plants intended bean
                 Deck cardToTrade = new Deck();
                 state.getTradeDeck().moveBottomCardTo(cardToTrade);
+                // If unsuccessful, return card to the trade deck
                 if(! (plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade)) ) {
                     cardToTrade.moveBottomCardTo(state.getTradeDeck());
                     return false;
                 }
             }
+            // Plant second trading card
             else{
+                // New deck for second card
                 Deck cardToTrade = new Deck();
                 state.getTradeDeck().moveTopCardTo(cardToTrade);
+                // If unsuccessful, return card to the trade deck
                 if(! (plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade)) ) {
                     cardToTrade.moveBottomCardTo(state.getTradeDeck());
                     return false;
@@ -136,6 +181,7 @@ public class BohnanzaLocalGame extends LocalGame {
             sendAllUpdatedState();
             return true;
         }
+        // If player wants to harvest a field
         if(action instanceof HarvestField){
             HarvestField harvestField = (HarvestField) action;
             harvestField(thisPlayerIdx, state.getPlayerList()[thisPlayerIdx].
@@ -143,29 +189,35 @@ public class BohnanzaLocalGame extends LocalGame {
             sendAllUpdatedState();
             return true;
         }
+        // Player wants to turn two trading cards
         if(action instanceof TurnTwoCards){
             turn2Cards(thisPlayerIdx);
             sendAllUpdatedState();
         }
+        // Player wants to initiate trading phase
         if(action instanceof StartTrading){
             startTrading(thisPlayerIdx);
             sendAllUpdatedState();
         }
+        // Player wants to make a trade offer
         if(action instanceof MakeOffer){
             MakeOffer makeOffer = (MakeOffer) action;
             makeOffer(thisPlayerIdx, makeOffer.getOffer());
             sendAllUpdatedState();
         }
+        // Player will not make an offer for highlighted trading card
         if(action instanceof AbstainFromTrading){
             abstainFromTrading(thisPlayerIdx);
             sendAllUpdatedState();
         }
+        // Player wants to end turn
         if(action instanceof DrawThreeCards){
             //ending turn during phase 3, changes phase to 3
             draw3Cards(thisPlayerIdx);
             sendAllUpdatedState();
             return true;
         }
+        // Player responding to another player's offer
         if(action instanceof OfferResponse){
             OfferResponse offerResponse = (OfferResponse) action;
             offerResponse(thisPlayerIdx, offerResponse.getTraderId(),
@@ -178,16 +230,21 @@ public class BohnanzaLocalGame extends LocalGame {
     }
 
 
-
+    /**
+     * purchase the third field
+     */
     public boolean buyThirdField(int playerId) {
         if (state.getPlayerList()[playerId].getHasThirdField()) {
+            // They already purchased the field
             return false;
         } else {
             if (state.getPlayerList()[playerId].getCoins() >= 3) {
+                // They have enough coins to buy it and can now plant in it
                 state.getPlayerList()[playerId].setHasThirdField(true);
                 state.getPlayerList()[playerId].setCoins(state.getPlayerList()[playerId].getCoins() - 3);
                 return true;
             } else {
+                // Player doesn't have enough coins
                 return false;
             }
         }
@@ -202,7 +259,6 @@ public class BohnanzaLocalGame extends LocalGame {
 
         //Check if player's turn
         if (state.getTurn() != playerId) {
-            //TODO: figure out to to check for a trade
             return false;
         }
         //Check if the origin deck has something to plant
@@ -293,7 +349,6 @@ public class BohnanzaLocalGame extends LocalGame {
         if (state.getPhase() != 2) {
             return false;
         }
-        //TODO: decide how to display offer
         state.getPlayerList()[traderId].setMakeOffer(2); //user will trade
         state.getPlayerList()[traderId].setOffer(offer); //make traders offer cards visible
         return true;
@@ -349,7 +404,6 @@ public class BohnanzaLocalGame extends LocalGame {
      * If a trade is accepted, move the traded cards into player's toPlant Decks
      */
     public boolean offerResponse(int playerId, int traderId, boolean accept) {
-        /////Should we have a way to indicate a rejection???
         if( state.getPhase() != 2 || !accept ||
                 state.getPlayerList()[traderId].getMakeOffer() != 2) {
             return false;

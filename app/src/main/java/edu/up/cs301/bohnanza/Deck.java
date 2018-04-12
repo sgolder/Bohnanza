@@ -188,10 +188,8 @@ public class Deck implements Serializable {
         return cards.size();
     }
 
-    //TODO: Make the new Card initialization include
     /**
-     *  add all bohnanza cards to a the deck that method was called from
-     *
+     *  add all bohnanza cards to this deck
      */
     public void addAllCards() {
         for(int i = 0; i < 20; i++) {
@@ -228,8 +226,10 @@ public class Deck implements Serializable {
         }
     }
 
-    public ArrayList<Card> getCards() { return cards; }
-
+    /**
+     *  Makes this deck show up as just card backs, used when sending
+     *  updated state to human players so they can't see others' hands
+     */
     public void turnHandOver() {
         synchronized(this.cards) {
             int oldSize = size();
@@ -242,8 +242,7 @@ public class Deck implements Serializable {
     }
 
     /**
-     *
-     * @param initDeck
+     * @param initDeck the deck that is being harvested
      * @return number of coins a field is worth
      *
      * index 0: 1 coin
@@ -269,6 +268,8 @@ public class Deck implements Serializable {
                 return fieldVal;
 
             } else {
+                // Check if we have enough cards for the most coins,
+                // then second most, and so on
                 for (int i = 3; i >= 0; i--) {
                     if (initDeck.size() >= coinCount[i]) {
                         fieldVal = i + 1;
@@ -296,4 +297,5 @@ public class Deck implements Serializable {
         return beanList;
     }
 
+    public ArrayList<Card> getCards() { return cards; }
 }

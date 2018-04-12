@@ -11,11 +11,16 @@ import android.graphics.BitmapFactory;
  * @autor Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
  */
 public class Card {
-    private int beanIdx;
+    private int beanIdx; // This card's bean type
     private String beanName;
+    // Holds how many of these beans are needed to get 1, 2, 3, or 4
+    // coins when harvesting
     private int[] coinCount = new int[4];
-    private int numBean;
+    private int numBean; // Number of this kind of bean in deck
 
+    /**
+     * Constructor for Card.
+     */
     public Card(int index, String name, int[] coin, int num){
         beanIdx = index;
         beanName = name;
@@ -25,6 +30,9 @@ public class Card {
         numBean = num;
     }
 
+    /**
+     * Copy constructor for Card.
+     */
     public Card(Card orig){
         beanIdx = orig.beanIdx;
         beanName = orig.beanName;
@@ -34,14 +42,7 @@ public class Card {
         numBean = orig.numBean;
     }
 
-    public boolean equals(Object other) {
-        if (!(other instanceof Card)) return false;
-        Card c = (Card)other;
-        return this.beanName.equals(c.beanName);
-    }
-
-    // array that contains the android resource indices for the 52 card
-    // images
+    // Array that contains the android resource indices for each bean type
     private static int[] resIdx =
             {
                     R.drawable.card6_garden,R.drawable.card8_red,
@@ -53,6 +54,15 @@ public class Card {
 
     // the array of card images
     private static Bitmap[] cardImages = null;
+
+    /**
+     * Checks if two beans are of the same type
+     */
+    public boolean equals(Object other) {
+        if (!(other instanceof Card)) return false;
+        Card c = (Card)other;
+        return this.beanName.equals(c.beanName);
+    }
 
     /**
      * initializes the card images
@@ -75,7 +85,6 @@ public class Card {
                     activity.getResources(), resIdx[i]);
         }
     }
-    public void setBeanName(String newName) { beanName = newName; }
 
     public String getBeanName() { return beanName; }
 

@@ -11,13 +11,19 @@ import edu.up.cs301.game.config.GameConfig;
 import edu.up.cs301.game.config.GamePlayerType;
 
 /**
- * Created by Toshiba on 4/2/2018.
+ * The primary activity for the Bohnanza game
+ *
+ * @author Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
  */
 
 public class BohnanzaMainActivity extends GameMainActivity {
 
     public static final int PORT_NUMBER = 4752;
 
+    /**
+     * A Bohnanza game for 4 players. Default is one human player and
+     * three dumb AIs
+     */
     @Override
     public GameConfig createDefaultConfig() {
         // Define the allowed player types
@@ -27,7 +33,7 @@ public class BohnanzaMainActivity extends GameMainActivity {
         super.setRequestedOrientation
                 (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        playerTypes.add(new GamePlayerType("human player (green)") {
+        playerTypes.add(new GamePlayerType("human player") {
             public GamePlayer createPlayer(String name) {
                 return new BohnanzaHumanPlayer(name);
             }
@@ -44,8 +50,8 @@ public class BohnanzaMainActivity extends GameMainActivity {
         });
 
         // Create a game configuration class for Bohnanza
-        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4,
-                        "Bohnanza", PORT_NUMBER);
+        GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4,
+                "Bohnanza", PORT_NUMBER);
 
         // Add the default players
         defaultConfig.addPlayer("Human", 0);
@@ -55,8 +61,6 @@ public class BohnanzaMainActivity extends GameMainActivity {
 
         // Set the initial information for the remote player
         defaultConfig.setRemoteData("Guest", "", 1);
-
-
 
         return defaultConfig;
     }

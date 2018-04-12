@@ -26,6 +26,9 @@ public class BohnanzaState extends GameState {
     // Phase 2: Trading
     private int phase;
 
+    /**
+     * Constructor for BohnanzaState.
+     */
     public BohnanzaState() {
         mainDeck = new Deck();
         mainDeck.addAllCards();
@@ -41,10 +44,6 @@ public class BohnanzaState extends GameState {
         playerList[2] = new BohnanzaPlayerState("Player 3");
         playerList[3] = new BohnanzaPlayerState("Player 4");
 
-        /*for(int i = 0; i<12; i++) {
-            int[] blackEyedCoins = {2, 4, 5, 6};
-            playerList[0].getHand().getCards().add(new Card(2, "Black-Eyed Bean", blackEyedCoins, 10));
-        }*/
         for(int i = 0; i<4; i++) {
             for(int j = 0; j<5; j++) {
                 mainDeck.moveTopCardTo(playerList[i].getHand());
@@ -228,6 +227,5 @@ public class BohnanzaState extends GameState {
 
         return player1Info+player2Info+player3Info+player4Info+deckInfo+stateInfo;
     }
-
 }
 

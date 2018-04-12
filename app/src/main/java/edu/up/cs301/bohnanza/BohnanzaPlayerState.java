@@ -7,17 +7,19 @@ import android.util.Log;
  *
  * @autor Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
  */
-
 public class BohnanzaPlayerState {
     private String name;
     private int coins;
     private Deck[] fields = new Deck[3];
     private Deck hand;
-    private Deck toPlant;
+    private Deck toPlant; // Cards won through a trade
     private boolean hasThirdField;
     private int makeOffer;
     private Card offer = null;
 
+    /**
+     * Constructor for BohnanzaPlayerState.
+     */
     public BohnanzaPlayerState(String playerName) {
         name = playerName;
         hand = new Deck();
@@ -60,9 +62,11 @@ public class BohnanzaPlayerState {
         coins = coins + newCoins;
         Log.i("BohPlaSt, setCoins", "coins =="+coins);
     }
+
     public void setHasThirdField (boolean newHasThirdField) {
         hasThirdField = newHasThirdField;
     }
+
     public void setHand (Deck newHand) {hand = newHand;}
 
     //setMakeOffer 2 if user will make an offer, 1 if user will not
@@ -72,7 +76,7 @@ public class BohnanzaPlayerState {
     }
     public void setOffer(Card initoffer){
         offer = initoffer;
-        /* Useful for if we make offer a Card[]
+        /* Useful if we make offer a Card[]
         for(int i = 0; i<offer.length; i++){
             hand.getCards().remove(i);
             hand.add(offer[i]);

@@ -15,7 +15,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 /**
  * Displays the game to a human player on the GUI.
  *
- * @autor Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
+ * @author Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
  */
 
 public class BohnanzaHumanPlayer extends GameHumanPlayer {
@@ -241,7 +241,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
          Date:      6 March 2018
          Problem:   Did not know how to set the visibility of buttons and change the text
          Resource:  https://stackoverflow.com/questions/4127725/
-                    how-can-i-remove-a-button-or-make-it-invisible-in-android
+         how-can-i-remove-a-button-or-make-it-invisible-in-android
          Solution:  Used an example from this post
          */
 
