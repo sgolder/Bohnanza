@@ -22,6 +22,7 @@ public class PlayerView extends SurfaceView {
     private Rect field1;
     private Rect field2;
     private Rect field3;
+    private Rect rectOffer;
     private int width;
     private int height;
     private Bitmap field1Bean;
@@ -36,6 +37,7 @@ public class PlayerView extends SurfaceView {
     private Boolean thirdField = false;
     private int phase = 0;
     private int offer = 0;
+    private Bitmap cardOffer;
 
     /** constructor */
     public PlayerView(Context context) {
@@ -65,7 +67,7 @@ public class PlayerView extends SurfaceView {
         field1 = new Rect(3*width/10, 1*height/20+30, 5*width/10, 5*height/20+30);
         field2 = new Rect(3*width/10, 6*height/20+20, 5*width/10, 10*height/20+20);
         field3 = new Rect(3*width/10, 11*height/20+10, 5*width/10, 15*height/20+10);
-
+        rectOffer = new Rect(2*width/5, 16*height/20-5, 3*width/5, height-5);
     }
 
     //setters
@@ -101,6 +103,10 @@ public class PlayerView extends SurfaceView {
     }
     public void setOffer(int initOffer) {
         offer = initOffer;
+    }
+    public void setCardOffer(Bitmap initCardOffer) {
+        cardOffer = initCardOffer;
+        invalidate();
     }
 
 
@@ -205,6 +211,10 @@ public class PlayerView extends SurfaceView {
      * @param textPaint the paint to paint with
      */
     private void drawHand(Canvas canvas, Paint textPaint) {
+        Paint acceptPaint = new Paint();
+        acceptPaint.setColor(Color.rgb(98, 195, 112));
+        Paint rejectPaint = new Paint();
+        rejectPaint.setColor(Color.rgb(238, 96, 85));
         //draw the first 8 cards of the hand
         if(handCards.size() != 0 && phase != 2) {
             for(int i = handCards.size()-1; i>=0; i--){
@@ -231,6 +241,13 @@ public class PlayerView extends SurfaceView {
                 textPaint.setTextSize(50);
                 textPaint.setColor(Color.WHITE);
                 canvas.drawText("NOT TRADING", width/5, 18*height/20+15, textPaint);
+            }
+            else if(offer == 2) {
+                if(cardOffer != null) {
+                    canvas.drawBitmap(cardOffer, null, rectOffer, null);
+                    canvas.drawRect(width/10, 17*height/20-10, 3*width/10, 19*height/20-10, acceptPaint);
+                    canvas.drawRect(7*width/10, 17*height/20-10, 9*width/10, 19*height/20-10, rejectPaint);
+                }
             }
         }
     }
