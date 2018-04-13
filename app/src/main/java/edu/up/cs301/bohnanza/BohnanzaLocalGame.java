@@ -352,6 +352,7 @@ public class BohnanzaLocalGame extends LocalGame {
         }
         state.getPlayerList()[traderId].setMakeOffer(2); //user will trade
         state.getPlayerList()[traderId].setOffer(offer); //make traders offer cards visible
+        Log.i("Local Game", "set offer");
         return true;
     }
 

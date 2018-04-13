@@ -47,7 +47,7 @@ public class BohnanzaPlayerState {
             fields[i] = new Deck(orig.fields[i]);
         }
         toPlant = new Deck(orig.getToPlant());
-        //offer = hand.peekAtTopCard();
+        offer = orig.getOffer();
     }
 
     //Getter methods
