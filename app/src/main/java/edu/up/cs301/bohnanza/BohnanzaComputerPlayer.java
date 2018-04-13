@@ -65,6 +65,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         // Update our state
         savedState = (BohnanzaState) info;
 
+        if(savedState == null) return;
         // Run the functionality of initialized AI
         if (smartAI) {startSmartAI();}
         else {
@@ -97,12 +98,17 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         synchronized(this) {
             // Ignore if it's not the computer's turn
             if (savedState.getTurn() != playerNum) {
+
                 if(savedState.getPhase() == 2){
                     Log.i("BCompP, dumb", "MakeOffer");
-                    game.sendAction(new MakeOffer(this,
-                            savedState.getPlayerList()[playerNum].
-                                    getHand().getCards().get(1)));
+                    if(savedState.getPlayerList()[playerNum].getHand().getCards().get(0) != null
+                            && savedState.getPlayerList()[playerNum].getOffer() != null) {
+                        game.sendAction(new MakeOffer(this,
+                                savedState.getPlayerList()[playerNum].
+                                        getHand().getCards().get(0)));
+                    }
                 }
+
                 return;
             }
             // Get player state
