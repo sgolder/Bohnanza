@@ -1,11 +1,15 @@
 package edu.up.cs301.bohnanza;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
@@ -86,6 +90,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
         handView.setOnTouchListener(myListener);
         tradeView.setOnTouchListener(myListener);
 
+
         Card.initImages(activity); //initialize all card bitmaps
     }
 
@@ -112,6 +117,53 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
     public void drawGUI() {
         if(state == null) return; //return if we have not yet received the game state
 
+        //popup that alerts the player that trading has started
+        Context context = myActivity.getApplicationContext();
+        int duration = Toast.LENGTH_LONG;
+        CharSequence message;
+
+        //Initial planting phase
+        //Player has to plant one bean from their hand
+        if(state.getPhase()==-1){
+            message = "Please plant a bean from your hand";
+            Toast toast = Toast.makeText(context, message, duration);
+            toast.setGravity(Gravity.BOTTOM| Gravity.START, 0, 0);
+            toast.show();
+        }
+        //Begin turn and plant initial beans
+        if(state.getPhase()==0){
+            message = "Turn two cards or plant your beans";
+            Toast toast = Toast.makeText(context, message, duration);
+            toast.setGravity(Gravity.BOTTOM| Gravity.START, 0, 0);
+            toast.show();
+        }
+        //Turn over two cards and decide to trade or plant
+        if(state.getPhase()==1){
+            message = "Plant your new beans or enter trading";
+            Toast toast = Toast.makeText(context, message, duration);
+            toast.setGravity(Gravity.BOTTOM| Gravity.START, 0, 0);
+            toast.show();
+        }
+        //Alerts the player that trading has started
+        if(state.getPhase()==2){
+            message = "Trading has started";
+            Toast toast = Toast.makeText(context, message, duration);
+            toast.setGravity(Gravity.BOTTOM| Gravity.START, 0, 0);
+            toast.show();
+        }
+        if(myListener.getHarvest()){
+            message = "Select the field to harvest";
+            Toast toast = Toast.makeText(context, message, duration);
+            toast.setGravity(Gravity.BOTTOM| Gravity.START, 0, 0);
+            toast.show();
+        }
+        if(myListener.getMakeOffer()){
+            message = "Select which bean you would like to offer";
+            Toast toast = Toast.makeText(context, message, duration);
+            toast.setGravity(Gravity.BOTTOM| Gravity.START, 0, 0);
+            toast.show();
+        }
+
         int[] delete = {0};
         Card getCards = new Card(0, "", delete, 0);
         Bitmap[] cardImages = getCards.getCardImages(); //get bitmaps of each card
@@ -126,6 +178,10 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
 
         //set white part of screen to have same background as surface views
         bottomLayout.setBackgroundColor(Color.rgb(45, 45, 45));
+
+
+
+
     }
 
     /**

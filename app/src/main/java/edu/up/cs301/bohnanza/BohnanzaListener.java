@@ -349,4 +349,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
     public void setState( BohnanzaState initstate ) { state = initstate; }
     public void setGame( Game initgame ) { game = initgame; }
+    public boolean getMakeOffer(){return makeOffer;}
+    public boolean getHarvest(){return harvesting;}
 }

@@ -20,7 +20,7 @@ public class BohnanzaState extends GameState {
     private Deck mainDeck;
     private Deck discardDeck;
     private Deck tradeDeck;
-
+    //Phase -1: initial planting
     // Phase 0: Begin turn and plant initial beans
     // Phase 1: Turn over two cards and decide to trade or plant
     // Phase 2: Trading
