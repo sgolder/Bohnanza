@@ -4,9 +4,11 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -40,6 +42,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private Game game;
     // 0: hand, 1: trade[0], 2: trade[1]
     private int origin = 0;
+    private Toast toast;
 
     private boolean harvesting = false; // the player intends to harvest
     private boolean makeOffer = false; // the player is making an offer
@@ -51,7 +54,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     public BohnanzaListener (BohnanzaState bohnanzaState, int player, PlayerView initPlayer1,
                              PlayerView initPlayer2, PlayerView initPlayer3, PlayerView initPlayer4,
                              HandView initHand, TradeView initTrade, BohnanzaHumanPlayer initHumanPlayer,
-                             Game initGame) {
+                             Game initGame, Toast initToast) {
         state = bohnanzaState;
         playerId = player;
         player1View = initPlayer1;
@@ -62,6 +65,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         tradeView = initTrade;
         humanPlayer = initHumanPlayer;
         game = initGame;
+        toast = initToast;
     }
 
     @Override
@@ -72,11 +76,13 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             //user presses Harvest Button
             if(buttonLabel.equalsIgnoreCase("Harvest")) {
                 harvesting = !harvesting;
+                humanPlayer.setPopups();
                 Log.i("Button Pressed", buttonLabel);
             }
             //user presses Make Offer button
             else if(buttonLabel.equalsIgnoreCase("Make Offer")) {
                 makeOffer = true;
+                humanPlayer.setPopups();
                 Log.i("Button Pressed", buttonLabel);
             }
             //user presses Start Trading button
@@ -140,7 +146,10 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
             //user touches field 3
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
-                if(harvesting) {
+                if(!state.getPlayerList()[playerId].getHasThirdField()){
+                    game.sendAction(new BuyThirdField(humanPlayer));
+                }
+                else if(harvesting) {
                     game.sendAction(new HarvestField(humanPlayer, 2));
                     harvesting = false;
                 }
@@ -148,9 +157,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     game.sendAction(new PlantBean(humanPlayer, 2, origin));
                 }
                 Log.i("Field Pressed", "Field 3");
-                if(!state.getPlayerList()[playerId].getHasThirdField()){
-                    game.sendAction(new BuyThirdField(humanPlayer));
-                }
             }
             else if(yPos > 3*height/4+25) {
                 game.sendAction(new OfferResponse(humanPlayer, 0, true));
@@ -186,7 +192,10 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
             //user touches field 3
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
-                if(harvesting) {
+                if(!state.getPlayerList()[playerId].getHasThirdField()){
+                    game.sendAction(new BuyThirdField(humanPlayer));
+                }
+                else if(harvesting) {
                     game.sendAction(new HarvestField(humanPlayer, 2));
                     harvesting = false;
                 }
@@ -194,9 +203,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     game.sendAction(new PlantBean(humanPlayer, 2, origin));
                 }
                 Log.i("Field Pressed", "Field 3");
-                if(!state.getPlayerList()[playerId].getHasThirdField()){
-                    game.sendAction(new BuyThirdField(humanPlayer));
-                }
             }
             else if(yPos > 3*height/4+25) {
                 game.sendAction(new OfferResponse(humanPlayer, 1, true));
@@ -232,16 +238,17 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
             //user touches field 3
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
-                if(harvesting) {
+                if(!state.getPlayerList()[playerId].getHasThirdField()){
+                    game.sendAction(new BuyThirdField(humanPlayer));
+                }
+                else if(harvesting) {
                     game.sendAction(new HarvestField(humanPlayer, 2));
                     harvesting = false;
                 }
                 else {
                     game.sendAction(new PlantBean(humanPlayer, 2, origin));
                 }
-                if(!state.getPlayerList()[playerId].getHasThirdField()){
-                    game.sendAction(new BuyThirdField(humanPlayer));
-                }
+
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
@@ -277,16 +284,17 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
             //user touches field 3
             else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
-                if(harvesting) {
+                if(!state.getPlayerList()[playerId].getHasThirdField()){
+                    game.sendAction(new BuyThirdField(humanPlayer));
+                }
+                else if(harvesting) {
                     game.sendAction(new HarvestField(humanPlayer, 2));
                     harvesting = false;
                 }
                 else {
                     game.sendAction(new PlantBean(humanPlayer, 2, origin));
                 }
-                if(!state.getPlayerList()[playerId].getHasThirdField()){
-                    game.sendAction(new BuyThirdField(humanPlayer));
-                }
+
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {

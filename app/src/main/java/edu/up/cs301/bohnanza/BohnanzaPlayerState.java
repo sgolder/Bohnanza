@@ -66,6 +66,10 @@ public class BohnanzaPlayerState {
         Log.i("BohPlaSt, setCoins", "coins =="+coins);
     }
 
+    public void resetCoins (int newCoins) {
+        coins = newCoins;
+    }
+
     public void setHasThirdField (boolean newHasThirdField) {
         hasThirdField = newHasThirdField;
     }

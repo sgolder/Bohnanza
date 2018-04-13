@@ -137,9 +137,9 @@ public class BohnanzaLocalGame extends LocalGame {
 
         // If the player is trying to buy a third field
         if(action instanceof BuyThirdField){
-            if( !(buyThirdField(thisPlayerIdx)) ) {
-                return false;
-            }
+            buyThirdField(thisPlayerIdx);
+            sendAllUpdatedState();
+            return true;
         }
         // If the player is trying to plant a bean
         if(action instanceof PlantBean) {
@@ -193,11 +193,13 @@ public class BohnanzaLocalGame extends LocalGame {
         if(action instanceof TurnTwoCards){
             turn2Cards(thisPlayerIdx);
             sendAllUpdatedState();
+            return true;
         }
         // Player wants to initiate trading phase
         if(action instanceof StartTrading){
             startTrading(thisPlayerIdx);
             sendAllUpdatedState();
+            return true;
         }
         // Player wants to make a trade offer
         if(action instanceof MakeOffer){
@@ -210,6 +212,7 @@ public class BohnanzaLocalGame extends LocalGame {
         if(action instanceof AbstainFromTrading){
             abstainFromTrading(thisPlayerIdx);
             sendAllUpdatedState();
+            return true;
         }
         // Player wants to end turn
         if(action instanceof DrawThreeCards){
@@ -238,13 +241,15 @@ public class BohnanzaLocalGame extends LocalGame {
         if (state.getPlayerList()[playerId].getHasThirdField()) {
             // They already purchased the field
             return false;
-        } else {
+        }
+        else {
             if (state.getPlayerList()[playerId].getCoins() >= 3) {
                 // They have enough coins to buy it and can now plant in it
                 state.getPlayerList()[playerId].setHasThirdField(true);
-                state.getPlayerList()[playerId].setCoins(state.getPlayerList()[playerId].getCoins() - 3);
+                state.getPlayerList()[playerId].resetCoins(state.getPlayerList()[playerId].getCoins() - 3);
                 return true;
-            } else {
+            }
+            else {
                 // Player doesn't have enough coins
                 return false;
             }
