@@ -38,6 +38,10 @@ public class PlayerView extends SurfaceView {
     private int phase = 0;
     private int offer = 0;
     private Bitmap cardOffer;
+    private Bitmap accept;
+    private Bitmap reject;
+    private Rect acceptRect;
+    private Rect rejectRect;
 
     /** constructor */
     public PlayerView(Context context) {
@@ -107,6 +111,12 @@ public class PlayerView extends SurfaceView {
     public void setCardOffer(Bitmap initCardOffer) {
         cardOffer = initCardOffer;
         invalidate();
+    }
+    public void setOfferResponse(Bitmap initAccept, Bitmap initReject) {
+        accept = initAccept;
+        reject = initReject;
+        acceptRect = new Rect(width/10, 17*height/20-5, 3*width/10-10, 19*height/20-15);
+        rejectRect = new Rect(7*width/10+5, 17*height/20-5, 9*width/10-5, 19*height/20-15);
     }
 
 
@@ -212,8 +222,12 @@ public class PlayerView extends SurfaceView {
      */
     private void drawHand(Canvas canvas, Paint textPaint) {
         Paint acceptPaint = new Paint();
+        acceptPaint.setStyle(Paint.Style.STROKE);
+        acceptPaint.setStrokeWidth(5);
         acceptPaint.setColor(Color.rgb(98, 195, 112));
         Paint rejectPaint = new Paint();
+        rejectPaint.setStyle(Paint.Style.STROKE);
+        rejectPaint.setStrokeWidth(5);
         rejectPaint.setColor(Color.rgb(238, 96, 85));
         //draw the first 8 cards of the hand
         if(handCards.size() != 0 && phase != 2) {
@@ -245,8 +259,10 @@ public class PlayerView extends SurfaceView {
             else if(offer == 2) {
                 if(cardOffer != null) {
                     canvas.drawBitmap(cardOffer, null, rectOffer, null);
-                    canvas.drawRect(width/10, 17*height/20-10, 3*width/10, 19*height/20-10, acceptPaint);
-                    canvas.drawRect(7*width/10, 17*height/20-10, 9*width/10, 19*height/20-10, rejectPaint);
+                    canvas.drawCircle(2*width/10, 18*height/20-10, width/10+10, acceptPaint);
+                    canvas.drawCircle(8*width/10, 18*height/20-10, width/10+10, rejectPaint);
+                    canvas.drawBitmap(accept, null, acceptRect, null);
+                    canvas.drawBitmap(reject, null, rejectRect, null);
                 }
             }
         }

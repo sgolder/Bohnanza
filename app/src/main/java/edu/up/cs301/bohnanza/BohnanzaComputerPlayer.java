@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.Random;
 
+import edu.up.cs301.actions.AbstainFromTrading;
 import edu.up.cs301.actions.DrawThreeCards;
 import edu.up.cs301.actions.HarvestField;
 import edu.up.cs301.actions.OfferResponse;
@@ -156,6 +157,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                     if(savedState.getPlayerList()[playerNum].getHand().getCards().get(0) != null
                             && savedState.getPlayerList()[playerNum].getOffer() == null) {
                         game.sendAction(new MakeOffer(this, 0));
+
                     }
                 }
 

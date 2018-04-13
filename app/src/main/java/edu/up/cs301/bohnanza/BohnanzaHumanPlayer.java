@@ -3,6 +3,7 @@ package edu.up.cs301.bohnanza;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
@@ -39,6 +40,8 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
     private Button button3;
     private Button button4;
     private Toast toast;
+    private Bitmap acceptImage;
+    private Bitmap rejectImage;
 
     /**
      * constructor
@@ -91,6 +94,8 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
         handView.setOnTouchListener(myListener);
         tradeView.setOnTouchListener(myListener);
 
+        acceptImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.accept);
+        rejectImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.reject);
 
         Card.initImages(activity); //initialize all card bitmaps
     }
@@ -251,6 +256,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             playerViews[i].setThirdField(state.getPlayerList()[i].getHasThirdField());
             playerViews[i].setPhase(state.getPhase());
             playerViews[i].setOffer(state.getPlayerList()[i].getMakeOffer());
+            playerViews[i].setOfferResponse(acceptImage, rejectImage);
             if(state.getTurn() == i) {
                 playerViews[i].setPhase(0);
             }
