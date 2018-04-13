@@ -265,7 +265,9 @@ public class BohnanzaLocalGame extends LocalGame {
 
         //Check if player's turn
         if (state.getTurn() != playerId) {
-            return false;
+            if(!(state.getPhase() == 2)) {
+                return false;
+            }
         }
         //Check if the origin deck has something to plant
         if (origin == null || origin.size() == 0) {
@@ -418,6 +420,7 @@ public class BohnanzaLocalGame extends LocalGame {
         BohnanzaPlayerState trader = state.getPlayerList()[traderId];
         for(int i = 0; i<trader.getHand().getCards().size(); i++) {
             if(trader.getHand().getCards().get(i) == trader.getOffer()) {
+                Log.i("BLocal", "Offer accepteed from "+ traderId);
                 // Give current player offered card
                 Card offeredCard = trader.getHand().getCards().remove(i);
                 state.getPlayerList()[playerId].getToPlant().add(offeredCard);

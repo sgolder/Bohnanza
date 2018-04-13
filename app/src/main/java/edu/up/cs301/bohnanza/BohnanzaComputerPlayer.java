@@ -148,23 +148,28 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
      */
     protected void startDumbAI(){
         synchronized(this) {
-            // Ignore if it's not the computer's turn
-            if (savedState.getTurn() != playerNum) {
-
-                if(savedState.getPhase() == 2){
-                    Log.i("BCompP, dumb", "MakeOffer");
-                    if(savedState.getPlayerList()[playerNum].getHand().getCards().get(0) != null
-                            && savedState.getPlayerList()[playerNum].getOffer() == null) {
-                        game.sendAction(new MakeOffer(this, 0));
-                    }
-                }
-
-                return;
-            }
             // Get player state
             BohnanzaPlayerState myInfo = savedState.getPlayerList()[playerNum];
-            getTimer().start();
 
+            // Ignore if it's not the computer's turn
+            if (savedState.getTurn() != playerNum) {
+                // During trading
+                if(savedState.getPhase() == 2){
+                    // Make an offer
+                    if(savedState.getPlayerList()[playerNum].getHand().getCards().get(0) != null
+                            && savedState.getPlayerList()[playerNum].getOffer() == null) {
+                        Log.i("BCompP, dumb", "MakeOffer");
+                        game.sendAction(new MakeOffer(this, 0));
+                        return;
+                    }
+                    if(!(savedState.getPlayerList()[playerNum].getToPlant().getCards().isEmpty())) {
+                        plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
+                        return;
+                    }
+                }
+                return;
+            }
+            getTimer().start();
             if(savedState.getPhase() == -1){
                 // Plant first bean
                 plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
