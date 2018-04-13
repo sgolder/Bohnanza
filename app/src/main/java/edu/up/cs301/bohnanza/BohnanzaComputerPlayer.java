@@ -3,6 +3,7 @@ package edu.up.cs301.bohnanza;
 import android.util.Log;
 import edu.up.cs301.actions.DrawThreeCards;
 import edu.up.cs301.actions.HarvestField;
+import edu.up.cs301.actions.MakeOffer;
 import edu.up.cs301.actions.PlantBean;
 import edu.up.cs301.actions.TurnTwoCards;
 import edu.up.cs301.game.GameComputerPlayer;
@@ -94,6 +95,12 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         synchronized(this) {
             // Ignore if it's not the computer's turn
             if (savedState.getTurn() != playerNum) {
+                if(savedState.getPhase() == 2){
+                    Log.i("BCompP, dumb", "MakeOffer");
+                    game.sendAction(new MakeOffer(this,
+                            savedState.getPlayerList()[playerNum].
+                                    getHand().getCards().get(1)));
+                }
                 return false;
             }
             if (savedState.getTurn() == playerNum) {
