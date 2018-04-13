@@ -168,21 +168,26 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             if(savedState.getPhase() == -1){
                 // Plant first bean
                 plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
+                return;
             }
-            if(savedState.getPhase() == 0){
+            else if(savedState.getPhase() == 0){
                 // Turn two cards
                 game.sendAction(new TurnTwoCards(this));
+                return;
             }
-            if(savedState.getPhase() ==1){
+            else if(savedState.getTradeDeck().getCards().isEmpty() && savedState.getPhase() == 1){
+                // End turn
+                game.sendAction(new DrawThreeCards(this));
+                return;
+            }
+            else if(savedState.getPhase() ==1){
                 // Plant first trading card
                 plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
                 // Plant second trading card
                 plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+                return;
             }
-            if(savedState.getTradeDeck().getCards().isEmpty()){
-                // End turn
-                game.sendAction(new DrawThreeCards(this));
-            }
+
         }
     }
 
