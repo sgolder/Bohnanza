@@ -189,6 +189,9 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             else {
                 playerViews[i].setPhase(state.getPhase());
             }
+            if(state.getPlayerList()[i].getOffer() != null) {
+                playerViews[i].setCardOffer(cardImages[state.getPlayerList()[i].getOffer().getBeanIdx()]);
+            }
             playerViews[i].invalidate(); //redraw after all information is set
         }
     }
