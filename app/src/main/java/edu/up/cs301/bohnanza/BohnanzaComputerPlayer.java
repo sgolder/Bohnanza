@@ -28,9 +28,6 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
     private boolean smartAI = false;
     // most recent state of the game
     protected BohnanzaState savedState;
-    // increments as the computer player performs each step during
-    // its turn, returns to -1 when it ends it' turn
-    private int curPhase = -1;
 
     /**
      * Constructor
