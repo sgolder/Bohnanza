@@ -13,7 +13,7 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class MakeOffer extends GameAction {
 
-    private Card offer;
+    private int offer;
 
     /**
      * Constructor for MakeOffer class.
@@ -22,10 +22,10 @@ public class MakeOffer extends GameAction {
      * @param initoffer a pointer to the card the player is offering
      *                  from their hand.
      */
-    public MakeOffer(GamePlayer initPlayer, Card initoffer){
+    public MakeOffer(GamePlayer initPlayer, int initoffer){
         super(initPlayer);
         offer = initoffer;
     }
 
-    public Card getOffer() { return offer; }
+    public int getOffer() { return offer; }
 }

@@ -204,6 +204,7 @@ public class BohnanzaLocalGame extends LocalGame {
             MakeOffer makeOffer = (MakeOffer) action;
             makeOffer(thisPlayerIdx, makeOffer.getOffer());
             sendAllUpdatedState();
+            return true;
         }
         // Player will not make an offer for highlighted trading card
         if(action instanceof AbstainFromTrading){
@@ -345,7 +346,7 @@ public class BohnanzaLocalGame extends LocalGame {
     /**
      * Allow player to make an offer
      */
-    public boolean makeOffer(int traderId, Card offer) {
+    public boolean makeOffer(int traderId, int offer) {
         if (state.getPhase() != 2) {
             return false;
         }

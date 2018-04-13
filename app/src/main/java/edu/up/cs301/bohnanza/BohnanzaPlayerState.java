@@ -30,6 +30,7 @@ public class BohnanzaPlayerState {
             fields[i] = new Deck();
         }
         toPlant = new Deck();
+        //offer = hand.peekAtTopCard();
     }
 
     /**
@@ -45,6 +46,8 @@ public class BohnanzaPlayerState {
         for( int i = 0; i<3; i++) {
             fields[i] = new Deck(orig.fields[i]);
         }
+        toPlant = new Deck(orig.getToPlant());
+        //offer = hand.peekAtTopCard();
     }
 
     //Getter methods
@@ -74,8 +77,8 @@ public class BohnanzaPlayerState {
     public void setMakeOffer(int newMakeOffer) {
         makeOffer = newMakeOffer;
     }
-    public void setOffer(Card initoffer){
-        offer = initoffer;
+    public void setOffer(int initoffer){
+        offer = hand.getCards().get(initoffer);
         /* Useful if we make offer a Card[]
         for(int i = 0; i<offer.length; i++){
             hand.getCards().remove(i);

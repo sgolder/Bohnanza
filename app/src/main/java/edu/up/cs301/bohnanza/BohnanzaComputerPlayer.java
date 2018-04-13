@@ -102,10 +102,8 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                 if(savedState.getPhase() == 2){
                     Log.i("BCompP, dumb", "MakeOffer");
                     if(savedState.getPlayerList()[playerNum].getHand().getCards().get(0) != null
-                            && savedState.getPlayerList()[playerNum].getOffer() != null) {
-                        game.sendAction(new MakeOffer(this,
-                                savedState.getPlayerList()[playerNum].
-                                        getHand().getCards().get(0)));
+                            && savedState.getPlayerList()[playerNum].getOffer() == null) {
+                        game.sendAction(new MakeOffer(this, 0));
                     }
                 }
 

@@ -306,7 +306,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                     if(makeOffer) {
                         Card offer = state.getPlayerList()[playerId].getHand().
                                 getCards().get(i);
-                        game.sendAction(new MakeOffer(humanPlayer, offer));
+                        game.sendAction(new MakeOffer(humanPlayer, i));
                     }
                     return true;
                 }
