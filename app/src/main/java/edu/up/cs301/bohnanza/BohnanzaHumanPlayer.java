@@ -74,7 +74,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
 
         //call listener to listen for actions the user takes
         myListener = new BohnanzaListener(state, playerNum, player1View, player2View,
-                player3View, player4View, handView, tradeView, this, game, toast);
+                player3View, player4View, handView, tradeView, this, game);
 
         //initialize buttons
         harvest = (Button)myActivity.findViewById(R.id.buttonHarvest);
@@ -114,6 +114,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
         drawGUI(); //update gui after state has been received
         myListener.setState( state );
         myListener.setGame( game );
+        myListener.setPlayerId(playerNum);
     }
 
     /**

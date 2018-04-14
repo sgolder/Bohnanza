@@ -42,7 +42,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     private Game game;
     // 0: hand, 1: trade[0], 2: trade[1]
     private int origin = 0;
-    private Toast toast;
 
     private boolean harvesting = false; // the player intends to harvest
     private boolean makeOffer = false; // the player is making an offer
@@ -54,7 +53,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
     public BohnanzaListener (BohnanzaState bohnanzaState, int player, PlayerView initPlayer1,
                              PlayerView initPlayer2, PlayerView initPlayer3, PlayerView initPlayer4,
                              HandView initHand, TradeView initTrade, BohnanzaHumanPlayer initHumanPlayer,
-                             Game initGame, Toast initToast) {
+                             Game initGame) {
         state = bohnanzaState;
         playerId = player;
         player1View = initPlayer1;
@@ -65,7 +64,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         tradeView = initTrade;
         humanPlayer = initHumanPlayer;
         game = initGame;
-        toast = initToast;
     }
 
     @Override
@@ -77,34 +75,28 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             if(buttonLabel.equalsIgnoreCase("Harvest")) {
                 harvesting = !harvesting;
                 humanPlayer.setPopups();
-                Log.i("Button Pressed", buttonLabel);
             }
             //user presses Make Offer button
             else if(buttonLabel.equalsIgnoreCase("Make Offer")) {
                 makeOffer = true;
                 humanPlayer.setPopups();
-                Log.i("Button Pressed", buttonLabel);
             }
             //user presses Start Trading button
             else if(buttonLabel.equalsIgnoreCase("Start Trading")) {
                 game.sendAction(new StartTrading(humanPlayer));
                 tradeView.setActiveCard(1);
-                Log.i("Button Pressed", buttonLabel);
             }
             //user presses Draw 3 Cards button
             else if(buttonLabel.equalsIgnoreCase("Draw 3 Cards")) {
                 game.sendAction(new DrawThreeCards(humanPlayer));
-                Log.i("Button Pressed", buttonLabel);
             }
             //user presses Pass button
             else if(buttonLabel.equalsIgnoreCase("Pass")) {
                 game.sendAction(new AbstainFromTrading(humanPlayer));
-                Log.i("Button Pressed", buttonLabel);
             }
             //user presses Turn 2 Cards button
             else if(buttonLabel.equalsIgnoreCase("Turn 2 Cards")) {
                 game.sendAction(new TurnTwoCards(humanPlayer));
-                Log.i("Button Pressed", buttonLabel);
             }
         }
     }
@@ -357,6 +349,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
     public void setState( BohnanzaState initstate ) { state = initstate; }
     public void setGame( Game initgame ) { game = initgame; }
+    public void setPlayerId(int initPlayerId) {playerId = initPlayerId;}
     public boolean getMakeOffer(){return makeOffer;}
     public boolean getHarvest(){return harvesting;}
 }
