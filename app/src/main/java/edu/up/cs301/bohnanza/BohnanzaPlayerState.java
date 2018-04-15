@@ -82,6 +82,9 @@ public class BohnanzaPlayerState {
         makeOffer = newMakeOffer;
     }
     public void setOffer(int initoffer){
+        if( initoffer == -1) {
+            offer = null;
+        }
         offer = hand.getCards().get(initoffer);
         /* Useful if we make offer a Card[]
         for(int i = 0; i<offer.length; i++){
