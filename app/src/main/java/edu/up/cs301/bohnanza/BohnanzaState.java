@@ -12,6 +12,9 @@ import edu.up.cs301.game.infoMsg.GameState;
  */
 
 public class BohnanzaState extends GameState {
+
+    private static final long serialVersionUID = 416201801L;
+
     private int turn; //0 = player 1, 1 = player 2, etc.
     private int timesThroughDeck = 0;
 

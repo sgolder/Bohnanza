@@ -4,13 +4,18 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.Serializable;
+
 
 /**
  * Creates a new card which is identified by a string
  *
  * @autor Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
  */
-public class Card {
+public class Card implements Serializable {
+
+    private static final long serialVersionUID = 416201804L;
+
     private int beanIdx; // This card's bean type
     private String beanName;
     // Holds how many of these beans are needed to get 1, 2, 3, or 4

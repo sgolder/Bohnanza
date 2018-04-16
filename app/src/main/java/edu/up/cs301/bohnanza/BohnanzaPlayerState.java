@@ -2,12 +2,17 @@ package edu.up.cs301.bohnanza;
 
 import android.util.Log;
 
+import java.io.Serializable;
+
 /**
  * Player state for a given player in Bohnanza
  *
  * @autor Adam Mercer, Reeca Bardon, Alyssa Arnaud, Sarah Golder
  */
-public class BohnanzaPlayerState {
+public class BohnanzaPlayerState implements Serializable {
+
+    private static final long serialVersionUID = 416201802L;
+
     private String name;
     private int coins;
     private Deck[] fields = new Deck[3];

@@ -13,6 +13,9 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class PlantBean extends GameAction{
 
+
+    private static final long serialVersionUID = 1405102012;
+
     private int field;
     // 0: hand, 1: trade[0], 2: trade[1]
     private int origin;
