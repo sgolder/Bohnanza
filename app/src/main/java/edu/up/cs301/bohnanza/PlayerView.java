@@ -182,7 +182,7 @@ public class PlayerView extends SurfaceView {
         //draw border around player with player color
         playerPaint.setColor(backGroundColor);
         playerPaint.setStyle(Paint.Style.STROKE);
-        playerPaint.setStrokeWidth(8.0f);
+        playerPaint.setStrokeWidth(strokeWidth);
         canvas.drawRect(0, 0, width, height, playerPaint);
     }
 
