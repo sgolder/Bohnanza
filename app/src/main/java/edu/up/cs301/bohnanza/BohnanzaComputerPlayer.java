@@ -190,7 +190,6 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                 plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
                 return;
             }
-
         }
     }
 

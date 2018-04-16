@@ -151,6 +151,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
+                //TODO: have a section for denying an offer
                 game.sendAction(new OfferResponse(humanPlayer, 0, true));
                 Log.i("Field Pressed", "Player Hand");
             }
@@ -244,6 +245,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
+                game.sendAction(new OfferResponse(humanPlayer, 2, true));
                 Log.i("Field Pressed", "Player Hand");
             }
             origin = 0;
@@ -290,7 +292,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
-                game.sendAction(new OfferResponse(humanPlayer, 1, true));
+                game.sendAction(new OfferResponse(humanPlayer, 3, true));
                 Log.i("Field Pressed", "Player Hand");
             }
             origin = 0;
