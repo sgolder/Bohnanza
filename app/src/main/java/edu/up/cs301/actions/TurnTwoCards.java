@@ -12,6 +12,8 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class TurnTwoCards extends GameAction {
 
+    private static final long serialVersionUID = 1205102010;
+
     /**
      * Constructor for the TurnTwoCards class.
      */

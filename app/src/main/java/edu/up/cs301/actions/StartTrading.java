@@ -12,6 +12,9 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class StartTrading extends GameAction {
 
+
+    private static final long serialVersionUID = 1305102011;
+
     /**
      * Constructor for StartTrading class.
      */

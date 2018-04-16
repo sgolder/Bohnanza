@@ -12,6 +12,8 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class HarvestField extends GameAction{
 
+    private static final long serialVersionUID = 1705102015;
+
     private int field;
 
     /**
