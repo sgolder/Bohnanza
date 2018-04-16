@@ -114,7 +114,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                 if(!savedState.getTradeDeck().getCards().isEmpty()){
                     //start trading
                     game.sendAction(new StartTrading(this));
-                    //figure out how to asses/accept/deny offers
+                    //asses offers
                     int playerOffer = otherOffers(myInfo.getAllFields());
                     if(playerOffer == -1)
                     {
@@ -128,13 +128,15 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                     }
                 }
             }
-
             if (savedState.getTurn() != playerNum && savedState.getPhase()==2) {
                 //check to se if has field of same type as card up for trade
-
-                    //make offer
-
-                        //plant bean obtained from trading
+                if(isMakingOffer(savedState.getPlayerList()[playerNum].getAllFields(),
+                        savedState.getTradeDeck().peekAtTopCard())){
+                    game.sendAction(new MakeOffer(this, tradingOffer()));
+                }
+                else{
+                    game.sendAction(new AbstainFromTrading(this));
+                }
             }
         }
 
@@ -239,6 +241,12 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                 targetField = dumbHarvest();
                 break;
             }
+            else if( (i==2) && smartAI){
+                // Harvest if didn't find eligible field
+                fieldFound = true;
+                targetField = smartHarvest(fields);
+                break;
+            }
         }
         if(fieldFound){
             return targetField;
@@ -275,6 +283,24 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
     }
 
     /**
+     * The harvest function for the smart AI,
+     * harvests field with highest coin count
+     *
+     * @param fields the computer player's fields
+     *
+     * @return the index of the newly empty field
+     */
+    protected int smartHarvest(Deck[] fields) {
+        int target = 0;
+        for(int i=0; i<2; i++){
+            if(fields[i].getFieldValue(fields[i]) > target){
+                target = i;
+            }
+        }
+        return target;
+    }
+
+    /**
      * method to asses offers the smart AI gets during trading
      * for their turn
      *
@@ -282,7 +308,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
      *
      * @return the index of the newly empty field
      */
-    public int otherOffers(Deck[] fields){
+    protected int otherOffers(Deck[] fields){
         int bestOffer = -1;
         for (int i=0; i<savedState.getPlayerList().length; i++)
             if(i != playerNum){
@@ -294,6 +320,26 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                 }
             }
         return bestOffer;
+    }
+
+    protected boolean isMakingOffer(Deck[] fields, Card cardType){
+        for (int i=0; i<2; i++){
+            if(cardType == fields[i].peekAtTopCard()){
+                return true;
+            }
+        }
+        return false;
+    }
+    protected int tradingOffer(){
+        Card field1 = savedState.getPlayerList()[savedState.getTurn()].getField(0).peekAtTopCard();
+        Card field2 = savedState.getPlayerList()[savedState.getTurn()].getField(1).peekAtTopCard();
+
+        if(savedState.getPlayerList()[playerNum].getHand().getCards().contains(field1)){
+            return savedState.getPlayerList()[playerNum].getHand().getCards().indexOf(field1);
+        }
+        else {
+            return savedState.getPlayerList()[playerNum].getHand().getCards().indexOf(field2);
+        }
     }
 
     //Getters
