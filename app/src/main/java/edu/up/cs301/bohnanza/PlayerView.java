@@ -42,6 +42,7 @@ public class PlayerView extends SurfaceView {
     private Bitmap reject;
     private Rect acceptRect;
     private Rect rejectRect;
+    private int strokeWidth;
 
     /** constructor */
     public PlayerView(Context context) {
@@ -118,6 +119,9 @@ public class PlayerView extends SurfaceView {
         acceptRect = new Rect(width/10, 17*height/20-5, 3*width/10-10, 19*height/20-15);
         rejectRect = new Rect(7*width/10+5, 17*height/20-5, 9*width/10-5, 19*height/20-15);
     }
+    public void setStrokeSize(int initStrokeWidth) {
+        strokeWidth = initStrokeWidth;
+    }
 
 
     /**
@@ -139,7 +143,7 @@ public class PlayerView extends SurfaceView {
         Paint playerPaint = new Paint();
         playerPaint.setColor(backGroundColor);
         playerPaint.setStyle(Paint.Style.STROKE);
-        playerPaint.setStrokeWidth(8.0f);
+        playerPaint.setStrokeWidth(strokeWidth);
         canvas.drawRect(0, 0, width, height, playerPaint);
 
         //separate fields

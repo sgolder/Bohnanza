@@ -260,9 +260,11 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             playerViews[i].setOfferResponse(acceptImage, rejectImage);
             if(state.getTurn() == i) {
                 playerViews[i].setPhase(0);
+                playerViews[i].setStrokeSize(12);
             }
             else {
                 playerViews[i].setPhase(state.getPhase());
+                playerViews[i].setStrokeSize(8);
             }
             if(state.getPlayerList()[i].getOffer() != null) {
                 playerViews[i].setCardOffer(cardImages[state.getPlayerList()[i].getOffer().getBeanIdx()]);

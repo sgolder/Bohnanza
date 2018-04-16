@@ -108,7 +108,10 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         int yPos = (int)motionEvent.getY();
         int xPos = (int)motionEvent.getX();
         int height = view.getHeight();
+        int width = view.getWidth();
         cardPositions = handView.getCardPositions();
+        RectF acceptRect = new RectF(width/10, 17*height/20-5, 3*width/10-10, 19*height/20-15);
+        RectF rejectRect = new RectF(7*width/10+5, 17*height/20-5, 9*width/10-5, 19*height/20-15);
 
         //user touches on player1
         if(view.equals(player1View)) {
@@ -151,8 +154,12 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
-                //TODO: have a section for denying an offer
-                game.sendAction(new OfferResponse(humanPlayer, 0, true));
+                if(acceptRect.contains(xPos, yPos)) {
+                    game.sendAction(new OfferResponse(humanPlayer, 0, true));
+                }
+                else if(rejectRect.contains(xPos, yPos)) {
+                    game.sendAction(new OfferResponse(humanPlayer, 0, false));
+                }
                 Log.i("Field Pressed", "Player Hand");
             }
             origin = 0;
@@ -198,7 +205,12 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
-                game.sendAction(new OfferResponse(humanPlayer, 1, true));
+                if(acceptRect.contains(xPos, yPos)) {
+                    game.sendAction(new OfferResponse(humanPlayer, 1, true));
+                }
+                else if(rejectRect.contains(xPos, yPos)) {
+                    game.sendAction(new OfferResponse(humanPlayer, 1, false));
+                }
                 Log.i("Field Pressed", "Player Hand");
             }
             origin = 0;
@@ -245,7 +257,12 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
-                game.sendAction(new OfferResponse(humanPlayer, 2, true));
+                if(acceptRect.contains(xPos, yPos)) {
+                    game.sendAction(new OfferResponse(humanPlayer, 2, true));
+                }
+                else if(rejectRect.contains(xPos, yPos)) {
+                    game.sendAction(new OfferResponse(humanPlayer, 2, false));
+                }
                 Log.i("Field Pressed", "Player Hand");
             }
             origin = 0;
@@ -292,7 +309,12 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                 Log.i("Field Pressed", "Field 3");
             }
             else if(yPos > 3*height/4+25) {
-                game.sendAction(new OfferResponse(humanPlayer, 3, true));
+                if(acceptRect.contains(xPos, yPos)) {
+                    game.sendAction(new OfferResponse(humanPlayer, 3, true));
+                }
+                else if(rejectRect.contains(xPos, yPos)) {
+                    game.sendAction(new OfferResponse(humanPlayer, 3, false));
+                }
                 Log.i("Field Pressed", "Player Hand");
             }
             origin = 0;
@@ -347,6 +369,59 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         }
 
         return true;
+    }
+
+    private void playerViewToched(int playerView, int yPos, int xPos, int height, int width) {
+        RectF acceptRect = new RectF(width/10, 17*height/20-5, 3*width/10-10, 19*height/20-15);
+        RectF rejectRect = new RectF(7*width/10+5, 17*height/20-5, 9*width/10-5, 19*height/20-15);
+        tradeView.setActiveCard(0);
+        Log.i("View Pressed", "Player 1 View");
+        //user touches field 1
+        if(yPos > height/20+20 && yPos < 11*height/40+25) {
+            if(harvesting) {
+                game.sendAction(new HarvestField(humanPlayer, 0));
+                harvesting = false;
+            }
+            else {
+                game.sendAction(new PlantBean(humanPlayer, 0, origin));
+            }
+            Log.i("Field Pressed", "Field 1");
+        }
+        //user touches field 2
+        else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
+            if(harvesting) {
+                game.sendAction(new HarvestField(humanPlayer, 1));
+                harvesting = false;
+            }
+            else {
+                game.sendAction(new PlantBean(humanPlayer, 1, origin));
+            }
+            Log.i("Field Pressed", "Field 2");
+        }
+        //user touches field 3
+        else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
+            if(!state.getPlayerList()[playerId].getHasThirdField()){
+                game.sendAction(new BuyThirdField(humanPlayer));
+            }
+            else if(harvesting) {
+                game.sendAction(new HarvestField(humanPlayer, 2));
+                harvesting = false;
+            }
+            else {
+                game.sendAction(new PlantBean(humanPlayer, 2, origin));
+            }
+            Log.i("Field Pressed", "Field 3");
+        }
+        else if(yPos > 3*height/4+25) {
+            if(acceptRect.contains(xPos, yPos)) {
+                game.sendAction(new OfferResponse(humanPlayer, 0, true));
+            }
+            else if(rejectRect.contains(xPos, yPos)) {
+                game.sendAction(new OfferResponse(humanPlayer, 0, false));
+            }
+            Log.i("Field Pressed", "Player Hand");
+        }
+        origin = 0;
     }
 
     public void setState( BohnanzaState initstate ) { state = initstate; }
