@@ -164,7 +164,7 @@ public class BohnanzaLocalGame extends LocalGame {
                 state.getTradeDeck().moveTopCardTo(cardToTrade);
                 // If unsuccessful, return card to the trade deck
                 if(! (plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade)) ) {
-                    cardToTrade.moveBottomCardTo(state.getTradeDeck());
+                    cardToTrade.moveTopCardTo(state.getTradeDeck());
                     return false;
                 }
             }
