@@ -51,19 +51,6 @@ public class BohnanzaLocalGame extends LocalGame {
             return;
         }
 
-        /*
-        // Figure out the ID of the player that was passed in
-        int playerID = -1;
-        if(p instanceof BohnanzaHumanPlayer) {
-            BohnanzaHumanPlayer player = (BohnanzaHumanPlayer) p;
-            playerID = player.getPlayerIndex();
-        }
-        else if(p instanceof BohnanzaComputerPlayer){
-            BohnanzaComputerPlayer player = (BohnanzaComputerPlayer) p;
-            playerID = player.getPlayerIndex();
-        }
-        */
-
         // Create copy of the state using constructor that hides other
         // players' hands
         BohnanzaState stateForPlayer = new BohnanzaState(state, super.getPlayerIdx(p));
