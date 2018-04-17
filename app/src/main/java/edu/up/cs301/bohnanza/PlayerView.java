@@ -42,7 +42,7 @@ public class PlayerView extends SurfaceView {
     private Bitmap reject;
     private Rect acceptRect;
     private Rect rejectRect;
-    private int strokeWidth;
+    private boolean fill;
 
     /** constructor */
     public PlayerView(Context context) {
@@ -119,8 +119,8 @@ public class PlayerView extends SurfaceView {
         acceptRect = new Rect(width/10, 17*height/20-5, 3*width/10-10, 19*height/20-15);
         rejectRect = new Rect(7*width/10+5, 17*height/20-5, 9*width/10-5, 19*height/20-15);
     }
-    public void setStrokeSize(int initStrokeWidth) {
-        strokeWidth = initStrokeWidth;
+    public void setFill(boolean initFill) {
+        fill = initFill;
     }
 
 
@@ -136,14 +136,19 @@ public class PlayerView extends SurfaceView {
         height = canvas.getHeight();
         setupFields();
 
-        //fill background with dark gray color
-        canvas.drawColor(Color.rgb(45, 45, 45));
+        //fill background depending on turn
+        if(fill) {
+            canvas.drawColor(backGroundColor);
+        }
+        else {
+            canvas.drawColor(Color.rgb(45, 45, 45));
+        }
 
         //initialize paint for the corresponding player and draw border on surface view
         Paint playerPaint = new Paint();
         playerPaint.setColor(backGroundColor);
         playerPaint.setStyle(Paint.Style.STROKE);
-        playerPaint.setStrokeWidth(strokeWidth);
+        playerPaint.setStrokeWidth(8);
         canvas.drawRect(0, 0, width, height, playerPaint);
 
         //separate fields
@@ -172,7 +177,7 @@ public class PlayerView extends SurfaceView {
         //draw player name
         textPaint.setColor(backGroundColor);
         textPaint.setTextSize(50);
-        canvas.drawText(playerName, 145, 47, textPaint);
+        canvas.drawText(playerName, 10, 47, textPaint);
         textPaint.setTextSize(75);
 
         drawFields(canvas, textPaint); //draw the fields of the player
@@ -182,7 +187,7 @@ public class PlayerView extends SurfaceView {
         //draw border around player with player color
         playerPaint.setColor(backGroundColor);
         playerPaint.setStyle(Paint.Style.STROKE);
-        playerPaint.setStrokeWidth(strokeWidth);
+        playerPaint.setStrokeWidth(8);
         canvas.drawRect(0, 0, width, height, playerPaint);
     }
 
