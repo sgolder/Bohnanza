@@ -42,6 +42,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
     private Toast toast;
     private Bitmap acceptImage;
     private Bitmap rejectImage;
+    private Bitmap turnImage;
 
     /**
      * constructor
@@ -96,6 +97,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
 
         acceptImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.accept);
         rejectImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.reject);
+        turnImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.turn_bean);
 
         Card.initImages(activity); //initialize all card bitmaps
     }
@@ -257,14 +259,14 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             playerViews[i].setThirdField(state.getPlayerList()[i].getHasThirdField());
             playerViews[i].setPhase(state.getPhase());
             playerViews[i].setOffer(state.getPlayerList()[i].getMakeOffer());
-            playerViews[i].setOfferResponse(acceptImage, rejectImage);
+            playerViews[i].setImages(acceptImage, rejectImage, turnImage);
             if(state.getTurn() == i) {
                 playerViews[i].setPhase(0);
-                playerViews[i].setFill(true);
+                playerViews[i].setTurn(true);
             }
             else {
                 playerViews[i].setPhase(state.getPhase());
-                playerViews[i].setFill(false);
+                playerViews[i].setTurn(false);
             }
             if(state.getPlayerList()[i].getOffer() != null) {
                 playerViews[i].setCardOffer(cardImages[state.getPlayerList()[i].getOffer().getBeanIdx()]);

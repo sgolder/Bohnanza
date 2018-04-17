@@ -40,9 +40,11 @@ public class PlayerView extends SurfaceView {
     private Bitmap cardOffer;
     private Bitmap accept;
     private Bitmap reject;
+    private Bitmap turnIndicator;
     private Rect acceptRect;
     private Rect rejectRect;
-    private boolean fill;
+    private Rect turnRect;
+    private boolean turn;
 
     /** constructor */
     public PlayerView(Context context) {
@@ -109,18 +111,20 @@ public class PlayerView extends SurfaceView {
     public void setOffer(int initOffer) {
         offer = initOffer;
     }
+    public void setTurn(Boolean initTurn) {
+        turn = initTurn;
+    }
     public void setCardOffer(Bitmap initCardOffer) {
         cardOffer = initCardOffer;
         invalidate();
     }
-    public void setOfferResponse(Bitmap initAccept, Bitmap initReject) {
+    public void setImages(Bitmap initAccept, Bitmap initReject, Bitmap initTurnIndicator) {
         accept = initAccept;
         reject = initReject;
+        turnIndicator = initTurnIndicator;
         acceptRect = new Rect(width/10, 17*height/20-5, 3*width/10-10, 19*height/20-15);
         rejectRect = new Rect(7*width/10+5, 17*height/20-5, 9*width/10-5, 19*height/20-15);
-    }
-    public void setFill(boolean initFill) {
-        fill = initFill;
+        turnRect = new Rect(width-150, 100, width, 250);
     }
 
 
@@ -136,13 +140,8 @@ public class PlayerView extends SurfaceView {
         height = canvas.getHeight();
         setupFields();
 
-        //fill background depending on turn
-        if(fill) {
-            canvas.drawColor(backGroundColor);
-        }
-        else {
-            canvas.drawColor(Color.rgb(45, 45, 45));
-        }
+        //fill background with dark gray
+        canvas.drawColor(Color.rgb(45, 45, 45));
 
         //initialize paint for the corresponding player and draw border on surface view
         Paint playerPaint = new Paint();
@@ -161,17 +160,22 @@ public class PlayerView extends SurfaceView {
         //draw coin
         Paint yellowPaint = new Paint();
         yellowPaint.setColor(Color.rgb(252, 255, 102));
-        canvas.drawCircle(375, 32, 25, yellowPaint);
+        canvas.drawCircle(width-40, 32, 25, yellowPaint);
+
+        //draw turn indicator if necessary
+        if(turn) {
+            canvas.drawBitmap(turnIndicator, null, turnRect, null);
+        }
 
         //draw number on coin to represent number of coins the player has
         Paint textPaint = new Paint();
         textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(40);
         if(coins < 10) {
-            canvas.drawText(""+coins, 364, 47, textPaint);
+            canvas.drawText(""+coins, width-51, 47, textPaint);
         }
         else if(coins >= 10) {
-            canvas.drawText("" + coins, 352, 47, textPaint);
+            canvas.drawText("" + coins, width-63, 47, textPaint);
         }
 
         //draw player name
