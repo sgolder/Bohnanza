@@ -55,6 +55,7 @@ public class BohnanzaLocalGame extends LocalGame {
         // players' hands
         BohnanzaState stateForPlayer = new BohnanzaState(state, super.getPlayerIdx(p));
 
+
         // send the modified copy of the state to the player
         p.sendInfo(stateForPlayer);
     }
@@ -128,7 +129,6 @@ public class BohnanzaLocalGame extends LocalGame {
         // If the player is trying to buy a third field
         if(action instanceof BuyThirdField){
             buyThirdField(thisPlayerIdx);
-            sendAllUpdatedState();
             return true;
         }
         // If the player is trying to plant a bean
@@ -153,7 +153,7 @@ public class BohnanzaLocalGame extends LocalGame {
                 state.getTradeDeck().moveBottomCardTo(cardToTrade);
                 // If unsuccessful, return card to the trade deck
                 if(! (plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade)) ) {
-                    cardToTrade.moveBottomCardTo(state.getTradeDeck());
+                    cardToTrade.moveToBottom(state.getTradeDeck());
                     return false;
                 }
             }
@@ -168,7 +168,6 @@ public class BohnanzaLocalGame extends LocalGame {
                     return false;
                 }
             }
-            sendAllUpdatedState();
             return true;
         }
         // If player wants to harvest a field
@@ -176,39 +175,33 @@ public class BohnanzaLocalGame extends LocalGame {
             HarvestField harvestField = (HarvestField) action;
             harvestField(thisPlayerIdx, state.getPlayerList()[thisPlayerIdx].
                     getField(harvestField.getField()));
-            sendAllUpdatedState();
             return true;
         }
         // Player wants to turn two trading cards
         if(action instanceof TurnTwoCards){
             turn2Cards(thisPlayerIdx);
-            sendAllUpdatedState();
             return true;
         }
         // Player wants to initiate trading phase
         if(action instanceof StartTrading){
             startTrading(thisPlayerIdx);
-            sendAllUpdatedState();
             return true;
         }
         // Player wants to make a trade offer
         if(action instanceof MakeOffer){
             MakeOffer makeOffer = (MakeOffer) action;
             makeOffer(thisPlayerIdx, makeOffer.getOffer());
-            sendAllUpdatedState();
             return true;
         }
         // Player will not make an offer for highlighted trading card
         if(action instanceof AbstainFromTrading){
             abstainFromTrading(thisPlayerIdx);
-            sendAllUpdatedState();
             return true;
         }
         // Player wants to end turn
         if(action instanceof DrawThreeCards){
             //ending turn during phase 3, changes phase to 3
             draw3Cards(thisPlayerIdx);
-            sendAllUpdatedState();
             return true;
         }
         // Player responding to another player's offer
@@ -216,7 +209,6 @@ public class BohnanzaLocalGame extends LocalGame {
             OfferResponse offerResponse = (OfferResponse) action;
             offerResponse(thisPlayerIdx, offerResponse.getTraderId(),
                     offerResponse.isAccept());
-            sendAllUpdatedState();
             return true;
         }
 
@@ -410,6 +402,7 @@ public class BohnanzaLocalGame extends LocalGame {
         if( !accept ) {
             state.getPlayerList()[traderId].setMakeOffer(0);
             state.getPlayerList()[traderId].setOffer(-1);
+            return true;
         }
         BohnanzaPlayerState trader = state.getPlayerList()[traderId];
         for(int i = 0; i<trader.getHand().getCards().size(); i++) {

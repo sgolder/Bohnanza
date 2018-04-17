@@ -115,209 +115,19 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
         //user touches on player1
         if(view.equals(player1View)) {
-            tradeView.setActiveCard(0);
-            Log.i("View Pressed", "Player 1 View");
-            //user touches field 1
-            if(yPos > height/20+20 && yPos < 11*height/40+25) {
-                if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 0));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 0, origin));
-                }
-                Log.i("Field Pressed", "Field 1");
-            }
-            //user touches field 2
-            else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
-                if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 1));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 1, origin));
-                }
-                Log.i("Field Pressed", "Field 2");
-            }
-            //user touches field 3
-            else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
-                if(!state.getPlayerList()[playerId].getHasThirdField()){
-                    game.sendAction(new BuyThirdField(humanPlayer));
-                }
-                else if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 2));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 2, origin));
-                }
-                Log.i("Field Pressed", "Field 3");
-            }
-            else if(yPos > 3*height/4+25) {
-                if(acceptRect.contains(xPos, yPos)) {
-                    game.sendAction(new OfferResponse(humanPlayer, 0, true));
-                }
-                else if(rejectRect.contains(xPos, yPos)) {
-                    game.sendAction(new OfferResponse(humanPlayer, 0, false));
-                }
-                Log.i("Field Pressed", "Player Hand");
-            }
-            origin = 0;
+            playerViewTouched(0, yPos, xPos, height, width);
         }
         //user touches in player2
         else if(view.equals(player2View)) {
-            tradeView.setActiveCard(0);
-            Log.i("View Pressed", "Player 2 View");
-            //user touches field 1
-            if(yPos > height/20+20 && yPos < 11*height/40+25) {
-                if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 0));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 0, origin));
-                }
-                Log.i("Field Pressed", "Field 1");
-            }
-            //user touches field 2
-            else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
-                if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 1));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 1, origin));
-                }
-                Log.i("Field Pressed", "Field 2");
-            }
-            //user touches field 3
-            else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
-                if(!state.getPlayerList()[playerId].getHasThirdField()){
-                    game.sendAction(new BuyThirdField(humanPlayer));
-                }
-                else if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 2));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 2, origin));
-                }
-                Log.i("Field Pressed", "Field 3");
-            }
-            else if(yPos > 3*height/4+25) {
-                if(acceptRect.contains(xPos, yPos)) {
-                    game.sendAction(new OfferResponse(humanPlayer, 1, true));
-                }
-                else if(rejectRect.contains(xPos, yPos)) {
-                    game.sendAction(new OfferResponse(humanPlayer, 1, false));
-                }
-                Log.i("Field Pressed", "Player Hand");
-            }
-            origin = 0;
+            playerViewTouched(1, yPos, xPos, height, width);
         }
         //user touches in player3
         else if(view.equals(player3View)) {
-            tradeView.setActiveCard(0);
-            Log.i("View Pressed", "Player 3 View");
-            //user touches field 1
-            if(yPos > height/20+20 && yPos < 11*height/40+25) {
-                if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 0));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 0, origin));
-                }
-                Log.i("Field Pressed", "Field 1");
-            }
-            //user touches field 2
-            else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
-                if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 1));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 1, origin));
-                }
-                Log.i("Field Pressed", "Field 2");
-            }
-            //user touches field 3
-            else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
-                if(!state.getPlayerList()[playerId].getHasThirdField()){
-                    game.sendAction(new BuyThirdField(humanPlayer));
-                }
-                else if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 2));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 2, origin));
-                }
-
-                Log.i("Field Pressed", "Field 3");
-            }
-            else if(yPos > 3*height/4+25) {
-                if(acceptRect.contains(xPos, yPos)) {
-                    game.sendAction(new OfferResponse(humanPlayer, 2, true));
-                }
-                else if(rejectRect.contains(xPos, yPos)) {
-                    game.sendAction(new OfferResponse(humanPlayer, 2, false));
-                }
-                Log.i("Field Pressed", "Player Hand");
-            }
-            origin = 0;
+            playerViewTouched(0, yPos, xPos, height, width);
         }
         //user touches player4
         else if(view.equals(player4View)) {
-            tradeView.setActiveCard(0);
-            Log.i("View Pressed", "Player 4 View");
-            //user touches field 1
-            if(yPos > height/20+20 && yPos < 11*height/40+25) {
-                if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 0));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 0, origin));
-                }
-                Log.i("Field Pressed", "Field 1");
-            }
-            //user touches field 2
-            else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
-                if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 1));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 1, origin));
-                }
-                Log.i("Field Pressed", "Field 2");
-            }
-            //user touches field 3
-            else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
-                if(!state.getPlayerList()[playerId].getHasThirdField()){
-                    game.sendAction(new BuyThirdField(humanPlayer));
-                }
-                else if(harvesting) {
-                    game.sendAction(new HarvestField(humanPlayer, 2));
-                    harvesting = false;
-                }
-                else {
-                    game.sendAction(new PlantBean(humanPlayer, 2, origin));
-                }
-
-                Log.i("Field Pressed", "Field 3");
-            }
-            else if(yPos > 3*height/4+25) {
-                if(acceptRect.contains(xPos, yPos)) {
-                    game.sendAction(new OfferResponse(humanPlayer, 3, true));
-                }
-                else if(rejectRect.contains(xPos, yPos)) {
-                    game.sendAction(new OfferResponse(humanPlayer, 3, false));
-                }
-                Log.i("Field Pressed", "Player Hand");
-            }
-            origin = 0;
+            playerViewTouched(0, yPos, xPos, height, width);
         }
         else if(view.equals(handView)) {
             tradeView.setActiveCard(0);
@@ -371,13 +181,13 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         return true;
     }
 
-    private void playerViewToched(int playerView, int yPos, int xPos, int height, int width) {
+    private void playerViewTouched(int playerView, int yPos, int xPos, int height, int width) {
         RectF acceptRect = new RectF(width/10, 17*height/20-5, 3*width/10-10, 19*height/20-15);
         RectF rejectRect = new RectF(7*width/10+5, 17*height/20-5, 9*width/10-5, 19*height/20-15);
         tradeView.setActiveCard(0);
         Log.i("View Pressed", "Player 1 View");
         //user touches field 1
-        if(yPos > height/20+20 && yPos < 11*height/40+25) {
+        if(yPos > height/20+20 && yPos < 11*height/40+25 && state.getTurn() == playerView) {
             if(harvesting) {
                 game.sendAction(new HarvestField(humanPlayer, 0));
                 harvesting = false;
@@ -388,7 +198,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             Log.i("Field Pressed", "Field 1");
         }
         //user touches field 2
-        else if(yPos > 11*height/40+25 && yPos < 21*height/40+15) {
+        else if(yPos > 11*height/40+25 && yPos < 21*height/40+15 && state.getTurn() == playerView) {
             if(harvesting) {
                 game.sendAction(new HarvestField(humanPlayer, 1));
                 harvesting = false;
@@ -399,7 +209,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             Log.i("Field Pressed", "Field 2");
         }
         //user touches field 3
-        else if(yPos > 21*height/40+15 && yPos < 3*height/4+25) {
+        else if(yPos > 21*height/40+15 && yPos < 3*height/4+25 && state.getTurn() == playerView) {
             if(!state.getPlayerList()[playerId].getHasThirdField()){
                 game.sendAction(new BuyThirdField(humanPlayer));
             }
@@ -414,10 +224,10 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         }
         else if(yPos > 3*height/4+25) {
             if(acceptRect.contains(xPos, yPos)) {
-                game.sendAction(new OfferResponse(humanPlayer, 0, true));
+                game.sendAction(new OfferResponse(humanPlayer, playerView, true));
             }
             else if(rejectRect.contains(xPos, yPos)) {
-                game.sendAction(new OfferResponse(humanPlayer, 0, false));
+                game.sendAction(new OfferResponse(humanPlayer, playerView, false));
             }
             Log.i("Field Pressed", "Player Hand");
         }
