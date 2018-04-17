@@ -90,6 +90,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         // Will perform the functions of a smarter AI based on the state of the game
         synchronized(this) {
             // Ignore if it's not the computer's turn
+            //TODO remove
             if (savedState.getTurn() != playerNum) {
                 return;
             }
@@ -107,30 +108,49 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                 game.sendAction(new TurnTwoCards(this));
                 return;
             }
-            if(savedState.getPhase() ==1){
+            if(savedState.getPhase() == 1) {
                 // check if you want to plant the first trading card
                 plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
                 //check if you want to plant the second trading card
+                //start trading
+                if (!savedState.getTradeDeck().getCards().isEmpty()) {
+                    game.sendAction(new StartTrading(this));
+                }
                 //plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
                 //check the trading deck to start trading
-                if(!savedState.getTradeDeck().getCards().isEmpty()){
-                    //start trading
-                    game.sendAction(new StartTrading(this));
-                    //asses offers
+            }
+            if(savedState.getPhase() == 2) {
+                if(savedState.getTradeDeck().getCards().isEmpty()){
+                    if(!myInfo.getToPlant().getCards().isEmpty()){
+                       game.sendAction(new PlantBean(this, 0, 0));
+                    }
+                    game.sendAction(new DrawThreeCards(this));
+                }
+                //assess offers
+                if(checkOffers()){
                     int playerOffer = otherOffers(myInfo.getAllFields());
-                    if(playerOffer == -1)
-                    {
+                    if (playerOffer == -1) {
                         //no offers meet criteria
                         //plant remaining trade deck
                         plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+                        return;
                     }
-                    else{
+                    else if(playerOffer == 100){
+                        return;
+                    }
+                    else {
                         //accept the offer
                         game.sendAction(new OfferResponse(this, playerOffer, true));
+                        return;
                     }
-                }
 
+                }
+                else{
+                    return;
+                }
             }
+
+
             if (savedState.getTurn() != playerNum && savedState.getPhase()==2) {
                 //check to se if has field of same type as card up for trade
                 if(isMakingOffer(savedState.getPlayerList()[playerNum].getAllFields(),
@@ -231,14 +251,10 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         //no third field, so then harvesting
         for (int i=0; i<fields.length; i++) {
             if (fields[i].peekAtTopCard() == cardType) {
-                fieldFound = true;
-                targetField = i;
-                break;
-            } else if (fields[i].getCards().isEmpty() && !smartAI) {
-                fieldFound = true;
-                targetField = i;
-                break;
-            } else if ((i == 2) || !savedState.getPlayerList()[playerNum].getHasThirdField() && !smartAI) {
+                return i;
+            } else if (fields[i].getCards().isEmpty()) {
+                return i;
+            } else if ((i == 2) && !smartAI) {
                 // Harvest if didn't find eligible field
                 fieldFound = true;
                 targetField = dumbHarvest();
@@ -256,7 +272,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         }
         else{
             //just in case
-            return dumbHarvest();
+            return -1;
         }
     }
 
@@ -297,6 +313,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         int target = 0;
         for(int i=0; i<2; i++){
             if(fields[i].getFieldValue(fields[i]) > target){
+                game.sendAction(new HarvestField(this, i));
                 target = i;
             }
         }
@@ -313,7 +330,6 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
      */
     protected int otherOffers(Deck[] fields) {
         int bestOffer = -1;
-         if(checkOffers()){
              Log.i("BCompP, offers", "done check");
              for(int i=0; i<2; i++){
                  if(savedState.getPlayerList()[i].getOffer() == fields[i].peekAtTopCard()) {
@@ -321,12 +337,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                      break;
                  }
              }
-         }
-         else{
-             Log.i("BCompP, offers", "recall");
-             return otherOffers(fields);
-         }
-        Log.i("BCompP, offers", "return");
+
         return bestOffer;
     }
 
@@ -335,7 +346,6 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             if (i != playerNum) {
                 if (savedState.getPlayerList()[i].getMakeOffer() == 0) {
                     Log.i("BCompP, smart", "check");
-                    sleep(3000);
                     return false;
                 }
             }
