@@ -100,16 +100,18 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             if(savedState.getPhase() == -1){
                 // Plant first bean
                 plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
+                return;
             }
             if(savedState.getPhase() == 0){
                 // Turn two cards
                 game.sendAction(new TurnTwoCards(this));
+                return;
             }
             if(savedState.getPhase() ==1){
                 // check if you want to plant the first trading card
                 plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
                 //check if you want to plant the second trading card
-                plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
+                //plantBean(savedState.getTradeDeck(), myInfo.getAllFields(), 1);
                 //check the trading deck to start trading
                 if(!savedState.getTradeDeck().getCards().isEmpty()){
                     //start trading
@@ -127,6 +129,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                         game.sendAction(new OfferResponse(this, playerOffer, true));
                     }
                 }
+
             }
             if (savedState.getTurn() != playerNum && savedState.getPhase()==2) {
                 //check to se if has field of same type as card up for trade
@@ -308,19 +311,38 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
      *
      * @return the index of the newly empty field
      */
-    protected int otherOffers(Deck[] fields){
+    protected int otherOffers(Deck[] fields) {
         int bestOffer = -1;
-        for (int i=0; i<savedState.getPlayerList().length; i++)
-            if(i != playerNum){
-                for (int j=0; j<fields.length; i++)
-                {
-                    if(savedState.getPlayerList()[i].getOffer() == fields[i].peekAtTopCard()){
-                        bestOffer = i;
-                    }
-                }
-            }
+         if(checkOffers()){
+             Log.i("BCompP, offers", "done check");
+             for(int i=0; i<2; i++){
+                 if(savedState.getPlayerList()[i].getOffer() == fields[i].peekAtTopCard()) {
+                     bestOffer = i;
+                     break;
+                 }
+             }
+         }
+         else{
+             Log.i("BCompP, offers", "recall");
+             return otherOffers(fields);
+         }
+        Log.i("BCompP, offers", "return");
         return bestOffer;
     }
+
+    protected boolean checkOffers(){
+        for (int i=0; i<4; i++) {
+            if (i != playerNum) {
+                if (savedState.getPlayerList()[i].getMakeOffer() == 0) {
+                    Log.i("BCompP, smart", "check");
+                    sleep(3000);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     protected boolean isMakingOffer(Deck[] fields, Card cardType){
         for (int i=0; i<2; i++){
@@ -330,16 +352,21 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
         }
         return false;
     }
-    protected int tradingOffer(){
+    protected int tradingOffer() {
         Card field1 = savedState.getPlayerList()[savedState.getTurn()].getField(0).peekAtTopCard();
         Card field2 = savedState.getPlayerList()[savedState.getTurn()].getField(1).peekAtTopCard();
 
-        if(savedState.getPlayerList()[playerNum].getHand().getCards().contains(field1)){
+        if (savedState.getPlayerList()[playerNum].getHand().getCards().contains(field1)) {
             return savedState.getPlayerList()[playerNum].getHand().getCards().indexOf(field1);
-        }
-        else {
+        } else {
             return savedState.getPlayerList()[playerNum].getHand().getCards().indexOf(field2);
         }
+    }
+
+    protected boolean hasInField(Deck[] fields, Card cardType){
+
+
+        return false;
     }
 
     //Getters
