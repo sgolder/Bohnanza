@@ -1,5 +1,6 @@
 package edu.up.cs301.bohnanza;
 
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import edu.up.cs301.actions.AbstainFromTrading;
@@ -50,6 +51,7 @@ public class BohnanzaLocalGame extends LocalGame {
             return;
         }
 
+        /*
         // Figure out the ID of the player that was passed in
         int playerID = -1;
         if(p instanceof BohnanzaHumanPlayer) {
@@ -60,10 +62,11 @@ public class BohnanzaLocalGame extends LocalGame {
             BohnanzaComputerPlayer player = (BohnanzaComputerPlayer) p;
             playerID = player.getPlayerIndex();
         }
+        */
 
         // Create copy of the state using constructor that hides other
         // players' hands
-        BohnanzaState stateForPlayer = new BohnanzaState(state, playerID);
+        BohnanzaState stateForPlayer = new BohnanzaState(state, super.getPlayerIdx(p));
 
         // send the modified copy of the state to the player
         p.sendInfo(stateForPlayer);
@@ -413,9 +416,13 @@ public class BohnanzaLocalGame extends LocalGame {
      * If a trade is accepted, move the traded cards into player's toPlant Decks
      */
     public boolean offerResponse(int playerId, int traderId, boolean accept) {
-        if( state.getPhase() != 2 || !accept ||
+        if( state.getPhase() != 2 || state.getTurn() != playerId ||
                 state.getPlayerList()[traderId].getMakeOffer() != 2) {
             return false;
+        }
+        if( !accept ) {
+            state.getPlayerList()[traderId].setMakeOffer(0);
+            state.getPlayerList()[traderId].setOffer(-1);
         }
         BohnanzaPlayerState trader = state.getPlayerList()[traderId];
         for(int i = 0; i<trader.getHand().getCards().size(); i++) {
