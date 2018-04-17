@@ -320,11 +320,15 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
      */
     protected int otherOffers(Deck[] fields) {
         int bestOffer = -1;
-        Log.i("BCompP, offers", "done check");
         for(int j = 0; j<savedState.getPlayerList().length; j++) {
-            for (int i = 0; i < 2; i++) {
-                if (savedState.getPlayerList()[j].getOffer() == fields[i].peekAtTopCard()) {
-                    return j;
+            if (j != playerNum) {
+                for (int i = 0; i < 2; i++) {
+                    Log.i("BCompP, offers", "start check");
+                    if ((savedState.getPlayerList()[j].getOffer().equals(fields[i].peekAtTopCard()))
+                            && savedState.getPlayerList()[j].getMakeOffer() !=1) {
+                        Log.i("BCompP, offers", "done check");
+                        return j;
+                    }
                 }
             }
         }
