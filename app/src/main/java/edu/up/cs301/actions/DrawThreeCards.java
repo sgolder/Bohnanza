@@ -10,6 +10,8 @@ import edu.up.cs301.game.actionMsg.GameAction;
  */
 
 public class DrawThreeCards extends GameAction{
+    private static final long serialVersionUID = 1805102016;
+
 
     /**
      * Constructor for DrawThreeCards class.

@@ -12,6 +12,8 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class BuyThirdField extends GameAction{
 
+    private static final long serialVersionUID = 2005102018;
+
     /**
      * Constructor for BuyThirdField class.
      */

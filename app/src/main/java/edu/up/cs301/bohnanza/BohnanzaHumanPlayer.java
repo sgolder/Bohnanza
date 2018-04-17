@@ -236,7 +236,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
         //draw the information for each player: coins, name, hand, fields
         for(int i = 0; i<4; i++) {
             playerViews[i].setPlayerColor(playerColors[i]);
-            playerViews[i].setPlayerName("Player " +(i+1));
+            playerViews[i].setPlayerName(allPlayerNames[i]);
 
             //draw fields
             playerViews[i].setField1Bean(cardImages[beanIdx[i][0]], numBeans[i][0]);
@@ -260,9 +260,11 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             playerViews[i].setOfferResponse(acceptImage, rejectImage);
             if(state.getTurn() == i) {
                 playerViews[i].setPhase(0);
+                playerViews[i].setStrokeSize(12);
             }
             else {
                 playerViews[i].setPhase(state.getPhase());
+                playerViews[i].setStrokeSize(8);
             }
             if(state.getPlayerList()[i].getOffer() != null) {
                 playerViews[i].setCardOffer(cardImages[state.getPlayerList()[i].getOffer().getBeanIdx()]);

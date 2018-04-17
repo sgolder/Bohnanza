@@ -18,7 +18,7 @@ import edu.up.cs301.game.config.GamePlayerType;
 
 public class BohnanzaMainActivity extends GameMainActivity {
 
-    public static final int PORT_NUMBER = 4752;
+    public static final int PORT_NUMBER = 15273;
 
     /**
      * A Bohnanza game for 4 players. Default is one human player and

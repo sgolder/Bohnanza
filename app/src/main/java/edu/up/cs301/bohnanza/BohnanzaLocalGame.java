@@ -420,16 +420,13 @@ public class BohnanzaLocalGame extends LocalGame {
         BohnanzaPlayerState trader = state.getPlayerList()[traderId];
         for(int i = 0; i<trader.getHand().getCards().size(); i++) {
             if(trader.getHand().getCards().get(i) == trader.getOffer()) {
-                Log.i("BLocal", "Offer accepteed from "+ traderId);
+                Log.i("BLocal", "Offer accepted from "+ traderId);
                 // Give current player offered card
                 Card offeredCard = trader.getHand().getCards().remove(i);
                 state.getPlayerList()[playerId].getToPlant().add(offeredCard);
                 // Give trader player card from trade deck
                 state.getTradeDeck().moveBottomCardTo(trader.getToPlant());
                 // Reset players to undecided with no offer
-                //state.getPlayerList()[traderId].setMakeOffer(0);
-                //state.getPlayerList()[traderId].setOffer(-1);
-
                 for(int j = 0; j<state.getPlayerList().length; j++) {
                     state.getPlayerList()[j].setMakeOffer(0);
                     state.getPlayerList()[j].setOffer(-1);
