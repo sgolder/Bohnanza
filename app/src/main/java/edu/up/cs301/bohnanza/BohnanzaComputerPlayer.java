@@ -128,6 +128,10 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             }
             else if(savedState.getPhase() == 0){
                 // Turn two cards
+                if(checkFields(myInfo.getAllFields(), myInfo.getHand().peekAtBottomCard())) {
+                    plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
+                    return;
+                }
                 game.sendAction(new TurnTwoCards(this));
                 return;
             }

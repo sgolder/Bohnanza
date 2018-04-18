@@ -142,12 +142,12 @@ public class BohnanzaLocalGame extends LocalGame {
                 // Cannot keep planting from their hand endlessly
                 // during the first phase or phase between turning
                 // 2 cards and trading
-                if( state.getPhase() != 1 || state.getPhase() != 0){
+                if( state.getPhase() != 1){
                     if(state.getPhase() == 2) {
                         plantBean(thisPlayerIdx, plantBean.getField(),
                                 state.getPlayerList()[thisPlayerIdx].getToPlant());
                     }
-                    else if(state.getPhase() == -1) {
+                    else if(state.getPhase() == -1 || state.getPhase() == 0) {
                         plantBean(thisPlayerIdx, plantBean.getField(),
                                 state.getPlayerList()[thisPlayerIdx].getHand());
                     }
@@ -295,6 +295,9 @@ public class BohnanzaLocalGame extends LocalGame {
             }
             origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
             if( state.getPhase() == -1 ) state.setPhase(0);
+            else if(state.getPhase() == 0) {
+                turn2Cards(playerId);
+            }
             return true;
         }
         //check if card to be planted is the same as current bean in the field
@@ -302,6 +305,9 @@ public class BohnanzaLocalGame extends LocalGame {
                 (origin.peekAtBottomCard())) {
             origin.moveBottomCardTo(state.getPlayerList()[playerId].getField(fieldId));
             if( state.getPhase() == -1 ) state.setPhase(0);
+            else if(state.getPhase() == 0) {
+                turn2Cards(playerId);
+            }
             return true;
         }
         return false;
