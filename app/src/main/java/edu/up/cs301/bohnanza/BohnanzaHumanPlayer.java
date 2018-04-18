@@ -125,7 +125,6 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
      */
     public void drawGUI() {
         if(state == null) return; //return if we have not yet received the game state
-
         setPopups();
 
         int[] delete = {0};

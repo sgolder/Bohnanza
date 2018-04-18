@@ -83,8 +83,9 @@ public class BohnanzaLocalGame extends LocalGame {
     protected String checkIfGameOver() {
         int maxCoins = 0;
         int winners = 0; //if winners > 1, there is a tie
+        String winner;
         //check if we've been through the deck 1 time
-        if( state.getTimesThroughDeck() == 1) {
+        if( state.getTimesThroughDeck() == 3) {
             //find the maximum number of coins players have
             for(int i=0; i<4; i++) {
                 if(state.getPlayerList()[i].getCoins() > maxCoins) {
@@ -107,7 +108,8 @@ public class BohnanzaLocalGame extends LocalGame {
             if(winners == 1) {
                 for(int i=0; i<4; i++) {
                     if (state.getPlayerList()[i].getCoins() == maxCoins) {
-                        return "Player " + (i + 1) + " wins";
+                        winner = playerNames[i];
+                        return winner+" wins";
                     }
                 }
             }
@@ -140,7 +142,7 @@ public class BohnanzaLocalGame extends LocalGame {
                 // Cannot keep planting from their hand endlessly
                 // during the first phase or phase between turning
                 // 2 cards and trading
-                if( !(state.getPhase() == 0 || state.getPhase() == 1 ) ){
+                if( state.getPhase() != 1 || state.getPhase() != 0){
                     if(state.getPhase() == 2) {
                         plantBean(thisPlayerIdx, plantBean.getField(),
                                 state.getPlayerList()[thisPlayerIdx].getToPlant());
@@ -326,6 +328,7 @@ public class BohnanzaLocalGame extends LocalGame {
      * turn over two cards that are up for trading
      */
     public boolean turn2Cards(int playerId) {
+        int cardsToPlayer = 0;
         if (state.getTurn() != playerId) {
             return false;
         }
@@ -337,11 +340,22 @@ public class BohnanzaLocalGame extends LocalGame {
             if(!(state.getTimesThroughDeck() < 3)){
                 return false;
             }
+            while(state.getMainDeck().getCards().size() > 0) {
+                state.getMainDeck().moveTopCardTo(state.getTradeDeck());
+                cardsToPlayer++;
+            }
             state.getDiscardDeck().moveAllCardsTo(state.getMainDeck());
+            state.getMainDeck().shuffle();
             state.setTimesThroughDeck();
+            while(cardsToPlayer < 2) {
+                state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
+                cardsToPlayer++;
+            }
         }
-        state.getMainDeck().moveTopCardTo(state.getTradeDeck());
-        state.getMainDeck().moveTopCardTo(state.getTradeDeck());
+        else {
+            state.getMainDeck().moveTopCardTo(state.getTradeDeck());
+            state.getMainDeck().moveTopCardTo(state.getTradeDeck());
+        }
         Log.i("BLocalGame, turn2", "phase ==" +state.getPhase());
         state.setPhase(1); //phase 1 starts now
         return true;
@@ -386,6 +400,7 @@ public class BohnanzaLocalGame extends LocalGame {
      * End turn by drawing 3 cards from main deck.
      */
     public boolean draw3Cards(int playerId) {
+        int cardsToPlayer = 0;
         if (state.getTurn() != playerId) {
             return false;
         }
@@ -395,12 +410,23 @@ public class BohnanzaLocalGame extends LocalGame {
                 if(!(state.getTimesThroughDeck() < 3)){
                     return false;
                 }
+                while(state.getMainDeck().getCards().size() > 0) {
+                    state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
+                    cardsToPlayer++;
+                }
                 state.getDiscardDeck().moveAllCardsTo(state.getMainDeck());
+                state.getMainDeck().shuffle();
                 state.setTimesThroughDeck();
+                while(cardsToPlayer < 3) {
+                    state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
+                    cardsToPlayer++;
+                }
             }
-            state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
-            state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
-            state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
+            else {
+                state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
+                state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
+                state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
+            }
             if (state.getTurn() == 3) {
                 state.setTurn(0);
             } else {

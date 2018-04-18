@@ -87,6 +87,7 @@ public class BohnanzaState extends GameState {
         mainDeck = new Deck(orig.mainDeck);
         discardDeck = new Deck(orig.discardDeck);
         tradeDeck = new Deck(orig.tradeDeck);
+        timesThroughDeck = orig.timesThroughDeck;
 
         //hide main deck from user
         mainDeck.turnHandOver();
