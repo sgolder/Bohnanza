@@ -95,6 +95,11 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             if(savedState.getTurn() != playerNum) {
                 if ( savedState.getPhase()==2) {
                     //check to see if computer needs to make an offer
+                    if(savedState.getPlayerList()[playerNum].getToPlant().size() > 0) {
+                        plantBean(savedState.getPlayerList()[playerNum].getToPlant(),
+                                savedState.getPlayerList()[playerNum].getAllFields(), 0);
+                        return;
+                    }
                     if(savedState.getPlayerList()[playerNum].getOffer() == null
                             && savedState.getPlayerList()[playerNum].getMakeOffer() != 1
                             && savedState.getTradeDeck().size() > 0) {
@@ -115,7 +120,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             // Get player state
             BohnanzaPlayerState myInfo = savedState.getPlayerList()[playerNum];
             getTimer().start();
-            sleep(250);
+            sleep(250); //allow player to see computer's moves
             if(savedState.getPhase() == -1){
                 // Plant first bean
                 plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
@@ -158,7 +163,8 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                     return;
                 }
                 else if(savedState.getTradeDeck().size() == 0 && myInfo.getToPlant().size() > 0){
-                    game.sendAction(new PlantBean(this, 0, 0));
+                    plantBean(savedState.getPlayerList()[playerNum].getToPlant(),
+                            savedState.getPlayerList()[playerNum].getAllFields(), 0);
                     return;
                 }
                 else if(savedState.getTradeDeck().size() == 0){
@@ -198,23 +204,11 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                         savedState.getPlayerList()[playerNum].getMakeOffer() != 1){
                     game.sendAction(new AbstainFromTrading(this));
                     return;
-                    /*
-                    // Make an offer
-                    if(savedState.getPlayerList()[playerNum].getHand().getCards().get(0) != null
-                            && savedState.getPlayerList()[playerNum].getOffer() == null) {
-                        Log.i("BCompP, dumb", "MakeOffer");
-                        game.sendAction(new MakeOffer(this, 0));
-                        return;
-                    }
-                    if(!(savedState.getPlayerList()[playerNum].getToPlant().getCards().isEmpty())) {
-                        plantBean(myInfo.getToPlant(), myInfo.getAllFields(), 0);
-                        return;
-                    }
-                    */
                 }
                 return;
             }
             getTimer().start();
+            sleep(250); //allow player to see computer's moves
             if(savedState.getPhase() == -1){
                 // Plant first bean
                 plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
@@ -244,6 +238,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
      *               or one of the trading cards (1 or 2)
      */
     protected void plantBean(Deck beans, Deck[] fields, int origin) {
+        //try to plant in an occupied field first
         for (int i=0; i<2; i++) {
             if (fields[i].size() > 0 && fields[i].peekAtTopCard().equals(beans.peekAtBottomCard())) {
                 game.sendAction(new PlantBean(this, i, origin));
@@ -252,8 +247,12 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             else if(origin == 2 && fields[i].size() > 0
                     && fields[i].peekAtTopCard().equals(beans.peekAtTopCard())) {
                 game.sendAction(new PlantBean(this, i, origin));
+                return;
             }
-            else if (fields[i].getCards().isEmpty()) {
+        }
+        //try to plant in an open field
+        for (int i=0; i<2; i++) {
+            if (fields[i].getCards().isEmpty()) {
                 game.sendAction(new PlantBean(this, i, origin));
                 return;
             }

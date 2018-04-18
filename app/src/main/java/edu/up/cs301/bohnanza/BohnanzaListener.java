@@ -123,11 +123,11 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         }
         //user touches in player3
         else if(view.equals(player3View)) {
-            playerViewTouched(0, yPos, xPos, height, width);
+            playerViewTouched(2, yPos, xPos, height, width);
         }
         //user touches player4
         else if(view.equals(player4View)) {
-            playerViewTouched(0, yPos, xPos, height, width);
+            playerViewTouched(3, yPos, xPos, height, width);
         }
         else if(view.equals(handView)) {
             tradeView.setActiveCard(0);
