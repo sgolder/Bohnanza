@@ -141,12 +141,21 @@ public class BohnanzaLocalGame extends LocalGame {
                 // during the first phase or phase between turning
                 // 2 cards and trading
                 if( !(state.getPhase() == 0 || state.getPhase() == 1 ) ){
-                    plantBean(thisPlayerIdx, plantBean.getField(),
-                            state.getPlayerList()[thisPlayerIdx].getHand());
+                    if(state.getPhase() == 2) {
+                        plantBean(thisPlayerIdx, plantBean.getField(),
+                                state.getPlayerList()[thisPlayerIdx].getToPlant());
+                    }
+                    else if(state.getPhase() == -1) {
+                        plantBean(thisPlayerIdx, plantBean.getField(),
+                                state.getPlayerList()[thisPlayerIdx].getHand());
+                    }
                 }
             }
             // Plant first trading card
             else if (plantBean.getOrigin() == 1){
+                if(state.getTurn() != thisPlayerIdx) {
+                    return false;
+                }
                 // Create new deck to hold the desired trade card so
                 // that the plantBean method plants intended bean
                 Deck cardToTrade = new Deck();
@@ -156,9 +165,18 @@ public class BohnanzaLocalGame extends LocalGame {
                     cardToTrade.moveToBottom(state.getTradeDeck());
                     return false;
                 }
+                else if(state.getPhase() == 2) {
+                    for(int j = 0; j<state.getPlayerList().length; j++) {
+                        state.getPlayerList()[j].setMakeOffer(0);
+                        state.getPlayerList()[j].setOffer(-1);
+                    }
+                }
             }
             // Plant second trading card
             else{
+                if(state.getTurn() != thisPlayerIdx) {
+                    return false;
+                }
                 // New deck for second card
                 Deck cardToTrade = new Deck();
                 state.getTradeDeck().moveTopCardTo(cardToTrade);
@@ -166,6 +184,12 @@ public class BohnanzaLocalGame extends LocalGame {
                 if(! (plantBean(thisPlayerIdx, plantBean.getField(), cardToTrade)) ) {
                     cardToTrade.moveTopCardTo(state.getTradeDeck());
                     return false;
+                }
+                else if(state.getPhase() == 2) {
+                    for(int j = 0; j<state.getPlayerList().length; j++) {
+                        state.getPlayerList()[j].setMakeOffer(0);
+                        state.getPlayerList()[j].setOffer(-1);
+                    }
                 }
             }
             return true;
@@ -255,10 +279,12 @@ public class BohnanzaLocalGame extends LocalGame {
         if (origin == null || origin.size() == 0) {
             return false;
         }
+
         //If the player has cards that were just traded, reset origin to toPlant
         if( !(state.getPlayerList()[playerId].getToPlant().getCards().isEmpty()) ) {
             origin = state.getPlayerList()[playerId].getToPlant();
         }
+
         //Plant if field is empty and/or purchased
         if (state.getPlayerList()[playerId].getField(fieldId).size() == 0) {
             if( fieldId == 2 &&

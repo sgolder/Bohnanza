@@ -187,7 +187,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         tradeView.setActiveCard(0);
         Log.i("View Pressed", "Player 1 View");
         //user touches field 1
-        if(yPos > height/20+20 && yPos < 11*height/40+25 && state.getTurn() == playerView) {
+        if(yPos > height/20+20 && yPos < 11*height/40+25 && playerId == playerView) {
             if(harvesting) {
                 game.sendAction(new HarvestField(humanPlayer, 0));
                 harvesting = false;
@@ -198,7 +198,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             Log.i("Field Pressed", "Field 1");
         }
         //user touches field 2
-        else if(yPos > 11*height/40+25 && yPos < 21*height/40+15 && state.getTurn() == playerView) {
+        else if(yPos > 11*height/40+25 && yPos < 21*height/40+15 && playerId == playerView) {
             if(harvesting) {
                 game.sendAction(new HarvestField(humanPlayer, 1));
                 harvesting = false;
@@ -209,7 +209,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             Log.i("Field Pressed", "Field 2");
         }
         //user touches field 3
-        else if(yPos > 21*height/40+15 && yPos < 3*height/4+25 && state.getTurn() == playerView) {
+        else if(yPos > 21*height/40+15 && yPos < 3*height/4+25 && playerId == playerView) {
             if(!state.getPlayerList()[playerId].getHasThirdField()){
                 game.sendAction(new BuyThirdField(humanPlayer));
             }

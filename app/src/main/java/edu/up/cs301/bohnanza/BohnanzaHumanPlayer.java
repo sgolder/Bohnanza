@@ -298,6 +298,9 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
      */
     private void updateTradeView(Bitmap[] cardImages) {
         //set trading cards based on how many cards are in trading deck
+        if(state.getTradeDeck().size() > 0 && state.getPhase() == 2) {
+            tradeView.setActiveCard(1);
+        }
         if(state.getTradeDeck().getCards().size() == 0) {
             tradeView.setCard1Bean(null);
             tradeView.setCard2Bean(null);
