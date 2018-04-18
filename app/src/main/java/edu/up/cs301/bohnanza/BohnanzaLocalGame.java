@@ -282,10 +282,7 @@ public class BohnanzaLocalGame extends LocalGame {
             return false;
         }
 
-        //If the player has cards that were just traded, reset origin to toPlant
-        if( !(state.getPlayerList()[playerId].getToPlant().getCards().isEmpty()) ) {
-            origin = state.getPlayerList()[playerId].getToPlant();
-        }
+
 
         //Plant if field is empty and/or purchased
         if (state.getPlayerList()[playerId].getField(fieldId).size() == 0) {
@@ -354,7 +351,7 @@ public class BohnanzaLocalGame extends LocalGame {
             state.getMainDeck().shuffle();
             state.setTimesThroughDeck();
             while(cardsToPlayer < 2) {
-                state.getMainDeck().moveTopCardTo(state.getPlayerList()[playerId].getHand());
+                state.getMainDeck().moveTopCardTo(state.getTradeDeck());
                 cardsToPlayer++;
             }
         }

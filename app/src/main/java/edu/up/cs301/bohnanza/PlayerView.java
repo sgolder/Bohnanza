@@ -45,6 +45,8 @@ public class PlayerView extends SurfaceView {
     private Rect rejectRect;
     private Rect turnRect;
     private boolean turn;
+    private Bitmap toPlant1;
+    private Bitmap toPlant2;
 
     /** constructor */
     public PlayerView(Context context) {
@@ -125,6 +127,10 @@ public class PlayerView extends SurfaceView {
         acceptRect = new Rect(width/10, 17*height/20-5, 3*width/10-10, 19*height/20-15);
         rejectRect = new Rect(7*width/10+5, 17*height/20-5, 9*width/10-5, 19*height/20-15);
         turnRect = new Rect(width-150, 100, width, 250);
+    }
+    public void setToPlant(Bitmap initToPlant1, Bitmap initToPlant2) {
+        toPlant1 = initToPlant1;
+        toPlant2 = initToPlant2;
     }
 
 
@@ -242,6 +248,19 @@ public class PlayerView extends SurfaceView {
         rejectPaint.setStyle(Paint.Style.STROKE);
         rejectPaint.setStrokeWidth(5);
         rejectPaint.setColor(Color.rgb(238, 96, 85));
+
+        if(toPlant2 != null) {
+            canvas.drawBitmap(toPlant2, null,
+                    new Rect(4*width/10, 16*height/20-5, 6*width/10, height-5), null);
+        }
+        if(toPlant1 != null) {
+            textPaint.setColor(Color.WHITE);
+            textPaint.setTextSize(45);
+            canvas.drawText("PLANT", width/10, 18*height/20, textPaint);
+            canvas.drawBitmap(toPlant1, null,
+                    new Rect(5*width/10, 16*height/20-5, 7*width/10, height-5), null);
+            return;
+        }
         //draw the first 8 cards of the hand
         if(handCards.size() != 0 && phase != 2) {
             for(int i = handCards.size()-1; i>=0; i--){

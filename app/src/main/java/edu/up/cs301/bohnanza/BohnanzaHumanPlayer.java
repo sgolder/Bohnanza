@@ -195,6 +195,13 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             toast.show();
         }
         //Alerts the player that trading has started
+        else if(state.getPlayerList()[playerNum].getToPlant().size() > 0 &&
+                state.getPlayerList()[playerNum].getMakeOffer() == 0) {
+            message = "Plant cards recieved from trading";
+            toast = Toast.makeText(context, message, duration);
+            toast.setGravity(Gravity.BOTTOM| Gravity.START, 0, 0);
+            toast.show();
+        }
         else if(state.getPhase()==2){
             message = "Trading has started";
             toast = Toast.makeText(context, message, duration);
@@ -269,6 +276,21 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             }
             if(state.getPlayerList()[i].getOffer() != null) {
                 playerViews[i].setCardOffer(cardImages[state.getPlayerList()[i].getOffer().getBeanIdx()]);
+            }
+            if(state.getPlayerList()[i].getMakeOffer() != 0) {
+                playerViews[i].setToPlant(null, null);
+            }
+            else if(state.getPlayerList()[i].getToPlant().getCards().size() == 0) {
+                playerViews[i].setToPlant(null, null);
+            }
+            else if(state.getPlayerList()[i].getToPlant().getCards().size() == 1 &&
+                    state.getPlayerList()[i].getMakeOffer() == 0) {
+                playerViews[i].setToPlant(cardImages[state.getPlayerList()[i].getToPlant().peekAtTopCard().getBeanIdx()], null);
+            }
+            else if(state.getPlayerList()[i].getToPlant().getCards().size() == 2 &&
+                    state.getPlayerList()[i].getMakeOffer() == 0) {
+                playerViews[i].setToPlant(cardImages[state.getPlayerList()[i].getToPlant().peekAtBottomCard().getBeanIdx()],
+                        cardImages[state.getPlayerList()[i].getToPlant().peekAtTopCard().getBeanIdx()]);
             }
             playerViews[i].invalidate(); //redraw after all information is set
         }
@@ -358,7 +380,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             button4.setVisibility(View.INVISIBLE);
             state.setPhase(2);
         }
-        //only option is to harvest becasue it is not their turn
+        //only option is to harvest because it is not their turn
         else if(state.getPhase() == 1 && state.getTradeDeck().getCards().size() == 0 &&
                 state.getTurn() != playerNum) {
             button2.setVisibility(View.INVISIBLE);
@@ -379,10 +401,16 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
-        //player can end their turn
-        else if(state.getPhase() == 2 && state.getTurn() == playerNum) {
+        else if(state.getPhase() == 2 && state.getTurn() == playerNum &&
+                state.getTradeDeck().size() == 0 && checkToPlant()) {
             button2.setText("Draw 3 Cards");
             button2.setVisibility(View.VISIBLE);
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+        }
+        //player can end their turn
+        else if(state.getPhase() == 2 && state.getTurn() == playerNum) {
+            button2.setVisibility(View.INVISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
@@ -398,4 +426,12 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
 
     //Getters
     public int getPlayerIndex() { return playerNum; }
+    private boolean checkToPlant() {
+        for(int i = 0; i<4; i++) {
+            if(state.getPlayerList()[i].getToPlant().size() > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

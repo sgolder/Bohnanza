@@ -78,7 +78,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             }
             //user presses Make Offer button
             else if(buttonLabel.equalsIgnoreCase("Make Offer")) {
-                makeOffer = true;
+                makeOffer = !makeOffer;
                 humanPlayer.setPopups();
             }
             //user presses Start Trading button
@@ -141,6 +141,7 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
                         Card offer = state.getPlayerList()[playerId].getHand().
                                 getCards().get(i);
                         game.sendAction(new MakeOffer(humanPlayer, i));
+                        makeOffer = false;
                     }
                     return true;
                 }
