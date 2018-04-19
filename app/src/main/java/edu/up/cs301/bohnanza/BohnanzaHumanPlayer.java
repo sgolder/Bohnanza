@@ -149,6 +149,9 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
      *
      */
     public void setPopups() {
+        if(state.getPhase() != 2) {
+            myListener.setMakeOffer(false);
+        }
         //popup that alerts the player that trading has started
         Context context = myActivity.getApplicationContext();
         int duration = Toast.LENGTH_LONG;

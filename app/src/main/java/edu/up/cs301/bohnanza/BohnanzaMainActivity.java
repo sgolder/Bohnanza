@@ -1,6 +1,10 @@
 package edu.up.cs301.bohnanza;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
+import android.util.Log;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 
@@ -69,4 +73,30 @@ public class BohnanzaMainActivity extends GameMainActivity {
     public LocalGame createLocalGame() {
         return new BohnanzaLocalGame();
     }
+
+    /**
+     External Citation
+     Date:      18 April 2018
+     Problem:   did not know how to open a url with a button
+     Resource:  https://stackoverflow.com/questions/36437590/
+                open-a-url-link-on-click-of-ok-button-in-android-studio
+     Solution:  Used an example from this post
+     */
+
+    /**
+     External Citation
+     Date:      18 April 2018
+     Problem:   did not know how to connect a menu item to a listener
+     Resource:  https://developer.android.com/guide/topics/resources/menu-resource.html
+     Solution:  Read the description of a menu resource here
+     */
+    public void onHelpClicked(MenuItem help) {
+        String url = "https://docs.google.com/gview?embedded=true&url=riograndegames.com/getFile.php?id=535";
+
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
 }
+
+

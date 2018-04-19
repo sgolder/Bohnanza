@@ -86,6 +86,14 @@ public class BohnanzaLocalGame extends LocalGame {
         String winner;
         //check if we've been through the deck 1 time
         if( state.getTimesThroughDeck() == 3) {
+            for(int i=0; i<4; i++) {
+                for(int j = 0; j<3; j++) {
+                    if(state.getPlayerList()[i].getField(j).size() > 0) {
+                        harvestField(i, state.getPlayerList()[i].getField(j));
+                    }
+                }
+            }
+
             //find the maximum number of coins players have
             for(int i=0; i<4; i++) {
                 if(state.getPlayerList()[i].getCoins() > maxCoins) {
@@ -100,6 +108,7 @@ public class BohnanzaLocalGame extends LocalGame {
                     winners++;
                 }
             }
+            sendAllUpdatedState();
             //game is a draw
             if(winners > 1) {
                 return "Game is a draw";

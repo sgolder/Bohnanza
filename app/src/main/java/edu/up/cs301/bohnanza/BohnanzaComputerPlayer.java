@@ -205,7 +205,8 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             if (savedState.getTurn() != playerNum) {
                 // During trading
                 if(savedState.getPhase() == 2 &&
-                        savedState.getPlayerList()[playerNum].getMakeOffer() != 1){
+                        savedState.getPlayerList()[playerNum].getMakeOffer() != 1 &&
+                        savedState.getTradeDeck().size() > 0){
                     game.sendAction(new AbstainFromTrading(this));
                     return;
                 }
