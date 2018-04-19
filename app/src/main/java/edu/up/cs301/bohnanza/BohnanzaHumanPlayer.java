@@ -148,6 +148,14 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
      * displays popups as instructions for the user depending on the state of the game
      *
      */
+
+    /**
+     External Citation
+     Date:      18 April 2018
+     Problem:   did not know how to add popups to game
+     Resource:  https://developer.android.com/guide/topics/ui/notifiers/toasts.html
+     Solution:  Read the description of Toast here
+     */
     public void setPopups() {
         if(state.getPhase() != 2) {
             myListener.setMakeOffer(false);
