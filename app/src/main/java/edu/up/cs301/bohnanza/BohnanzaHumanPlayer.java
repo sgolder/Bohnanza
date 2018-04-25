@@ -330,7 +330,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
      */
     private void updateTradeView(Bitmap[] cardImages) {
         //set trading cards based on how many cards are in trading deck
-        if(state.getTradeDeck().size() > 0 && state.getPhase() == 2) {
+        if(state.getPhase() == 2 && state.getTurn() != playerNum && state.getTradeDeck().size() > 0) {
             tradeView.setActiveCard(1);
         }
         if(state.getTradeDeck().getCards().size() == 0) {
@@ -412,6 +412,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
+        //player can end their turn
         else if(state.getPhase() == 2 && state.getTurn() == playerNum &&
                 state.getTradeDeck().size() == 0 && checkToPlant()) {
             button2.setText("Draw 3 Cards");
@@ -419,8 +420,13 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
-        //player can end their turn
         else if(state.getPhase() == 2 && state.getTurn() == playerNum) {
+            button2.setVisibility(View.INVISIBLE);
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+        }
+        else if(state.getPhase() == 2 && state.getTurn() != playerNum &&
+                state.getTradeDeck().size() == 0) {
             button2.setVisibility(View.INVISIBLE);
             button3.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
@@ -435,8 +441,6 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
         }
     }
 
-    //Getters
-    public int getPlayerIndex() { return playerNum; }
     private boolean checkToPlant() {
         for(int i = 0; i<4; i++) {
             if(state.getPlayerList()[i].getToPlant().size() > 0) {

@@ -54,23 +54,6 @@ public class BohnanzaState extends GameState {
         }
     }
 
-    public BohnanzaState(BohnanzaState orig) {
-        turn = orig.turn;
-        phase = orig.phase;
-
-        for(int i = 0; i<4; i++) {
-            playerList[i] = new BohnanzaPlayerState(orig.playerList[i]);
-        }
-
-        //main, trade, and discard decks
-        mainDeck = new Deck(orig.mainDeck);
-        discardDeck = new Deck(orig.discardDeck);
-        tradeDeck = new Deck(orig.tradeDeck);
-
-        //hide main deck from user
-        mainDeck.turnHandOver();
-    }
-
     /**
      * Deep copy constructor of BohnanzaState
      *

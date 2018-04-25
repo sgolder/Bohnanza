@@ -120,7 +120,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             // Get player state
             BohnanzaPlayerState myInfo = savedState.getPlayerList()[playerNum];
             getTimer().start();
-            sleep(250); //allow player to see computer's moves
+            sleep(150); //allow player to see computer's moves
             if(savedState.getPhase() == -1){
                 // Plant first bean
                 plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);
@@ -166,7 +166,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                     game.sendAction(new DrawThreeCards(this));
                     return;
                 }
-                else if(savedState.getTradeDeck().size() == 0 && myInfo.getToPlant().size() > 0){
+                else if(myInfo.getToPlant().size() > 0){
                     plantBean(savedState.getPlayerList()[playerNum].getToPlant(),
                             savedState.getPlayerList()[playerNum].getAllFields(), 0);
                     return;
@@ -213,7 +213,7 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
                 return;
             }
             getTimer().start();
-            sleep(250); //allow player to see computer's moves
+            sleep(150); //allow player to see computer's moves
             if(savedState.getPhase() == -1){
                 // Plant first bean
                 plantBean(myInfo.getHand(), myInfo.getAllFields(), 0);

@@ -391,6 +391,9 @@ public class BohnanzaLocalGame extends LocalGame {
         if (state.getPhase() != 2) {
             return false;
         }
+        else if(state.getPhase() == 2 && state.getTradeDeck().size() == 0) {
+            return false;
+        }
         state.getPlayerList()[traderId].setMakeOffer(2); //user will trade
         state.getPlayerList()[traderId].setOffer(offer); //make traders offer cards visible
         Log.i("Local Game", "set offer");
@@ -404,6 +407,10 @@ public class BohnanzaLocalGame extends LocalGame {
         if (state.getPhase() != 2) {
             return false;
         }
+        else if(state.getPhase() == 2 && state.getTradeDeck().size() == 0) {
+            return false;
+        }
+        state.getPlayerList()[playerId].setOffer(-1);
         state.getPlayerList()[playerId].setMakeOffer(1);
         return true;
     }

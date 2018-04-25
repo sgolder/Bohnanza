@@ -68,6 +68,12 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
 
     @Override
     public void onClick(View view) {
+        if(state.getPhase() == 2 && state.getTurn() != playerId && state.getTradeDeck().size() > 0) {
+            tradeView.setActiveCard(1);
+        }
+        else {
+            tradeView.setActiveCard(0);
+        }
         String buttonLabel;
         if(view instanceof Button) {
             buttonLabel = (String)((Button) view).getText();
@@ -84,7 +90,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
             //user presses Start Trading button
             else if(buttonLabel.equalsIgnoreCase("Start Trading")) {
                 game.sendAction(new StartTrading(humanPlayer));
-                tradeView.setActiveCard(1);
             }
             //user presses Draw 3 Cards button
             else if(buttonLabel.equalsIgnoreCase("Draw 3 Cards")) {
@@ -110,8 +115,6 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         int height = view.getHeight();
         int width = view.getWidth();
         cardPositions = handView.getCardPositions();
-        RectF acceptRect = new RectF(width/10, 17*height/20-5, 3*width/10-10, 19*height/20-15);
-        RectF rejectRect = new RectF(7*width/10+5, 17*height/20-5, 9*width/10-5, 19*height/20-15);
 
         //user touches on player1
         if(view.equals(player1View)) {
@@ -177,6 +180,10 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         if(game == null ) {
             Log.i("BohnanzaListener", "game null");
             return false;
+        }
+
+        if(state.getPhase() == 2 && state.getTurn() != playerId && state.getTradeDeck().size() > 0) {
+            tradeView.setActiveCard(1);
         }
 
         return true;
