@@ -68,7 +68,6 @@ public class BohnanzaPlayerState implements Serializable {
     //setter methods
     public void setCoins (int newCoins) {
         coins = coins + newCoins;
-        Log.i("BohPlaSt, setCoins", "coins =="+coins);
     }
 
     public void resetCoins (int newCoins) {
