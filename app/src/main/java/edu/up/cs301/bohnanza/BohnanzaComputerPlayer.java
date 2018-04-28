@@ -94,12 +94,13 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             // Ignore if it's not the computer's turn
             if(savedState.getTurn() != playerNum) {
                 if ( savedState.getPhase()==2) {
-                    //check to see if computer needs to make an offer
+                    //check to see if computer needs to plant bean received from offer
                     if(savedState.getPlayerList()[playerNum].getToPlant().size() > 0) {
                         plantBean(savedState.getPlayerList()[playerNum].getToPlant(),
                                 savedState.getPlayerList()[playerNum].getAllFields(), 0);
                         return;
                     }
+                    //check to see if computer needs to make an offer
                     if(savedState.getPlayerList()[playerNum].getOffer() == null
                             && savedState.getPlayerList()[playerNum].getMakeOffer() != 1
                             && savedState.getTradeDeck().size() > 0) {
@@ -417,13 +418,4 @@ public class BohnanzaComputerPlayer extends GameComputerPlayer {
             return -1;
         }
     }
-
-    protected boolean hasInField(Deck[] fields, Card cardType){
-
-
-        return false;
-    }
-
-    //Getters
-    public int getPlayerIndex() { return playerNum; }
 }

@@ -208,7 +208,7 @@ public class BohnanzaHumanPlayer extends GameHumanPlayer {
         //Alerts the player that trading has started
         else if(state.getPlayerList()[playerNum].getToPlant().size() > 0 &&
                 state.getPlayerList()[playerNum].getMakeOffer() == 0) {
-            message = "Plant cards recieved from trading";
+            message = "Plant cards received from trading";
             toast = Toast.makeText(context, message, duration);
             toast.setGravity(Gravity.BOTTOM| Gravity.START, 0, 0);
             toast.show();

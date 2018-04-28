@@ -66,6 +66,12 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         game = initGame;
     }
 
+    /**
+     * determine what action to take based on the button that was pressed
+     *
+     * @param view
+     * 		the view that was touched
+     */
     @Override
     public void onClick(View view) {
         if(state.getPhase() == 2 && state.getTurn() != playerId && state.getTradeDeck().size() > 0) {
@@ -106,6 +112,13 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         }
     }
 
+    /**
+     * determine what action to take based on which surface view the user touched,
+     * and where they touched on the surface view
+     *
+     * @param view
+     * 		surface view that was touched
+     */
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) return false;
@@ -189,6 +202,15 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         return true;
     }
 
+    /**
+     * determine the action to take based on where the user touches the player view
+     *
+     * @param playerView the player view that was touched
+     * @param yPos the y coordinate the player touched at on the player view
+     * @param xPos the x coordinate the player touched at on the player view
+     * @param height the height of player view
+     * @param width the the width of the player view
+     */
     private void playerViewTouched(int playerView, int yPos, int xPos, int height, int width) {
         RectF acceptRect = new RectF(width/10, 17*height/20-5, 3*width/10-10, 19*height/20-15);
         RectF rejectRect = new RectF(7*width/10+5, 17*height/20-5, 9*width/10-5, 19*height/20-15);
@@ -242,10 +264,12 @@ public class BohnanzaListener implements View.OnClickListener, View.OnTouchListe
         origin = 0;
     }
 
+    //setters
     public void setState( BohnanzaState initstate ) { state = initstate; }
     public void setGame( Game initgame ) { game = initgame; }
     public void setPlayerId(int initPlayerId) {playerId = initPlayerId;}
     public void setMakeOffer(boolean initMakeOffer) {makeOffer = initMakeOffer;}
+    //getters
     public boolean getMakeOffer(){return makeOffer;}
     public boolean getHarvest(){return harvesting;}
 }
