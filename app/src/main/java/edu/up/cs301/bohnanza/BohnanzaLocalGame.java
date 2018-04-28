@@ -483,7 +483,6 @@ public class BohnanzaLocalGame extends LocalGame {
         BohnanzaPlayerState trader = state.getPlayerList()[traderId];
         for(int i = 0; i<trader.getHand().getCards().size(); i++) {
             if(trader.getHand().getCards().get(i) == trader.getOffer()) {
-                Log.i("BLocal", "Offer accepted from "+ traderId);
                 // Give current player offered card
                 Card offeredCard = trader.getHand().getCards().remove(i);
                 state.getPlayerList()[playerId].getToPlant().add(offeredCard);

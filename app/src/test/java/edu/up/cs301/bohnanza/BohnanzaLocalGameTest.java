@@ -89,6 +89,7 @@ public class BohnanzaLocalGameTest {
     @Test
     public void abstainFromTrading() throws Exception {
         BohnanzaLocalGame game = new BohnanzaLocalGame();
+        game.turn2Cards(0);
         game.state.setPhase(2);
 
         game.abstainFromTrading(1);
@@ -113,7 +114,7 @@ public class BohnanzaLocalGameTest {
         BohnanzaState state = game.state;
         game.turn2Cards(0);
         state.setPhase(2);
-        state.getPlayerList()[1].setOffer(2);
+        game.makeOffer(1, 2);
 
         game.offerResponse(0, 1, true);
         assertEquals(1, state.getPlayerList()[0].getToPlant().getCards().size());
