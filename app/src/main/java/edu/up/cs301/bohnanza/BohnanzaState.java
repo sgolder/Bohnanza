@@ -1,8 +1,4 @@
 package edu.up.cs301.bohnanza;
-
-import android.util.Log;
-
-import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**

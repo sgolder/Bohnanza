@@ -1,14 +1,10 @@
 package edu.up.cs301.bohnanza;
 
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 

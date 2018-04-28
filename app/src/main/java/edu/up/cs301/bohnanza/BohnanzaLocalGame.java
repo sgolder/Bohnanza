@@ -1,6 +1,5 @@
 package edu.up.cs301.bohnanza;
 
-import android.net.NetworkInfo;
 import android.util.Log;
 
 import edu.up.cs301.actions.AbstainFromTrading;
@@ -12,7 +11,6 @@ import edu.up.cs301.actions.OfferResponse;
 import edu.up.cs301.actions.PlantBean;
 import edu.up.cs301.actions.StartTrading;
 import edu.up.cs301.actions.TurnTwoCards;
-import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
